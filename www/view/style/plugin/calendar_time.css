@@ -1,0 +1,5 @@
+#calendar_time_plugin {display:none; position:absolute; top:20px; left:20px; padding:2px; border:solid #dfdfdf 1px; background:#efefef; z-index:550;}
+#calendar_time_plugin table {width:240px; border-right:solid #cccccc 1px; border-bottom:solid #cccccc 1px; text-align:center; background:white;}
+#calendar_time_plugin table td {height:22px; border-left:solid #cccccc 1px; border-top:solid #cccccc 1px; cursor:pointer;}
+#calendar_time_plugin table th {text-align:center;}
+#calendar_time_plugin table th em {font-weight:bold;}

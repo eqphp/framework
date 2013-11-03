@@ -1,0 +1,46 @@
+{head script="jquery_17|style" group_script="manage" style="basic" group_style="manage"}
+
+<div class="div_main">
+
+<img src="{$group.image}message_admin_banner.gif">
+
+<div class="message_content">
+
+<h2>欢迎管理员：<span id="admin_account" class="fsb" title="{$admin.access|message_parse_access}">{$admin.account}</span> | <a href="{$group.url}login/logout">注销</a></h2>
+<table>
+<thead>
+<tr><th>编号</th><th>用户名</th><th width="225px">留言内容(<a href="{$group.url}manage/all/">全部</a> | <a href="{$group.url}manage/read/">已读</a> | <a href="{$group.url}manage/unread/">未读</a>)</th><th>留言时间</th><th>手机号</th><th>座机</th><th>邮箱</th><th>是否已读</th><th>管理</th></tr></thead>
+<tbody>
+{section key $message}
+<tr><td>{$message[key].id}</td><td>{$message[key].user_name}</td><td name="{$message[key].user_name}" message="{$message[key].message}">{$message[key].message|truncate:32:'<i>...</i>'}</td><td>{$message[key].pub_time|cut_time}</td><td>{$message[key].tel}</td><td>{$message[key].phone}</td><td>{$message[key].email}</td><td>{if $message[key].is_view}<img src="{$dir.icon}right.gif">{else}<a href="{$group.url}act_manage/label_read/{$message[key].id}">标注为已读</a>{/if}</td><td>{if ($message[key].email && $reply_access)}<cite name="{$message[key].user_name}" email="{$message[key].email}">邮件回复</cite>{/if} -- {if $del_access}<a href="{$group.url}act_manage/del/{$message[key].id}">删除</a>{/if}</td></tr>
+{/section}
+</tbody>
+<tfoot><tr><td id="page_mark" colspan="9">{$page_nav}</td></tr></tfoot>
+</table>
+</div>
+
+
+
+<div id="email_reply" class="email_reply">
+<h3><span id="result_tip">@eqphp</span><cite>关闭</cite></h3>
+<form id="reply_email" name="reply_email" action="{$group.url}act_manage/email_reply" method="post">
+主题：<input class="reply_title" name="title" type="text" value="EQPHP案例留言本邮件回复" maxlength="32"><br>
+<input name="email" type="hidden" value="">
+<textarea class="reply_content" name="content">您好，非常感谢你的参与！</textarea><br>
+<input class="reply_btn" name="reply_btn" type="submit" value="发送">
+</form>
+</div>
+
+<div id="message_detail" class="email_reply">
+<h3><span>印度阿三：</span><cite>关闭</cite></h3>
+<p>monday, too busy! I am busy!</p>
+</div>
+
+
+
+
+
+</div>
+
+</body>
+</html>

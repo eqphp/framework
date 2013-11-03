@@ -1,0 +1,18 @@
+.login{width:1000px; font-size:15px;}
+.login dl{margin:30px 0 336px 120px; padding:30px; width:450px; border:solid #efefef 5px;}
+.login dt{margin-bottom:15px; padding:10px 0 3px 5px; background:#7F9DB9; color:white; font-weight:bold;}
+.login dd{margin:10px 5px;}
+.login input{height:22px; width:200px;}
+.code_img {margin-left:12px; margin-bottom:-8px; height:26px; cursor:pointer;}
+#submit_btn {margin-left:60px; padding:2px 10px 3px; width:90px; height:32px; font-size:15px; cursor:pointer;}
+
+#result_tip {margin-left:10px;}
+#result_tip b {color:#045A04;}
+#result_tip i {color:#005EAC;}
+#result_tip em {color:#A50000;}
+#result_tip cite {color:#F6AF27;}
+
+.forbid{width:1000px; font-size:15px;}
+.forbid dl{margin:30px 0 336px 120px; padding:30px; width:480px; border:solid #efefef 5px;}
+.forbid dt{margin-bottom:15px; padding:10px 0 3px 5px; background:#7F9DB9; color:white; font-weight:bold;}
+.forbid dd{margin:10px 5px;}

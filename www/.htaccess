@@ -1,0 +1,4 @@
+#LoadModule rewrite_module modules/mod_rewrite.so
+RewriteEngine on
+RewriteCond $1 !^(index.php|favicon.ico|file|data|view|xhprof_html)
+RewriteRule ^(.*)$ /index.php/$1 [L]
