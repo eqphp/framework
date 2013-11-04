@@ -4,7 +4,7 @@ $('.main h1:eq(0), .main p:eq(0)').show();
 
 $('.nav_title').mouseover(function(){
 $('.nav_title dl dd').show();
-}).mouseout(function(){
+}).mouseleave(function(){
 $('.nav_title dl dd').hide();
 });
 
