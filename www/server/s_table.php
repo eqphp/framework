@@ -7,12 +7,12 @@ const table_prefix='ld_';
 
 //定义全站数据表
 static $table_list=array(
-//幸运摩天轮
-'w_config'=>'prize_config',
-'w_log'=>'prize_log',
-'w_setting'=>'prize_setting',
-'w_address'=>'receive_address',
-'w_member'=>'member_prize',
+//用户
+'u_user'=>'user',
+'u_info'=>'user_info',
+'u_login'=>'user_login',
+'u_register'=>'user_register',
+'u_follow'=>'user_follow',
 );
 
 //加前缀
