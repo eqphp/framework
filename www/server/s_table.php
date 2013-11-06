@@ -3,7 +3,7 @@
 class s_table{
 
 //定义表前缀
-const table_prefix='ld_';
+const table_prefix='eqphp_';
 
 //定义全站数据表
 static $table_list=array(
