@@ -67,7 +67,8 @@ return $save_param[1].$save_param[0];
 static function avatar($img,$size_data=array(100,75,50,32),$save_dir=''){
 $res=img::open($img);
 $true_size=img::info($res,'width');
-$save_name=strstr(basename($img),'.',true);
+$save_name=basename($img);
+$save_name=substr($save_name,0,strpos($save_name,'.'));
 if ($true_size>=$size_data[0]) {
 $arr=null;
 

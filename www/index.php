@@ -51,7 +51,7 @@ $dir_second=array('a'=>$rq_url[0].'/action','m'=>$rq_url[0].'/model');
 $dir_arr=in_array($rq_url[0],$group)?$dir_second:$dir_first;
 $dir_arr=array_merge($dir_arr,array('s'=>'server','p'=>'plugin'));
 
-$prefix=strstr($lib_name,'_',true);
+$prefix=substr($lib_name,0,strpos($lib_name,'_'));
 $dir_name=in_array($prefix,array_keys($dir_arr))?$dir_arr[$prefix]:'class';
 $execute_file=$dir_name.'/'.$lib_name.'.php';
 
@@ -72,7 +72,7 @@ http::out('404 Not Found');
 }
 }
 
-if (!strstr(strtolower($execute_file),'smarty_internal_')){
+if (strpos(strtolower($execute_file),'smarty_internal_')===false){
 echo "class [".$lib_name."] is error !<br>";
 }
 

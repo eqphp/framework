@@ -128,7 +128,7 @@ session_start(); //开启session
 
 
 //设置时区
-// ini_set('date.timezone','Asia/Shanghai');
+// ini_set('date.timezone','Asia/Chongqing');
 }
 
 

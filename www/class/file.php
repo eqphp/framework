@@ -63,8 +63,9 @@ return true;
 static function del($dir,$is_del_self=true){
 $dir=trim($dir,'/');
 
-if (!is_dir($dir) && is_file($dir)) return unlink($dir);
+if (is_file($dir)) return unlink($dir);
 
+if (is_dir($dir)) {
 $dir_res=opendir($dir);
 while ($now_file=readdir($dir_res)) {
 if ($now_file=='.' || $now_file=='..') continue;
@@ -74,6 +75,7 @@ is_dir($tem_dir)?self::del($tem_dir):unlink($tem_dir);
 
 closedir($dir_res);
 $is_del_self && rmdir($dir);
+}
 return true;
 }
 
