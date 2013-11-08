@@ -82,13 +82,13 @@ static function get($name,$mode='int'){
 //REQUEST传值、未过滤，慎用
 if ($mode=='request') {
 if (!isset($_REQUEST[$name])) return false;
-return get_magic_quotes_gpc()?stripslashes($_REQUEST[$name]):$_REQUEST[$name];
+return get_magic_quotes_gpc()?$_REQUEST[$name]:addslashes($_REQUEST[$name]);
 }
 
 if ($mode=='isset') return isset($_GET[$name]); //是否初始化
 if (!isset($_GET[$name])) return false;
 
-$target_data=get_magic_quotes_gpc()?stripslashes($_GET[$name]):$_GET[$name];
+$target_data=get_magic_quotes_gpc()?$_GET[$name]:addslashes$_GET[$name]);
 
 //ID,自然数、GET的整型(0-N,ID、number)
 if ($mode=='int') return abs((int)($target_data));

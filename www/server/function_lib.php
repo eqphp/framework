@@ -22,9 +22,8 @@ function rq($lie=0,$type=0){
 $server_uri=isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 $rq_arr=explode('/',trim($server_uri,'/'));
 if ($lie<count($rq_arr)) {
-return $type?abs((int)($rq_arr[$lie])):strval(trim($rq_arr[$lie]));
-} else {
-return null;
+$value=get_magic_quotes_gpc() ? $rq_arr[$lie] : addslashes($rq_arr[$lie]);
+return $type ? abs((int)$value) : strval(trim($value));
 }
 }
 
