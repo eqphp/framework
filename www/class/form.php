@@ -202,8 +202,8 @@ $start=is_numeric($end) ? $end : strtotime($end);
 return $now_time>=$start && $now_time<=$end;
 
 case 'regex':
-default:// 默认使用正则验证 可以使用验证类中定义的验证名称
-// 检查附加规则
+default: //默认使用正则验证 可以使用验证类中定义的验证名称
+//检查附加规则
 return safe::reg($value,$rule);
 }
 }
