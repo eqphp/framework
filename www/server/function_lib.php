@@ -23,6 +23,7 @@ $server_uri=isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 $rq_arr=explode('/',trim($server_uri,'/'));
 if ($lie<count($rq_arr)) {
 $value=get_magic_quotes_gpc() ? $rq_arr[$lie] : addslashes($rq_arr[$lie]);
+if ($type==2 && safe::reg($value,'name')) return $value;
 return $type ? abs((int)$value) : strval(trim($value));
 }
 }
