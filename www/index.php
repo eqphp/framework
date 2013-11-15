@@ -14,8 +14,13 @@ s_system::dir(); //加载系统常量（目录/URL）
 s_system::init(); //设置系统环境变量
 
 $group=explode(',',config('group|info'));
-in_array(rq(0),$group) && define('dc_group',rq(0));
-$start_lie=in_array(rq(0),$group) ? 1 : 0; //配置根URL位置
+$start_lie=0; //配置根URL位置
+$root_son=rq($start_lie);
+if (in_array($root_son,$group)) {
+$start_lie+=1;
+define('dc_group',$root_son);
+define('dc_group_dir',dc_root.$root_son.'/');
+}
 $controller='a_'.rq($start_lie);
 if ($controller=='a_' || !class_exists($controller)) {
 $controller='a_index';
@@ -38,7 +43,7 @@ call_user_func(array($controller,$method),explode('/',dc_request));
 } else {
 call_user_func_array(array(new $controller,$method),explode('/',dc_request));
 }
-unset($server_host,$group,$start_lie,$controller,$method);
+unset($server_host,$group,$start_lie,$root_son,$controller,$method);
 
 //类自动加载
 function eqphp_autoload($lib_name) {

@@ -16,6 +16,12 @@ $arr=explode('|',$name);
 return (count($arr)==1)?$info[$arr[0]]:$info[$arr[0]][$arr[1]];
 }
 
+//解析分组配置文件
+function group_config($name,$file='config'){
+$dir=dc_group_dir.'config/';
+$dir.=strpos($name,'.php') ? 'php_data/' : $file.'.ini';
+return config($name,$dir,true);
+}
 //获取请求(URL位段-pathinfo=>get)参数值
 function rq($lie=0,$type=0){
 // $lie=$lie+n; //n为相对根目录的深度
@@ -23,8 +29,8 @@ $server_uri=isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 $rq_arr=explode('/',trim($server_uri,'/'));
 if ($lie<count($rq_arr)) {
 $value=get_magic_quotes_gpc() ? $rq_arr[$lie] : addslashes($rq_arr[$lie]);
-if ($type==2 && safe::reg($value,'name')) return $value;
-return $type ? abs((int)$value) : strval(trim($value));
+if (is_int($type)) return $type ? abs((int)$value) : strval(trim($value));
+return safe::reg($value,$type) ? $value : null;
 }
 }
 
