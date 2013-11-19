@@ -147,6 +147,27 @@ if ($mode=='arr_str') return implode('|',$target_data);
 if ($mode=='post') return $target_data;
 }
 
+//正则过滤
+static function regular($name,$regexp,$mode='post'){
+$target_data=$name;
+
+if ($mode==='post') {
+if (!isset($_POST[$name])) return null;
+$target_data=get_magic_quotes_gpc()?$_POST[$name]:addslashes($_POST[$name]);
+}
+
+if ($mode==='get') {
+if (!isset($_GET[$name])) return null;
+$target_data=get_magic_quotes_gpc()?$_GET[$name]:addslashes($_GET[$name]);
+}
+
+if (safe::reg($target_data,$regexp)) {
+return $target_data;
+}
+}
+
+
+
 //批量安全过滤
 static function filter($data){
 $buffer=null;

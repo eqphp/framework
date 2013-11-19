@@ -34,6 +34,13 @@ $reg=in_array($exp,array_keys(self::$reg)) ? self::$reg[$exp] : $exp;
 return preg_match($reg,$str);
 }
 
+//正则过滤
+static function filter(&$value,$exp='email'){
+if (!self::reg($value,$exp)) {
+$value=null;
+}
+}
+
 //特殊字符过滤
 static function str($str,$mode=true,$type=0){
 
