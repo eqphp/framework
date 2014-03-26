@@ -1,0 +1,10 @@
+#calendar_plugins {display:block; position:absolute; top:118px; left:200px; _left:510px; padding:2px; border:solid #dfdfdf 1px; background:#efefef; z-index:550;}
+#calendar_plugins table {width:180px; border-right:solid #cccccc 1px; border-bottom:solid #cccccc 1px; text-align:center; background:#ffffff;}
+#calendar_plugins table td {width:20px; height:22px; border-left:solid #cccccc 1px; border-top:solid #cccccc 1px; cursor:pointer;}
+#calendar_plugins table th {text-align:center;}
+#week_sunday {border-left:solid #cccccc 1px;}
+#selcet_year_month {width:185px; height:28px; border-left:solid #cccccc 1px; border-top:solid #cccccc 1px; background:#6ecefe;}
+#selcet_year_month b, #selcet_year_month span, #selcet_year_month i {float:left; color:#ffffff; cursor:pointer;}
+#selcet_year_month b {width:24px;}
+#selcet_year_month i {width:20px;}
+#selcet_year_month span{width:90px;}

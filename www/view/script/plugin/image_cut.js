@@ -8,7 +8,7 @@ var w_x,w_y;//鼠标的绝对位置
 
 var before_w=$("#img_show img").width();
 $(".start").html("Start:"+before_w+" : "+$("#img_show img").height());
-set_size("#img_view",400,300);
+set_size("#img_view",300,300);
 var d1_w=$("#img_div").width();
 var d1_h=$("#img_div").height();
 _w=$("#drag").width();
@@ -59,17 +59,17 @@ var new_w,new_h;
 var max_w=d1_w-parseInt($("#drag").css("left"));//在当前位置所能达到的最大宽高
 var max_h=d1_h-parseInt($("#drag").css("top"));
 new_w=_w+x;
-new_w=new_w>40?new_w:40;//宽最小为40
-new_h=new_w/(4/3);
+new_w=new_w>16?new_w:16;//宽最小为16
+new_h=new_w/(3/3);
 
 if(new_w>max_w){
 new_w=max_w;
-new_h=new_w/(4/3);
+new_h=new_w/(3/3);
 }
 
 if(new_h>max_h){
 new_h=max_h;
-new_w=new_h*(4/3);
+new_w=new_h*(3/3);
 }
 
 $("#drag").css({width:new_w,height:new_h});
@@ -98,7 +98,7 @@ _w=$("#drag").width();
 _h=$("#drag").height();
 _change=true;
 w_x=e.pageX;//获取鼠标的绝对位置
-$("#drag").fadeTo(20, 0.5);//点击后开始拖动并透明显示
+$("#drag").fadeTo(20,0.5);//点击后开始拖动并透明显示
 });
 
 
@@ -130,3 +130,31 @@ $(".sure").css("display","block");
 });
 
 });
+
+
+//图片等比例缩放
+function set_size(obj_id,_w,_h){
+var wh=($(obj_id+" img").width()-_w)/$(obj_id+" img").width();
+var ht=($(obj_id+" img").height()-_h)/$(obj_id+" img").height();
+
+if (wh>ht) {
+
+if(wh>0){
+$(obj_id+" img").attr("width",_w); 
+$(obj_id+" div").attr("width",_w);
+}
+
+} else {
+
+if(ht>0){
+$(obj_id+" img").attr("height",_h); 
+$(obj_id+" div").attr("height",_h);
+}
+
+}
+
+var m_top=(_h-$(obj_id+" img").height())/2;
+var m_left=(_w-$(obj_id+" img").width())/2;
+$(obj_id+" #img_div").css("margin",m_top+"px auto auto "+m_left+"px");
+$(obj_id+" img").css("display","block");
+}

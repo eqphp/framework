@@ -1,195 +1,216 @@
 <?php
 class img{
 
-public static $element=array('setpixel'=>'点','line'=>'线',
-'arc'=>'弧','ellipse'=>'椭圆','rectangle'=>'矩形','polygon'=>'多边形',
-'fill'=>'填充','border'=>'边');
+    // point:点;line:线;arc:弧;fill:填充;border:边
+    // ellipse:椭圆;rectangle:矩形;polygon:多边形
 
-//创建
-static function create($width=120,$height=150,$bg_color=false,$type=false){
-$act='imagecreate'.($type?'truecolor':null);
-$res=$act($width,$height);
-if ($bg_color) { self::color($res,$bg_color); }
-return $res;
-}
+    //创建
+    static function create($width,$height,$bgcolor=false,$type=false){
+        $create=$type ? 'imagecreatetruecolor' : 'imagecreate';
+        $image=$create($width,$height);
+        $bgcolor && self::color($image,$bgcolor);
+        return $image;
+    }
 
-//打开
-static function open($file_name){
-$ext_arr=explode('.',$file_name);
-$format=end($ext_arr);
-$format=($format=='jpg')?'jpeg':$format;
-if (in_array($format,array('gif','jpeg','png','wbmp','xbm','xmp'))) {
-$act='imagecreatefrom'.$format;
-return $act($file_name);
-} else {
-return 'format error';
-}
-}
 
-//设置颜色
-static function color($res,$color='ffffff',$del=false){
-$cr=str_split($color,((strlen($color)>4)?2:1));
-$color=imagecolorallocate($res,hexdec($cr[0]),hexdec($cr[1]),hexdec($cr[2]));
-if ($del) { imagecolordeallocate($res,$color); }
-return $color;
-}
+    //打开
+    static function open($filename){
+        $format=strtolower(pathinfo($filename,PATHINFO_EXTENSION));
+        $create=($format === 'jpg') ? 'imagecreatefromjpeg' : 'imagecreatefrom'.$format;
+        if (in_array($format,array('gif','jpeg','png','wbmp','xbm','xmp'))) {
+            return $create($filename);
+        }
+    }
 
-//绘制
-static function draw($res,$color,$arr,$name="line"){
-$key=array_keys(self::$element);
-$act='image'.$name;
-if ($name==$key[0]) {//像素点
-return $act($res,$arr[0],$arr[1],$color);
-}
-if ($name==$key[1] || $name==$key[3] || $name==$key[4]) {
-return $act($res,$arr[0],$arr[1],$arr[2],$arr[3],$color);
-}
-if ($name==$key[2]) {//弧
-return $act($res,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$color);
-}
-if ($name==$key[5]) {//多边形
-return $act($res,$arr,end($arr),$color);
-}
-return 'method error';
-}
 
-//填充
-static function fill($res,$color,$arr,$name="fill"){
-$key=array_keys(self::$element);
-if ($name==$key[6]) {
-return imagefill($res,$arr[0],$arr[1],$color);
-}
-if ($name==$key[2]) {
-return imagefilledarc($res,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$color,$arr[6]);
-}
-if ($name==$key[3] || $name==$key[4]) {
-$act='imagefilled'.$name;
-return $act($res,$arr[0],$arr[1],$arr[2],$arr[3],$color);
-}
-if ($name==$key[5]) {
-return imagefilledpolygon($res,$arr,end($arr),$color);
-}
-if ($name==$key[7]) {
-return imagefilltoborder($res,$arr[0],$arr[1],end($arr),$color);
-}
-return 'method error';
-}
+    //设置颜色
+    static function color(&$imgage,$color='ffffff',$delete=false){
+        $cd=str_split($color,((strlen($color) > 4) ? 2 : 1));
+        $color=imagecolorallocate($imgage,hexdec($cd[0]),hexdec($cd[1]),hexdec($cd[2]));
+        $delete && imagecolordeallocate($imgage,$color);
+        return $color;
+    }
 
-//文本
-static function text($res,$str,$font,$color,$mode=2,$p_x=0,$p_y=0){
-$arr=array(1=>'char',2=>'string',3=>'charup',4=>'stringup');
-$act='image'.(is_numeric($mode)?$arr[$mode]:$mode);
-return $act($res,$font,$p_x,$p_y,$str,$color); 
-}
 
-//旋转
-static function rotate($res,$angle,$color,$alpha=0){
-return imagerotate($res,$angle,$color,$alpha);
-}
+    //绘制图形
+    static function draw(&$image,$color,$param,$name="line"){
 
-//复制
-static function copy($res,$res_img,$mode,$arr){
-if ($mode==1) {//拷贝
-return imagecopy($res,$res_img,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5]);
-}
-if ($mode==2) {//拷贝+合并
-return imagecopymerge($res,$res_img,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$arr[6]);
-}
-if ($mode==3) {//灰度拷贝+合并
-return imagecopymergegray($res,$res_img,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$arr[6]);
-}
-if ($mode==4) {//拷贝+调整大小
-return imagecopyresized($res,$res_img,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$arr[6],$arr[7]);
-}
-if ($mode==5) {//采样+拷贝+调整大小
-return imagecopyresampled($res,$res_img,$arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$arr[6],$arr[7]);
-}
-}
+        //像素点
+        if ($name == 'point') {
+            return imagesetpixel($image,$param[0],$param[1],$color);
+        }
 
-//设置样式、风格
-static function set($res,$method,$mix){
-if ($method==1) {//画线粗细
-return imagesetthickness($res,(int)($mix));
-}
-if ($method==2) {//画线风格
-return imagesetstyle($res,(array)($mix));
-}
-if ($method==3) {//画笔图像
-return imagesetbrush($res,$mix);
-}
-if ($method==4) {//填充的贴图
-return imagesettile($res,$mix);
-}
-if ($method==5) {//抗锯齿
-return imageantialias($res,(bool)($mix));
-}
-if ($method==6) {//alpha混色标志
-return imagelayereffect($res,(int)($mix));
-}
-if ($method==7) {//透明色
-return imagecolortransparent($res,(int)($mix));
-}
-if ($method==8) {//混色模式
-return imagealphablending($res,(bool)($mix));
-}
-return 'method error';
-}
+        //线(起点/终点)、椭圆(中心点/宽度-高度)、矩形(左顶点/右底点)
+        if ($name == 'line' || $name == 'ellipse' || $name == 'rectangle') {
+            $draw='image'.$name;
+            return $draw($image,$param[0],$param[1],$param[2],$param[3],$color);
+        }
 
-//滤镜
-static function filter($res,$type=IMG_FILTER_GRAYSCALE,$arg1=0,$arg2=0,$arg3=0){
-return imagefilter($res,$type,$arg1,$arg2,$arg3);
-}
+        //弧(中心点/宽度-高度/起始角度-结束角度(0-360))
+        if ($name == 'arc') {
+            return imagearc($image,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$color);
+        }
 
-//保存
-static function save($res,$name='eq80_gd_act.gif',$dir="file/create/"){
-$ext_arr=explode('.',$name);
-$ext_name=strtolower(end($ext_arr));
-if ($ext_name=='jpg') $ext_name='jpeg';
-$act='image'.$ext_name;
-$act($res,$dir.$name);
-self::clear($res);
-return $dir.$name;
-}
+        //多边形$param:各顶点坐标(一维数组),顶点数
+        if ($name == 'polygon') {
+            return imagepolygon($image,$param,count($param)/2,$color);
+        }
 
-//输出
-static function out($res,$format='gif'){
-$act='image'.$format;
-return $act($res);
-}
+    }
 
-//销毁
-static function clear($res){
-return imagedestroy($res);
-}
+    //填充颜色
+    static function fill(&$image,$color,$param,$name="fill"){
 
-//获取相关信息
-static function info($res,$option){
-if ($option=='width') return imagesx($res);
-if ($option=='height') return imagesy($res);
-if ($option=='test_width') return imagefontheight($font);
-if ($option=='test_height') return imagefontwidth($font);
-return array(gd_info(),imagetypes());
-}
+        //填充
+        if ($name == 'fill') {
+            return imagefill($image,$param[0],$param[1],$color);
+        }
 
-//查询img类方法
-static function tip(){
-$info='<br><font color="green">';
-$info.='1、穿件画布：create($width=120,$height=150,$bg_color=false,$type=false)<br>';
-$info.='2、打开图像：open($file_name)<br>';
-$info.='3、设置颜色：color($res,$color="ffffff",$del=false)<br>';
-$info.='4、绘画图形：draw($res,$color,$arr,$name="line")<br>';
-$info.='5、填充颜色：fill($res,$color,$arr,$name="fill")<br>';
-$info.='6、输入文本：text($res,$str,$font,$color,$mode=2,$p_x=0,$p_y=0)<br>';
-$info.='7、旋转图像：rotate($res,$angle,$color,$alpha=0)<br>';
-$info.='8、复制图像：copy($res,$res_img,$mode,$arr)<br>';
-$info.='9、风格样式：set($res,$method,$mix)<br>';
-$info.='10、图片过滤：filter($res,$type=IMG_FILTER_GRAYSCALE,$arg1=0,$arg2=0,$arg3=0)<br>';
-$info.='11、保存图像：save($res,$name="eq80_gd_act.gif",$dir="file/create/")<br>';
-$info.='12、输出图片：out($res,$format="gif")<br>';
-$info.='13、清理资源：clear($res)<br>';
-$info.='14、获取信息：info($res,$option)</font><br><br>';
-return $info;
-}
+        //弧形填充
+        if ($name == 'arc') {
+            return imagefilledarc($image,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$color,$param[6]);
+        }
+
+        //填充椭圆、矩形
+        if ($name == 'ellipse' || $name == 'rectangle') {
+            $fill='imagefilled'.$name;
+            return $fill($image,$param[0],$param[1],$param[2],$param[3],$color);
+        }
+
+        //填充多边形
+        if ($name == 'polygon') {
+            return imagefilledpolygon($image,$param,count($param)/2,$color);
+        }
+
+        //区域填充到指定颜色的边界为止
+        if ($name == 'border') {
+            return imagefilltoborder($image,$param[0],$param[1],$param[2],$color);
+        }
+
+    }
+
+
+    //创建文本
+    static function text(&$image,$text,$font,$color,$mode=2,$p_x=0,$p_y=0){
+        $param=array(1=>'char',2=>'string',3=>'charup',4=>'stringup');
+        $input='image'.(is_numeric($mode) ? $param[$mode] : $mode);
+        return $input($image,$font,$p_x,$p_y,$text,$color);
+    }
+
+
+    //旋转
+    static function rotate(&$image,$angle,$color,$alpha=0){
+        return imagerotate($image,$angle,$color,$alpha);
+    }
+
+
+    //复制图像
+    static function copy(&$image,$picture,$mode,$param){
+        if ($mode == 1) { //拷贝
+            return imagecopy($image,$picture,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5]);
+        }
+        if ($mode == 2) { //拷贝+合并
+            return imagecopymerge($image,$picture,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$param[6]);
+        }
+        if ($mode == 3) { //灰度拷贝+合并
+            return imagecopymergegray($image,$picture,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$param[6]);
+        }
+        if ($mode == 4) { //拷贝+调整大小
+            return imagecopyresized($image,$picture,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$param[6],$param[7]);
+        }
+        if ($mode == 5) { //采样+拷贝+调整大小
+            return imagecopyresampled($image,$picture,$param[0],$param[1],$param[2],$param[3],$param[4],$param[5],$param[6],$param[7]);
+        }
+    }
+
+
+    //设置样式、风格
+    static function set(&$image,$value,$method){
+        if ($method == 'border') { //画线粗细
+            return imagesetthickness($image,(int)($value));
+        }
+        if ($method == 'style') { //画线风格
+            return imagesetstyle($image,(array)($value));
+        }
+        if ($method == 'brush') { //画笔图像
+            return imagesetbrush($image,$value);
+        }
+        if ($method == 'pattern') { //填充的贴图 图案
+            return imagesettile($image,$value);
+        }
+        if ($method == 'alias') { //抗锯齿
+            return imageantialias($image,(bool)($value));
+        }
+        if ($method == 'alpha') { //alpha混色标志
+            return imagelayereffect($image,(int)($value));
+        }
+        if ($method == 'transparent') { //透明色
+            return imagecolortransparent($image,(int)($value));
+        }
+        if ($method == 'mix') { //混色模式
+            return imagealphablending($image,(bool)($value));
+        }
+    }
+
+
+    //添加滤镜
+    static function filter(&$image,$type=IMG_FILTER_GRAYSCALE,$arg1=0,$arg2=0,$arg3=0){
+        return imagefilter($image,$type,$arg1,$arg2,$arg3);
+    }
+
+
+    //保存图像
+    static function save(&$image,$filename='test.png',$dir="file/create/"){
+        $format=strtolower(pathinfo($filename,PATHINFO_EXTENSION));
+        $save=($format == 'jpg') ? 'imagejpeg' : 'image'.$format;
+        $save($image,$dir.$filename);
+        imagedestroy($image);
+        return $dir.$filename;
+    }
+
+
+    //输出图像
+    static function out($image,$format='gif'){
+        $out='image'.$format;
+        return $out($image);
+    }
+
+
+    //销毁图像
+    static function clear(&$image){
+        return imagedestroy($image);
+    }
+
+
+    //获取图像相关信息
+    static function info($image,$option){
+        if ($option == 'width') return imagesx($image);
+        if ($option == 'height') return imagesy($image);
+        if ($option == 'text_width') return imagefontheight($image);
+        if ($option == 'text_height') return imagefontwidth($image);
+        return array(gd_info(),imagetypes());
+    }
+
+
+    //查询img类方法
+    static function tip(){
+        $info='<br><font color="green">';
+        $info.='1、穿件画布：create($width=120,$height=150,$bgcolor=false,$type=false)<br>';
+        $info.='2、打开图像：open($filename)<br>';
+        $info.='3、设置颜色：color(&$image,$color="ffffff",$delete=false)<br>';
+        $info.='4、绘画图形：draw(&$image,$color,$param,$name="line")<br>';
+        $info.='5、填充颜色：fill(&$image,$color,$param,$name="fill")<br>';
+        $info.='6、输入文本：text(&$image,$text,$font,$color,$mode=2,$p_x=0,$p_y=0)<br>';
+        $info.='7、旋转图像：rotate(&$image,$angle,$color,$alpha=0)<br>';
+        $info.='8、复制图像：copy(&$image,$picture,$mode,$param)<br>';
+        $info.='9、风格样式：set(&$image,$value,$method)<br>';
+        $info.='10、图片过滤：filter(&$image,$type=IMG_FILTER_GRAYSCALE,$arg1=0,$arg2=0,$arg3=0)<br>';
+        $info.='11、保存图像：save(&$image,$filename="test.png",$dir="file/create/")<br>';
+        $info.='12、输出图片：out(&$image,$format="gif")<br>';
+        $info.='13、清理资源：clear(&$image)<br>';
+        $info.='14、获取信息：info($image,$option)</font><br><br>';
+        return $info;
+    }
 
 
 }

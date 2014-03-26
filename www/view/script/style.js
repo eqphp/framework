@@ -53,3 +53,36 @@ $(layer).hide();
 }
 });
 }
+
+//1-6、模拟下拉列表
+function create_select(select_id){
+$(select_id).mouseover(function(){
+$(this).css({'cursor':'pointer','z-index':'99999'});
+$(select_id+' dd').show(); 
+
+$(select_id+' dd').mouseover(function(){
+$(this).css({'color':'red','background':'#efefef'});
+}).mouseout(function(){
+$(this).css({'color':'#666666','background':'white'});
+}).click(function(){
+$(select_id+' dt').html($(this).html());
+$(select_id+'_value').val($(this).attr('value'));
+$(select_id+' dd').hide(); 
+});
+
+}).mouseleave(function(){
+$(this).css('z-index','9999');
+$(select_id+' dd').hide(); 
+});
+}
+
+//1-7、设置两列等高
+function equal_height(column,other_column){
+var column_height=$(column).height();
+var other_height=$(other_column).height();
+if (column_height>other_height) {
+$(other_column).height(column_height);
+} else {
+$(column).height(other_height);
+}
+}

@@ -33,24 +33,47 @@ $(this).val();
 
 //松开按键
 function keyup(form_option,act_info,mode){
-$(form_option.split('|')[0]).keyup(function(){
+$(form_option.split('|')[0]).live('keyup',function(){
 //判断按键值是否正确
 if (mode=='check_value') {
 if ($(this).val()=='') {/***待写****/}
 }
 
-//提示信息（计算总价等）
+//提示信息（计算总价）
 if (mode=='count_num') {
 var now_num=parseInt($(this).val());
-var now_result=isNaN(now_num) ? 0 : now_num;
+var now_result=isNaN(now_num) ? 1 : now_num;
+$(this).val(now_result);
 $(form_option.split('|')[1]).val(now_num*act_info);
 }
 
 //提示信息（如还可输入字数）
 if (mode=='tip_num') {
-var char_num=$(this).val().length;
-var allow_num=act_info-char_num;
-$(form_option.split('|')[1]).html('您还可以输入：<em>'+allow_num+'</em>个字');
+var now_value=$.trim($(this).val());
+var char_num=now_value.length;
+var min_num=parseInt(act_info.split('|')[0]);
+var max_num=parseInt(act_info.split('|')[1]);
+var allow_num,tip_str;
+if (char_num<min_num) {
+allow_num=min_num-char_num;
+tip_str='您还需输入：<em>'+allow_num+'</em>个字';
+} else {
+
+if (char_num==max_num) {
+tip_str='刚好<i>'+max_num+'</i>个字';
+} else {
+var allow_num=max_num-char_num;
+tip_str='您还可以输入：<i>'+allow_num+'</i>个字';
+}
+
+}
+
+if (char_num>max_num) {
+$(this).val(now_value.substr(0,max_num));
+tip_str='不过所允许的字数：<em>'+max_num+'</em>';
+}
+
+$(form_option.split('|')[1]).html(tip_str);
 }
 
 });

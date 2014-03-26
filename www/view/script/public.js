@@ -24,29 +24,23 @@ reg_exp={
 'account':/^[\u4E00-\u9FA5\uf900-\ufa2d\w]{5,16}$/
 };
 
-//图片等比例缩放
-function set_size(obj_id,_w,_h){
-var wh=($(obj_id+" img").width()-_w)/$(obj_id+" img").width();
-var ht=($(obj_id+" img").height()-_h)/$(obj_id+" img").height();
-
-if (wh>ht) {
-
-if(wh>0){
-$(obj_id+" img").attr("width",_w); 
-$(obj_id+" div").attr("width",_w);
+//判断指定值是否在指定的数组中
+function in_array(value,option){
+var value_type=typeof value;
+var option_type=typeof option;
+if (option_type!=='object') return false;
+if (value_type==='number' || value_type==='string') {
+for (i=0;i<option.length;i++) {
+if (value===option[i]) {
+return true;
+break;
+}
+}
+}
+return false;
 }
 
-} else {
-
-if(ht>0){
-$(obj_id+" img").attr("height",_h); 
-$(obj_id+" div").attr("height",_h);
-}
-
-}
-
-var m_top=(_h-$(obj_id+" img").height())/2;
-var m_left=(_w-$(obj_id+" img").width())/2;
-$(obj_id+" #img_div").css("margin",m_top+"px auto auto "+m_left+"px");
-$(obj_id+" img").css("display","block");
+//取10以内随机整数
+function get_random(i){
+return Math.round(Math.random()*10)%i;
 }
