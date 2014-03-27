@@ -1,0 +1,9 @@
+1、变更url参数获取函数：rq变为url；
+2、修正kindeditor编辑器上传文件错误提示bug：kd_json；
+3、将cookie键加密默认参数设为true；
+4、强制转换db类的field函数输出的数据类型；
+4、升级fun类函数two_arr_one为array_column；
+5、http类加入是否异步请求判别函数：is_ajax；
+6、修正img和pic类，并将pic类归入业务逻辑类；
+7、新增db连贯操作、sql条件组装类：query；
+8、修正safe类解密函数decode bug；
