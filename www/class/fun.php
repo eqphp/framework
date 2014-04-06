@@ -55,7 +55,6 @@ class fun{
         return $buffer;
     }
 
-
     //输出xml字符文档
     static function xml($mix_data,$root='rss',$code='utf-8'){
         $xml='<?xml version="1.0" encoding="'.$code.'"?>';
