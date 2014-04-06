@@ -10,12 +10,6 @@ class fun{
         return preg_replace($exp,'$1',$str).$add_str;
     }
 
-
-    //将数组拆分成指定的（键、值）数组
-    static function kv_arr($data,&$key,&$value=null){
-        list($key,$value)=array(array_keys($data),array_values($data));
-    }
-
     //将数组连按照key=value成字符串
     static function arr_str($info_arr,$connector='&',$is_urlencode=false){
         $feild_info=null;
@@ -26,18 +20,6 @@ class fun{
             }
         }
         return trim($feild_info,$connector);
-    }
-
-    //将数组按照键的类型（str/num）拆分成两个数组
-    static function sn_arr($arr,&$str_arr=null,&$num_arr=null){
-        foreach ($arr as $key=>$value) {
-            if (is_numeric($key)) {
-                $num[$key]=$value;
-            } else {
-                $str[$key]=$value;
-            }
-        }
-        list($str_arr,$num_arr)=array($str,$num);
     }
 
     //处理记录集(php5.5内置)
@@ -121,13 +103,11 @@ class fun{
     static function tip(){
         $info='<br><font color="green">';
         $info.='1、字符截取：str_cut($str,$length,$from=0)<br>';
-        $info.='2、键值拆分：kv_arr($arr,&$key,&$value=null)<br>';
-        $info.='3、键值组合：arr_str($info_arr,$connector="&")<br>';
-        $info.='4、键类拆分：sn_arr($arr,&$str_arr=null,&$num_arr=null)<br>';
-        $info.='5、二维取列：array_column($data,$key="id",$column=null)<br>';
-        $info.='6、输出XML：xml($mix_data,$root="rss",$code="utf-8")<br>';
-        $info.='7、转为XML：data_xml($mix_data)<br>';
-        $info.='8、转为INI：arr_ini($data)</font><br><br>';
+        $info.='2、键值组合：arr_str($info_arr,$connector="&")<br>';
+        $info.='3、二维取列：array_column($data,$key="id",$column=null)<br>';
+        $info.='4、输出XML：xml($mix_data,$root="rss",$code="utf-8")<br>';
+        $info.='5、转为XML：data_xml($mix_data)<br>';
+        $info.='6、转为INI：arr_ini($data)</font><br><br>';
         return $info;
     }
 
