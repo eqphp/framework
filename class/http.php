@@ -151,6 +151,9 @@ class http{
         if ($is_path) {
             if (is_file($data) && ($fp=fopen($data,'rb')) !== false) {
                 self::send_download_file_header($mime_type,filesize($data),$file_name);
+		if (ob_get_level() !== 0 && ob_end_clean() === false) {
+			ob_clean();
+		}
                 while (!feof($fp) && ($source=fread($fp,1048576)) !== false) {
                     echo $source;
                 }
@@ -165,12 +168,12 @@ class http{
 
     //发送下载文件头信息
     static function send_download_file_header($mime_type,$file_size,$file_name){
-        header('Expires: 0');
-        header('Content-Type: '.$mime_type);
-        header('Content-Length: '.$file_size);
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Disposition: attachment; '.$file_name);
-        header('Cache-Control: private, no-transform, no-cache, no-store, must-revalidate');
+	header('Content-Type: '.$mime_type);
+	header('Content-Disposition: attachment; '.$file_name);
+	header('Expires: 0');
+	header('Content-Transfer-Encoding: binary');
+	header('Content-Length: '.$file_size);
+	header('Cache-Control: private, no-transform, no-store, must-revalidate');
     }
 
     //判断是否异步请求
