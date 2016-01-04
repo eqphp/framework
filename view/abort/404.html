@@ -1,0 +1,14 @@
+{extends file="abort/layout.html"}
+{block name="content"}
+<div class="title">很抱歉，您访问的页面地址有误，或者该页面不存在（Not Found）</div>
+<div class="message">
+	<p class="fs14">请检查输入的网址是否正确，或者联系EQPHP客服：</p>
+	<p>400 800 1234 按当地市话标准计费</p>
+</div>
+
+<div class="operation"><dl>
+<dt><b id="wait">9</b>秒后页面自动调转，你还可以：</dt>
+<dd><a id="href" href="{$url}">返回首页</a><dd>
+<dd><a href="javascript:history.go(-1);">返回上一页</a></dd>
+</dl></div>
+{/block}

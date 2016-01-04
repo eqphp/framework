@@ -1,0 +1,14 @@
+{extends file="abort/layout.html"}
+{block name="content"}
+<div class="title success_title">{$tip_message|default:'恭喜您，操作成功'}</div>
+<div class="operation">
+    <p>
+        <b id="wait">{$wait_time|default:10}</b>秒后页面自动
+		{if ($redirect_url)}
+			跳转到：<a id="href" href="{$redirect_url}" target="_self">{$redirect_url}</a>
+		{else}
+			<a id="href" class="ml5" href="javascript:history.go(-1);">返回上一页</a>
+		{/if}
+    </p>
+</div>
+{/block}

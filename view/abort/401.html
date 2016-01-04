@@ -1,0 +1,9 @@
+{extends file="abort/layout.html"}
+{block name="content"}
+<div class="title">对不起，您还没有登录，或授权失败（Unauthorized）</div>
+
+<div class="operation"><dl>
+    <dt><b id="wait">9</b>秒后页面自动调转到登录页面</dt>
+    <dd><a id="href" href="{$url}user/login">登录</a>　<a href="{$url}user/register">注册</a></dd>
+</dl></div>
+{/block}

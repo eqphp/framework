@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><base target="{if (isset($head.frame))}{$head.frame}{else}_self{/if}">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="robots" content="{if (isset($head.robots))}{$head.robots}{else}{$meta.robots}{/if}" />
+
+<title>{if (isset($head.title))}{$head.title}{else}{$meta.title}{/if}</title>
+<meta name="keywords" content="{if (isset($head.keywords))}{$head.keywords}{else}{$meta.keywords}{/if}" />
+<meta name="description" content="{if (isset($head.description))}{$head.description}{else}{$meta.description}{/if}" />
+<meta name="author" content="{if (isset($head.author))}{$head.author}{else}{$meta.author}{/if}" />
+
+{foreach from=$style item=value}
+{if (strpos($value,'.'))}
+<link rel="stylesheet" type="text/css" href="{$dir.style}{str_replace('.','.css?id=',$value)}" />
+{else}
+<link rel="stylesheet" type="text/css" href="{$dir.style}{$value}.css" />
+{/if}
+{/foreach}
+{foreach from=$group_style item=value}
+{if (strpos($value,'.'))}
+<link rel="stylesheet" type="text/css" href="{$group.style}{str_replace('.','.css?id=',$value)}" />
+{else}
+<link rel="stylesheet" type="text/css" href="{$group.style}{$value}.css" />
+{/if}
+{/foreach}
+
+{foreach from=$script item=value}
+{if (strpos($value,'.'))}
+<script type="text/javascript" src="{$dir.script}{str_replace('.','.js?id=',$value)}"></script>
+{else}
+<script type="text/javascript" src="{$dir.script}{$value}.js"></script>
+{/if}
+{/foreach}
+{foreach from=$group_script item=value}
+{if (strpos($value,'.'))}
+<script type="text/javascript" src="{$group.script}{str_replace('.','.js?id=',$value)}"></script>
+{else}
+<script type="text/javascript" src="{$group.script}{$value}.js"></script>
+{/if}
+{/foreach}
+
+<link rel="shortcut icon" type="image/x-icon" href="{$url}favicon.ico" />
+</head><body>
