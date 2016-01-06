@@ -36,7 +36,7 @@ class a_command{
 					file::folder(PATH_ROOT.$name.'/'.$category,0777);
 				}
 
-				//注册 更改config配置group-list				
+				//注册 更改config配置group-list
 
 			} else {
 				file::delete(PATH_ROOT.$name);

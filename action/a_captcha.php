@@ -6,7 +6,7 @@ class a_captcha{
 
     #获取图片验证码
     static function index(){
-        $captcha=help::get_code(5);
+        $captcha=basic::code(5);
         session::set('captcha',$captcha);
         s_picture::code($captcha,90,44);
     }
