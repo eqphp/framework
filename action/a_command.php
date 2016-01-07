@@ -4,9 +4,7 @@ class a_command{
 
 
     function index(){
-	// D:\soft\mongodb\bin\mongo.exe
-	// D:\soft\mongodb\bin\mongod.exe --dbpath=D:\soft\mongodb\db --service
-
+	echo 'please input command';
     }
 
 	

@@ -26,7 +26,6 @@ class system{
         ini_set('mongo.long_as_object',true);
 		
         session_start(); //开启session
-        header("Cache-control:private");
     }
 
     //分配目录常量

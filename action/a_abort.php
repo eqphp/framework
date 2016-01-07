@@ -6,19 +6,19 @@
         private $static_class;
 
         static function error(){
-            smarty()->display('abort/error');
+            http::send(500);
         }
 
         static function auth(){
-            smarty()->display('abort/401');
+            http::send(401);
         }
 
         static function forbid(){
-            smarty()->display('abort/403');
+            http::send(403);
         }
 
         static function tidy(){
-            smarty()->display('abort/500');
+            http::send(500);
         }
 
 
