@@ -46,10 +46,6 @@ function eqphp_autoload($class){
     $dir_name=in_array($prefix,array('a','m','s','p')) ? $module[$prefix] : 'class';
     $execute_file=$dir_name.'/'.$class.'.php';
 
-    if (strtolower($class) === 'smarty') {
-        $execute_file='data/smarty/Smarty.class.php';
-    }
-
     if (file_exists($execute_file)) {
         return include PATH_ROOT.$execute_file;
     }
@@ -70,10 +66,6 @@ function eqphp_autoload($class){
     if ($prefix === 'a') {
         logger::notice('class ['.$class.'] not found');
         http::send(404);
-    }
-
-    if (strpos(strtolower($execute_file),'smarty_internal_') === false) {
-        logger::error('class ['.$class.'] not found');
     }
 }
 
