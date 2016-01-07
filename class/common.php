@@ -208,9 +208,9 @@ function out($param='please input param',$mode=1,$is_exit=true){
 }
 
 //模板配置
-function smarty($group='home'){
-    return s_smarty::tpl($group);
-}
+// function smarty($group='home'){
+    // return s_smarty::tpl($group);
+// }
 
 //会话
 function session($key=null,$value=false){

@@ -11,14 +11,14 @@ class http{
     //异常终止并跳转
     static function abort($abort_message='',$redirect_url='',$wait_time=10){
         $data=compact('abort_message','redirect_url','wait_time');
-        smarty()->assign($data)->display('abort/fail');
+        //smarty()->assign($data)->display('abort/fail');
         exit;
     }
 	
     //完成、结束并终止并跳转
     static function success($tip_message='',$redirect_url='',$wait_time=10){
         $data=compact('tip_message','redirect_url','wait_time');
-        smarty()->assign($data)->display('abort/success');
+        //smarty()->assign($data)->display('abort/success');
         exit;
     }
 
@@ -137,7 +137,8 @@ class http{
         if (isset($status[$code])) {
             header('HTTP/1.1 '.$code.' '.$status[$code]);
             header('Status:'.$code.' '.$status[$code]);
-            smarty()->display('abort/'.$code);
+	    echo $status[$code];
+            //smarty()->display('abort/'.$code);
             $is_end && exit;
         }
     }

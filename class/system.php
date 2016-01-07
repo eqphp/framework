@@ -116,7 +116,7 @@ class system{
                 if (http::is_ajax()) {
                     http::json(array('error'=>4,'message'=>$e->getMessage(),'data'=>null));
                 } else {
-                    http::abort($e->getMessage(),'',10);
+                    http::send(404);
                 }
             }
             debug::exception($e);
