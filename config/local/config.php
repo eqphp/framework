@@ -15,6 +15,12 @@ return array(
         'config_route'=>true,
         'auto_login'=>true,
     ),
+	
+    'domain'=>array(
+        'allow_host'=>array('eqphp.com','www.eqphp.com'),
+        'allow_port'=>array(80,8080),
+        'default'=>array('http','www.eqphp.com',80),
+    ),
 
     'group'=>array(//'news','fun','ask','work','market',
         'list'=>array('common','admin','user','blog'),

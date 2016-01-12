@@ -8,9 +8,10 @@ function define_url(){
     empty($environment) and $environment='local';
     define('ENVIRONMENT',$environment);
 
-    $allow_port=array(80,8080);
-    $allow_host=array('eqphp.com','www.eqphp.com');
-    list($scheme,$host,$port)=array('http','www.eqphp.com',80);
+    $domain=config('domain');
+    $allow_host=$domain['allow_host'];
+    $allow_port=$domain['allow_port'];
+    list($scheme,$host,$port)=$domain['default'];
     $uri=isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
     if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === '1' || strtolower($_SERVER['HTTPS']) === 'on'))
         || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
