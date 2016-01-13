@@ -133,19 +133,20 @@ class mg{
 		if ($skip >= 1) $command.=".skip({$skip})";
 		logger::mongo($command);
 	}
-	
+
 	//处理排序数据
 	static function process_sort($data=array()){
-        foreach ($data as $node=>$value) {
-            if ($value === -1 || $value === false || strtolower($value) === 'desc') {
-                $buffer[$node]=-1;
-            }
-            if ($value === 1 || $value === true || strtolower($value) === 'asc') {
-                $buffer[$node]=1;
-            }
-        }
-        return $buffer;
-    }
+		$buffer=array();
+		foreach ($data as $node=>$value) {
+			if ($value === -1 || $value === false || strtolower($value) === 'desc') {
+				$buffer[$node]=-1;
+			}
+			if ($value === 1 || $value === true || strtolower($value) === 'asc') {
+				$buffer[$node]=1;
+			}
+		}
+		return $buffer;
+	}
 	
 	//格式化查询节点（字段）
 	static public function format_file_node($field){

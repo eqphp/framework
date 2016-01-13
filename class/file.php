@@ -86,17 +86,17 @@ class file{
 
     //删除目录、文件
     static function delete($dir,$is_delete_self=true){
+
         $dir=trim($dir,'/');
         if (is_file($dir)) return unlink($dir);
         if (is_dir($dir)) {
-            $dir_res=opendir($dir);
-            while ($now_file=readdir($dir_res)) {
-                if ($now_file == '.' || $now_file == '..') continue;
-                $temp_dir=$dir.'/'.$now_file;
+            $source=opendir($dir);
+            while ($file=readdir($source)) {
+                if ($file == '.' || $file == '..') continue;
+                $temp_dir=$dir.'/'.$file;
                 is_dir($temp_dir) ? self::delete($temp_dir) : unlink($temp_dir);
             }
-
-            closedir($dir_res);
+            closedir($source);
             $is_delete_self and rmdir($dir);
         }
         return true;

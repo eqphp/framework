@@ -5,7 +5,7 @@ class s_api{
 	const VERSION='1.0.150702';
 	const TIME_OUT=25;
 
-	protected $api,$url;
+	protected $api,$url,$method;
 	protected $request_data,$request_header;
 	protected $response,$response_status,$response_code,$curl_error,$response_header,$response_body;
 

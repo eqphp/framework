@@ -25,8 +25,7 @@ class s_identity{
     //身份证号码检测
     static function is_cid($cid){
         //长度
-        $reg_exp='/^(\d{18,18}|\d{15,15}|\d{17,17}x)$/';
-        if (!preg_match($reg_exp,strtolower($cid))) return false;
+        if (!regexp::match($cid,'cid')) return false;
 
         //城市
         $city_id=array(11,12,13,14,15,21,22,23,31,32,33,34,35,36,37,41,42,43,44,45,46,50,51,52,53,54,61,62,63,64,65,71,81,82,91);

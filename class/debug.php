@@ -14,7 +14,7 @@ class debug{
 
     //追溯方法
     static function trace($data='',$file_name=''){
-        is_object($data) and $data=basic::object_array($data);
+        is_object($data) and $data=help::object_array($data);
         is_array($data) and $data=print_r($data,true);
         empty($file_name) and $file_name=date('Y_m_d').'.log';
         $file=fopen(LOG_TRACE.$file_name,'a+');

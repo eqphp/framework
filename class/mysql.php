@@ -61,20 +61,20 @@ class mysql{
         if (is_array($data)) {
             $field='('.implode(",",array_keys($data)).')';
             $value="('".implode("','",array_values($data))."')";
-            $this->query("insert into $table $field values $value",false);
+            $this->query(sprintf('insert into %s %s values %s',$table,$field,$value),false);
             return mysql_insert_id();
         }
 
         //批量写入
         $value=is_array($option) ? implode(',',$option) : $option;
-        $this->query("insert into $table $data values $value",false);
+        $this->query(sprintf('insert into %s %s values %s',$table,$data,$value),false);
         return mysql_insert_id();
     }
 
     //删除数据记录
     function delete($table,$condition){
-        $condition=self::condition($condition);
-        return $this->query("delete from $table where $condition",false);
+        $condition=query::condition($condition);
+        return $this->query(sprintf('delete from %s where %s',$table,$condition),false);
     }
 
     //修改数据记录
@@ -89,8 +89,8 @@ class mysql{
             }
             $data=trim($field_info,',');
         }
-        $condition=self::condition($condition);
-        $this->query("update $table set $data where $condition",false);
+        $condition=query::condition($condition);
+        $this->query(sprintf('update %s set %s where %s',$table,$data,$condition),false);
         return mysql_affected_rows();
     }
 
@@ -104,19 +104,15 @@ class mysql{
     
     //返回单字段信息（表中单元格）
     function field($table,$field,$condition=null){
-        if ($condition === null) {
-            $execute_sql="select $field from $table limit 0,1";
-        } else {
-            $execute_sql="select $field from $table limit 0,1";
-            if ($condition) {
-                $condition=self::condition($condition);
-                $execute_sql="select $field from $table where $condition limit 0,1";
-            }
+        $execute_sql=sprintf('select %s from %s limit 0,1',$field,$table);
+        if ($condition) {
+            $condition=query::condition($condition);
+            $execute_sql=sprintf('select %s from %s where %s limit 0,1',$field,$table,$condition);
         }
+
         $result=$this->query($execute_sql);
         $record=mysql_fetch_array($result);
-        if ($record && (preg_match('/^-?\d+$/',$record[$field]) ||
-            preg_match('/^(-?\d+)(\.\d+)?$/',$record[$field]))) {
+        if ($record && preg_match('/^[-\+]?\d+(\.\d+)?$/',$record[$field])) {
             return $record[$field]+0;
         }
         return isset($record[$field]) ? $record[$field] : null;
@@ -132,8 +128,14 @@ class mysql{
     function batch($sql,$mode=false){
         $result=$this->query($sql);
         $record=array();
-        while ($row=$mode ? mysql_fetch_object($result) : mysql_fetch_array($result,MYSQL_ASSOC)) {
-            $record[]=$row;
+        if ($mode) {
+            while ($row=mysql_fetch_object($result)) {
+                $record[]=$row;
+            }
+        } else {
+            while ($row=mysql_fetch_array($result,MYSQL_ASSOC)) {
+                $record[]=$row;
+            }
         }
         mysql_free_result($result);
         return $record;
@@ -155,32 +157,5 @@ class mysql{
         return $this->query($command,false);
     }
 
-    //取得指定库/表字段
-    function get_field($table_name=null){
-        $name_list=array();
-        if ($table_name) {
-            $result=$this->query('select * from '.$table_name.' limit 0,1');
-            while ($field=mysql_fetch_field($result)) {
-                $name_list[]=$field->name;
-            }
-        } else {
-            $result=$this->query("show tables");
-            while ($row=mysql_fetch_array($result,MYSQL_NUM)) {
-                $name_list[]=$row[0];
-            }
-        }
-        return $name_list;
-    }
-
-    //处理sql条件
-    static function condition($condition){
-        if (is_array($condition)) {
-            return query::condition($condition);
-        }
-        if (preg_match('/^[0-9]*[1-9][0-9]*$/',$condition)){
-           return 'id='.$condition;
-        }
-        return $condition;
-    }
 
 }

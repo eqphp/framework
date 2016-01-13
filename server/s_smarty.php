@@ -13,10 +13,7 @@ class s_smarty{
 
     //赋值并显示模板
     static function show($tpl,$data=array(),$smarty=null){
-        foreach ($data as $key=>$value) {
-            $smarty->assign($key,$value);
-        }
-        return $smarty->display($tpl);
+        return $smarty->assign($data)->display($tpl);
     }
 
     //获取赋予模板的值

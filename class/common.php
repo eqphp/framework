@@ -72,17 +72,17 @@ function eqphp_autoload($class){
 
 //处理错误
 function process_error(){
-    if ($error=error_get_last()) {
+    $error=error_get_last();
+    if ($error) {
         ob_end_clean();
-        extract($error);
-        $type=config($type,'error');
-        $log_message=$type.' : '.$message.' ['.$file.' - '.$line.']'.PHP_EOL;
+        $type=config($error['type'],'error');
+        $log_message=$type.' : '.$error['message'].' ['.$error['file'].' - '.$error['line'].']'.PHP_EOL;
         file_write(LOG_TOPIC.'error.log',$log_message,'a+');
 
         if (preg_match('/^(similar|product)$/',ENVIRONMENT)) {
             if (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === 'xmlhttprequest') {
                 header('Content-Type:application/json; charset=utf-8');
-                exit(json_encode(array('error'=>4,'message'=>$message,'data'=>null)));
+                exit(json_encode(array('error'=>4,'message'=>$error['message'],'data'=>null)));
             }
             header('location: '.U_R_L.'abort/error');
             exit;
@@ -90,8 +90,8 @@ function process_error(){
 
         header(UTF8);
         $html=CSS.'<div class="trace">'.PREO;
-        $html.='<h5><b>'.$type.'</b>'.$message.'</h5>';
-        $html.='<h6>'.$file.'<b>'.$line.'</b></h6>';
+        $html.=sprintf('<h5><b>%s</b>%s</h5>',$type,$error['message']);
+        $html.=sprintf('<h6>%s<b>%s</b></h6>',$error['file'],$error['line']);
         $html.=PREC.'</div>';
         exit($html);
     }

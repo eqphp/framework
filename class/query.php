@@ -77,28 +77,37 @@ class query{
 
     //构造sql查询条件
     static function condition($data){
-        //处理逻辑连接符
-        $logic=' and ';
-        if (isset($data['logic'])) {
-            $logic=' '.$data['logic'].' ';
-            unset($data['logic']);
-        }
-
-        //处理字符串(本生sql)
-        $condition=array();
-        foreach (array('query','native','processed') as $name) {
-            if (isset($data[$name])) {
-                $condition[]='('.$data[$name].')';
-                unset($data[$name]);
+        if (is_array($data)) {
+            //处理逻辑连接符
+            $logic=' and ';
+            if (isset($data['logic'])) {
+                $logic=' '.$data['logic'].' ';
+                unset($data['logic']);
             }
-        }
 
-        //处理条件数据
-        foreach ($data as $key=>$value) {
-            $condition[]='('.self::parse_expression($key,$value).')';
-        }
+            //处理字符串(本生sql)
+            $condition=array();
+            foreach (array('query','native','processed') as $name) {
+                if (isset($data[$name])) {
+                    $condition[]='('.$data[$name].')';
+                    unset($data[$name]);
+                }
+            }
 
-        return implode($logic,$condition);
+            //处理条件数据
+            foreach ($data as $key=>$value) {
+                $condition[]='('.self::parse_expression($key,$value).')';
+            }
+
+            return implode($logic,$condition);
+        }
+        if (regexp::match($data,'id')){
+            return 'id='.$data;
+        }
+        if (regexp::match($data,'uuid')){
+            return 'uuid="'.$data.'"';
+        }
+        return $data;
     }
 
 

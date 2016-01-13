@@ -7,7 +7,7 @@
         const PAD_METHOD='pkcs5';
         protected $td,$iv='';
 
-        function __construct($secret_key='#*!@dianfubao%$&'){
+        function __construct($secret_key='#*!@secret%$&'){
             $this->secret_key=$secret_key;
         }
 
