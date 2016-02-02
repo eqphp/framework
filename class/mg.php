@@ -34,21 +34,21 @@ class mg{
 	function post($data,$method='batchInsert',$option=array()){
 		$method=in_array($method,array('batchInsert','insert','save')) ? $method : 'insert';
 		$fun=$method !== 'save' ? 'insert' : 'save';
-		logger::mongo("db.{$this->collection}.{$fun}(".json_encode($data).','.json_encode($option).')',false);
+		logger::mongo(sprintf('db.%s.%s(%s,%s)',$this->collection,$fun,json_encode($data),json_encode($option)),false);
 		return $this->collection->$method($data,$option);
 	}
 
 	//修改文档
 	function patch($condition,$data,$is_all=true,$is_insert=false){
 		$option=array('upsert'=>(bool)$is_insert,'multiple'=>(bool)$is_all);
-		logger::mongo("db.{$this->collection}.update(".json_encode($condition).','.json_encode($data).','.json_encode($option).')',false);
+		logger::mongo(sprintf('db.%s.update(%s,%s,%s)',$this->collection,json_encode($condition),json_encode($data),json_encode($option)),false);
 		return $this->collection->update($condition,$data,$option);
 	}
 
 	//删除文档
 	function delete($condition,$is_one=false){
 		$option=array('justOne'=>(bool)$is_one);
-		logger::mongo("db.{$this->collection}.remove(".json_encode($condition).','.json_encode($option).')',false);
+		logger::mongo(sprintf('db.%s.remove(%s,%s)',$this->collection,json_encode($condition),json_encode($option)),false);
 		return $this->collection->remove($condition,$option);
 	}
 
@@ -97,8 +97,7 @@ class mg{
 
 	//分页查询
 	function page($field='',$condition=array(),$sort=array(),$page,$page_size=20){
-		$document_amount=$this->collection->count($condition);
-		logger::mongo("db.{$this->collection}.count(".json_encode($condition).')');
+		$document_amount=$this->count($condition);
 		if ($document_amount < 1) return array(0,1,array());
 
 		$page_count=ceil($document_amount/$page_size);
@@ -118,19 +117,29 @@ class mg{
 		return array($document_amount,$page_count,iterator_to_array($result));
 	}
 
-	//统计查询
-	function tally(){
-		//TODO
+	//总数统计
+	function count($condition=array()){
+		logger::mongo(sprintf('db.%s.count(%s)',$this->collection,json_encode($condition)));
+		return $this->collection->count($condition);
+	}
 
+	//聚合统计
+	function tally($condition,$option=array()){
+		if ($option && is_array($option)) {
+			logger::mongo(sprintf('db.%s.aggregate(%s,%s)',$this->collection,json_encode($condition),json_encode($option)));
+			return $this->collection->aggregate($condition,$option);
+		}
+		logger::mongo(sprintf('db.%s.aggregate(%s)',$this->collection,json_encode($condition)));
+		return $this->collection->aggregate($condition);
 	}
 	
 	//记录查询操作日志
 	private function record_query_history($field,$condition,$sort=array(),$limit=0,$skip=0){
 		list($condition,$field)=array(json_encode($condition),json_encode($field));
-		$command="db.{$this->collection}.find({$condition},{$field})";
-		if ($sort && is_array($sort)) $command.='.sort('.json_encode($sort).')';
-		if ($limit >= 1) $command.=".limit({$limit})";
-		if ($skip >= 1) $command.=".skip({$skip})";
+		$command=sprintf('db.%s.find(%s,%s)',$this->collection,$condition,$field);
+		if ($sort && is_array($sort)) $command.=sprintf('.sort(%s)',json_encode($sort));
+		if ($limit >= 1) $command.=sprintf('.limit(%d)',$limit);
+		if ($skip >= 1) $command.=sprintf('.skip(%d)',$skip);
 		logger::mongo($command);
 	}
 
