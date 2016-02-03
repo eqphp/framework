@@ -143,7 +143,7 @@ class mysql{
 
     //分页查询方法
     function page($sql,$record_count,$page,$page_size,$mode=false){
-        empty($page_size) and $page_size=config('db_0|page_size','mysql');
+        empty($page_size) and $page_size=config('db_0.page_size','mysql');
         $page_count=ceil($record_count/$page_size);
         $page=max(1,$page);
         $page=($page > $page_count) ? $page_count : $page;
