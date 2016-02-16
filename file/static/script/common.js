@@ -11,7 +11,7 @@ var avatar_url=system.url+'file/picture/avatar/';
 var image_url=system.url+'file/static/image/';
 
 //正则表达式
-var reg_exp = {
+var regexp = {
     "phone": /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8]))\d{8}$/,
     "email": /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/,
     "telephone": /^(0\d{2,3})?-?([2-9]\d{6,7})(-\d{1,5})?$/,
@@ -20,14 +20,14 @@ var reg_exp = {
     "account": /^[a-zA-Z][a-zA-Z0-9_]{4,17}$/,
     "alpha": /^[a-zA-Z][a-zA-Z0-9_]+$/,
     "md5": /^[a-z0-9]{32}$/,
-    "password": /^(.){6,15}$/,
+    "password": /^(.){6,18}$/,
     "money": /^[0-9]+([.][0-9]{1,2})?$/,
     "number": /^\-?[0-9]*\.?[0-9]*$/,
     "numeric": /^\d+$/,
     "url": /^http(s?):\/\/([\w-]+\.)+[\w-]+(\/[\w\- \.\/?%&=]*)?/,
-    "cid": /^\d{18}\d{15}/,
+    "cid": /^\d{15}$|^\d{17}(\d|X|x)$/,
     "zip": /^\d{6}$/,
-    "address": /^(.){0,50}$/,
+    "address": /^(.){0,64}$/,
     "int": /^[-\+]?\d+$/,
     "float": /^[-\+]?\d+(\.\d+)?$/,
     "letter": /^[A-Za-z]+$/,
@@ -35,6 +35,7 @@ var reg_exp = {
     "chinese_name": /^[\u4E00-\u9FA5]{2,5}$/,
     "name": /^[\u4E00-\u9FA5\uf900-\ufa2d\w]+$/,
     "file_name": /^[^\/:*?"<>|,\\]+$/,
+    "uuid": /^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/,
     "business_license": /^\d{13}$|^\d{14}([0-9]|X|x)$|^\d{6}(N|n)(A|a|B|b)\d{6}(X|x)$/
 };
 
@@ -141,7 +142,7 @@ var occurring = {
             //判断按键值是否正确
             if (mode == 'check' && in_array(act_info,['int','number','numeric','letter','chinese','alpha'])) {
 				var value=$(this).val();
-				if (!reg_exp[act_info].test(value)) {
+				if (!regexp[act_info].test(value)) {
 					var end_lie=act_info == 'chinese' ? 3 : 1;
 					$(this).val(value.substr(0,value.length-end_lie));
 				}
@@ -590,7 +591,7 @@ var popup={
 
 //检测账号
 function is_account(value){
-    return reg_exp.phone.test(value) || reg_exp.email.test(value) || reg_exp.qq.test(value) || reg_exp.account.test(value);
+    return regexp.phone.test(value) || regexp.email.test(value) || regexp.qq.test(value) || regexp.account.test(value);
 }
 
 

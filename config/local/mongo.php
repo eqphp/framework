@@ -10,12 +10,6 @@ return array(
 		'is_record_exception'=>true,
 		'is_record_query'=>true,
 	),
-	
-	'exception'=>array(
-		100=>"mysql can't connect !",
-		101=>'database select failed',
-		103=>'sql error',	
-	),
 
 
 );

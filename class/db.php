@@ -13,7 +13,7 @@ class db{
 
         self::$conn=mysql_connect($server['host'].':'.$server['port'],$server['user'],$server['password']);
         if (!self::$conn) {
-            $is_record_log and logger::exception('mysql',$server['host'].' connect failed');
+            $is_record_log and logger::exception('mysql',$server['host'].' connect fail');
             throw new Exception("mysql can't connect",102);
         }
 

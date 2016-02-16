@@ -38,30 +38,30 @@ function eqphp_autoload($class){
         $root=current(explode('/',trim($_SERVER['REQUEST_URI'],'/')));
     }
 
-    //optimize: $config save memcache or redis
+    //optimize: config from memcache or redis
     $group=config('group.list');
     $path=(isset($root) && is_array($group) && in_array($root,$group)) ? $root.'/' : '';
     $module=array('a'=>$path.'action','m'=>$path.'model','p'=>$path.'plugin','s'=>'server');
 
     $prefix=substr($class,0,strpos($class,'_'));
     $dir_name=in_array($prefix,array('a','m','s','p')) ? $module[$prefix] : 'class';
-    $execute_file=$dir_name.'/'.$class.'.php';
+    $load_file=$dir_name.'/'.$class.'.php';
 
-    if (file_exists($execute_file)) {
-        return include PATH_ROOT.$execute_file;
+    if (file_exists($load_file)) {
+        return include PATH_ROOT.$load_file;
     }
 
     //通用加载
     if (config('state.common_load') && in_array($prefix,array('a','m'),true)) {
         $common_option=array('a'=>'action/','m'=>'model/');
-        $execute_file=PATH_ROOT.$common_option[$prefix].$class.'.php';
-        if (file_exists($execute_file)) return include $execute_file;
+        $load_file=PATH_ROOT.$common_option[$prefix].$class.'.php';
+        if (file_exists($load_file)) return include $load_file;
     }
 
     //贪婪加载
     if (config('state.greedy_load')) {
-        $execute_file=file::search(PATH_ROOT.$dir_name,$class,$file_list,true);
-	if ($execute_file) return include $execute_file;
+        $load_file=file::search(PATH_ROOT.$dir_name,$class,$file_list,true);
+	if ($load_file) return include $load_file;
     }
 
     if ($prefix === 'a') {
@@ -208,10 +208,6 @@ function out($param='please input param',$mode=1,$is_exit=true){
     debug::out($param,$mode,$is_exit);
 }
 
-//模板配置
-// function smarty($group='home'){
-    // return s_smarty::tpl($group);
-// }
 
 //会话
 function session($key=null,$value=false){

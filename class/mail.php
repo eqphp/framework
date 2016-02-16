@@ -135,8 +135,10 @@ final class mail{
         if (self::$object instanceof self) {
             return self::$object;
         }
-        is_null($mail) and extract(config(null,'mail'));
-        self::$object=new self($host,$port,$user,$password,true);
+        if (is_null($mail)) {
+            $mail=config(null,'mail');
+        }
+        self::$object=new self($mail['host'],$mail['port'],$mail['user'],$mail['password'],true);
         return self::$object;
     }
 

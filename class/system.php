@@ -5,7 +5,14 @@ class system{
     //设置系统环境（php.ini）
     static function init(){
         //设置错误提示
-        //error_reporting(config('state.error_tip') ? (E_ALL|E_STRICT) : 0);
+        //$error_switch=config('state.error_switch');
+        //error_reporting($error_switch ? (E_ALL|E_STRICT) : 0);
+
+        //设置时区
+        ini_set('date.timezone','Asia/Chongqing');
+
+        //mongoDB设置
+        //ini_set('mongo.long_as_object',true);
 
         //session设置
         session_name('eqphp_session');
@@ -19,12 +26,7 @@ class system{
         //ini_set('session.cache_expire',180); //客户端cache中的有限期（分）
         //ini_set('session.use_trans_sid',0); //是否使用明码在URL中显示SID(慎用)
         //ini_set('session.use_cookies',0); //是否使用cookie在客户端保存会话ID
-        ini_set('date.timezone','Asia/Chongqing'); //设置时区
         //ini_set('session.auto_start',true); //是否自动开启session，作用与session_start()相同
-		
-        //设置mongoDB长整形查询报错：Cannot natively represent the long
-        ini_set('mongo.long_as_object',true);
-		
         session_start(); //开启session
     }
 

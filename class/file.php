@@ -92,7 +92,7 @@ class file{
         if (is_dir($dir)) {
             $source=opendir($dir);
             while ($file=readdir($source)) {
-                if ($file == '.' || $file == '..') continue;
+                if ($file === '.' || $file === '..') continue;
                 $temp_dir=$dir.'/'.$file;
                 is_dir($temp_dir) ? self::delete($temp_dir) : unlink($temp_dir);
             }

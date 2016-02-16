@@ -8,8 +8,8 @@ return array(
     ),
 
     'state'=>array(
-        'environment'=>'development',//(local|test|similar|product)
-        'error_tip'=>true,
+        'environment'=>'local',//(local,test,similar,product)
+        'error_switch'=>true,
         'common_load'=>true,
         'greedy_load'=>true,
         'config_route'=>true,
