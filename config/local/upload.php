@@ -4,14 +4,14 @@ return array(
 
 	'system'=>array(
 		'picture'=>array('gif','jpg','jpeg','png','bmp'),
-		'media'=>array('swf','flv','mp3','mp4','wav','wma','wmv','mid','avi','mpg','rm','rmvb'),
+		'media'=>array('swf','flv','mp3','mp4','wav','wmv','mid','avi','mpeg','rm','rmvb','mov','m4v','3gp'),
 		'document'=>array('txt','doc','docx','pdf','xls','xlsx','ppt'),
 		'html'=>array('html','htm'),
 		'zip'=>array('zip','rar','gz'),
 	),
 	'editor'=>array(
 		'editor/picture'=>array('gif','jpg','jpeg','png','bmp'),
-		'editor/media'=>array('swf','flv','mp3','mp4','mid','rm','rmvb'),
+		'editor/media'=>array('swf','flv','mp3','mp4','mid','mov','m4v','3gp'),
 		'editor/file'=>array('doc','xls','ppt','zip','rar'),
 	),
 
@@ -31,5 +31,9 @@ return array(
 		12=>'上传目录不可写入文件',
 	 	13=>'文件名含有特殊字符',
 	 	14=>'移动文件到指定目录失败',
+		15=>'上传图片宽度小于规格值',
+		16=>'上传图片宽度大于规格值',
+		17=>'上传图片高度小于规格值',
+		18=>'上传图片高度大于规格值',
 	),
 );

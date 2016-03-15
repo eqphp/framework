@@ -44,12 +44,12 @@ return array(
 	),
 
 	'cache'=>array(
-		'db'=>'cache/db/',
-		'ini'=>'cache/db/ini/',
-		'php'=>'cache/db/php/',
-		'json'=>'cache/db/json/',
-		'xml'=>'cache/db/xml/',
-		'txt'=>'cache/db/txt/',
+		'data'=>'cache/data/',
+		'ini'=>'cache/data/ini/',
+		'php'=>'cache/data/php/',
+		'json'=>'cache/data/json/',
+		'xml'=>'cache/data/xml/',
+		'txt'=>'cache/data/txt/',
 	),
 
 	'log'=>array(

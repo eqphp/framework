@@ -1,49 +1,68 @@
 <?php
-//rely on: secure
+
+//rely on: secure basic
 class session{
 
-    static function set($key,$value=null,$is_secret_key=false){
-
+    static function set($key, $value = null){
         if (is_array($key)) {
-            foreach ($key as $name=>$value) {
-                $is_secret_key and $name=secure::token($name);
-                $_SESSION[$name]=$value;
+            foreach ($key as $name => $value) {
+                $_SESSION[$name] = $value;
             }
-            return true;
+        } elseif (strpos($key, '.') !== false) {
+            basic::array_set($_SESSION, $key, $value);
+        } else {
+            $_SESSION[$key] = $value;
         }
-        $is_secret_key and $key=secure::token($key);
-        return $_SESSION[$key]=$value;
+        return true;
     }
 
-    static function get($key,$clear=false,$is_secret_key=false){
-        $is_secret_key and $key=secure::token($key);
-        $value=null;
-        if (isset($_SESSION[$key])) {
-            $value=$_SESSION[$key];
-            if ($clear) unset($_SESSION[$key]);
-        }
+    static function get($key, $clear = false){
+        $value = array_get($_SESSION, $key);
+        $clear and basic::array_unset($_SESSION, $key);
         return $value;
     }
 
-    static function clear($key=null,$is_secret_key=false){
-        $is_secret_key and $key=secure::token($key);
+    static function clear($key = null){
         if (is_null($key)) {
             session_unset();
         } elseif (is_array($key)) {
-            foreach ($key as $k) unset($_SESSION[$k]);
+            foreach ($key as $k) {
+                unset($_SESSION[$k]);
+            }
+        } elseif (strpos($key, '.') !== false) {
+            basic::array_unset($_SESSION, $key);
         } else {
             unset($_SESSION[$key]);
         }
         return true;
     }
 
-    static function merge($key=null,$value=false,$is_secret_key=false){
-        if ($key === null) return self::clear(null); //删除所有
-        if (is_array($key)) return self::set($key,null,$is_secret_key); //批量设置
-        if ($value === true) return self::get($key,true,$is_secret_key); //获取后删除
-        if ($value) return self::set($key,$value,$is_secret_key); //设置一个
-        if ($value === null) return self::clear($key,$is_secret_key); //删除指定
-        return self::get($key,false,$is_secret_key); //获取指定
+    static function merge($key = null, $value = false){
+        //删除所有
+        if ($key === null) {
+            return self::clear(null);
+        }
+        //批量设置
+        if (is_array($key)) {
+            if (is_null($value)) {
+                return self::clear($key);
+            }
+            return self::set($key, null);
+        }
+        //获取后删除
+        if ($value === true) {
+            return self::get($key, true);
+        }
+        //设置一个
+        if ($value) {
+            return self::set($key, $value);
+        }
+        //删除指定
+        if ($value === null) {
+            return self::clear($key);
+        }
+        //获取指定
+        return self::get($key, false);
     }
 
 }

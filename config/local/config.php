@@ -17,20 +17,15 @@ return array(
     ),
 	
     'domain'=>array(
-        'allow_host'=>array('eqphp.com','www.eqphp.com'),
+        'cookie'=>'eqphp.com',
         'allow_port'=>array(80,8080),
         'default'=>array('http','www.eqphp.com',80),
+        'allow_host'=>array('eqphp.com','www.eqphp.com','172.16.2.221'),
     ),
 
-    'group'=>array(//'news','fun','ask','work','market',
-        'list'=>array('common','admin','user','blog'),
+    'group'=>array(
+        'list'=>array('admin','user','blog'),
         'subdomain'=>false,
-    ),
-
-    'mobile_api'=>array(
-        'category'=>array('android','ios'),
-        'android_key'=>'#*!@android%$&',
-        'ios_key'=>'#*!@ios%$&',
     ),
 
 );

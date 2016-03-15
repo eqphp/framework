@@ -1,22 +1,21 @@
 <?php
 //xhprof_enable();
-define('PATH_ROOT',realpath(dirname(__FILE__)).'/');
-include PATH_ROOT.'class/common.php';
+define('PATH_ROOT', realpath(dirname(__FILE__)) . '/');
+include PATH_ROOT . 'class/common.php';
 
-define_url();
+set_domain();
 SITE_DOMAIN or exit('not allowed host');
 spl_autoload_register('eqphp_autoload');
 register_shutdown_function('process_error');
 
-include PATH_ROOT.'class/system.php';
+include PATH_ROOT . 'class/system.php';
 
 system::init();
-system::directory();
 debug::set_debug_constant();
 
 //debug::flag($t1);
-list($controller,$method)=system::parse_route();
-system::bootstrap($controller,$method);
+list($controller, $method) = system::parse_route();
+system::bootstrap($controller, $method);
 
 //debug::flag($t2);
 //debug::out(debug::used($t1,$t2));
