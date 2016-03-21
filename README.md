@@ -30,16 +30,6 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
     * 不放弃每一毫秒CPU性能优化、也不放过每一字节内存消耗
     * 大到每一个模块、类库，小至每一个函数、语句都经过精雕细作，以求完美
 
-    * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
-    * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
-
-    * | PHP版本 | 5.3.22 | 5.4.12 | 5.5.33 | 5.6.19 | 7.0.4|
-      | :------ | :----- | :----- | :----- | :----- | :----|
-      |CPU(%) | 1.07 | 1.11 | 1.09 | 1.06 | 0.71|
-      |时间(s) | 0.017 | 0.014 | 0.014 | 0.015 | 0.011|
-      |内存(KB) | 1584.625 | 1516.312 | 1579.118 | 1580.215 | 1209.496|
-      |内存峰值(KB) | 6748.625 | 6518.324 | 6589.115 | 6689.079 | 4448.151|
-
 * 优雅
     * 你有更多的时间品茶、喝咖啡、陪家人
     * 当然，你也会有漂亮女朋友、帅气的老公
@@ -56,20 +46,30 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 #####数据库：点、线、面、体查询模型
 ```php
 //查询用户ID为8的邮箱：
-db::field('member','email',8); //tom88@tom.com
+db::field('member','email',8);
 
 //查询用户ID为8的用户信息
 query('user')->select('avatar,nick_name,sign')->where(['user_id'=>8])->out('record');
-//['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！']
 
 //查询年龄大于30岁的前20位女性会员的基本信息并按年龄降序排列
 query('user_info')-> select('avatar,nick_name,avatar,sign')
--> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch')
-//[['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！'],
-//['avatar' => '14030215.png', 'nick_name' => 'Art', 'sign' => '我想你们都懂我']]
+-> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch');
+
+//分页查询用户的充值记录
+query(s_trade::TABLE_PREPAY_PROCESS)->select('id,trade_no,method,status,amount,time')
+->where($condition)->order('id desc')->out('page', $record_count, $page, $page_size);
 ```
 
+#####性能：各php版本输出 Hello world 测试报告
+    * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
+    * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
 
+    * | PHP版本 | 5.3.22 | 5.4.12 | 5.5.33 | 5.6.19 | 7.0.4|
+      | :------ | :----- | :----- | :----- | :----- | :----|
+      |CPU(%) | 1.07 | 1.11 | 1.09 | 1.06 | 0.71|
+      |时间(s) | 0.017 | 0.014 | 0.014 | 0.015 | 0.011|
+      |内存(KB) | 1584.625 | 1516.312 | 1579.118 | 1580.215 | 1209.496|
+      |内存峰值(KB) | 6748.625 | 6518.324 | 6589.115 | 6689.079 | 4448.151|
 
 加入我们
 ===========================
