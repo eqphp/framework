@@ -2,9 +2,9 @@
 ===========================
 EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；
 
-涵盖：[日志调试](http://www.eqphp.com/file/manual/#22)、[性能分析](http://www.eqphp.com/file/manual/#22)、[请求响应](http://www.eqphp.com/file/manual/#22)、[上传下载](http://www.eqphp.com/file/manual/#22)、[验证过滤](http://www.eqphp.com/file/manual/#22)、[加密解密](http://www.eqphp.com/file/manual/#22)、[缓存静态化](http://www.eqphp.com/file/manual/#22)、[国际化](http://www.eqphp.com/file/manual/#22)等技术点；
+涵盖：[日志调试](http://www.eqphp.com/file/manual/#22)、[性能分析](http://www.eqphp.com/file/manual/#22)、[请求响应](http://www.eqphp.com/file/manual/#16)、[上传下载](http://www.eqphp.com/file/manual/#25)、[验证过滤](http://www.eqphp.com/file/manual/#17)、[加密解密](http://www.eqphp.com/file/manual/#21)、[缓存静态化](http://www.eqphp.com/file/manual/#20)、[国际化](http://www.eqphp.com/file/manual/#28)等技术点；
 
-囊括：[文件目录操作](http://www.eqphp.com/file/manual/#22)、[数据库使用](http://www.eqphp.com/file/manual/#22)、[图形图像处理](http://www.eqphp.com/file/manual/#22)、[邮件短信发送](http://www.eqphp.com/file/manual/#22)、[DOM表单构建](http://www.eqphp.com/file/manual/#22)、[模板引擎解析](http://www.eqphp.com/file/manual/#22)等解决方案；
+囊括：[文件目录操作](http://www.eqphp.com/file/manual/#18)、[数据库使用](http://www.eqphp.com/file/manual/#15)、[图形图像处理](http://www.eqphp.com/file/manual/#21)、[邮件短信发送](http://www.eqphp.com/file/manual/#21)、[DOM表单构建](http://www.eqphp.com/file/manual/#19)、[模板引擎解析](http://www.eqphp.com/file/manual/#24)等解决方案；
 
 结构简洁（单一入口、自动加载、类库丰富）、体积小（1.58MB），部署灵活，可任意调整等特性，适合所有Web项目开发。
 
