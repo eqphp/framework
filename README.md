@@ -26,6 +26,10 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
     * 无论是事务、加密签名，还是异常追溯、日志让你的系统有迹可循，永不变朽
 
 * 性能出众
+    * 自动加载、按需加载
+    * 不放弃每一毫秒CPU性能优化、也不放过每一字节内存消耗
+    * 大到每一个模块、类库，小至每一个函数、语句都经过精雕细作，以求完美
+
     * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
     * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
 
@@ -46,8 +50,23 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 
 花絮
 ===========================
+#####TPS-MVC：调用流程与执行原理
+![](https://github.com/eqphp/framework/blob/master/file/static/image/eqphp_frame_relation.gif)
 
+#####数据库：点、线、面、体查询模型
+```php
+//查询用户ID为8的邮箱：
+db::field('member','email',8); //tom88@tom.com
 
+//查询用户ID为8的用户信息
+query('user')->select('avatar,nick_name,sign')->where(['user_id'=>8])->out('record');
+//['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！']
+
+//查询年龄大于30岁的前20位女性会员的基本信息并按年龄降序排列
+query('user_info')-> select('avatar,nick_name,avatar,sign')-> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch')
+//[['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！'],
+//['avatar' => '14030215.png', 'nick_name' => 'Art', 'sign' => '我想你们都懂我']]
+```
 
 
 
