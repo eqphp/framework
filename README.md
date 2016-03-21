@@ -35,9 +35,6 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
     * 当然，你也会有漂亮女朋友、帅气的老公
     * 拥有时间、拥有金钱，甚至拥有整个世界……
 
-* 最后
-    * 选择EQPHP，就是对我们最大限度的支持，我们再次感谢你！
-
 花絮
 ===========================
 #####TPS-MVC：调用流程与执行原理
@@ -70,6 +67,36 @@ query(s_trade::TABLE_PREPAY_PROCESS)->select('id,trade_no,method,status,amount,t
 |时间(s) | 0.017 | 0.014 | 0.014 | 0.015 | 0.011|
 |内存(KB) | 1584.625 | 1516.312 | 1579.118 | 1580.215 | 1209.496|
 |内存峰值(KB) | 6748.625 | 6518.324 | 6589.115 | 6689.079 | 4448.151|
+
+
+#####缓存：友好支持session、file、memcache、redis等常用缓存类型
+```php
+//session存取
+session(['register' => ['captcha' => 'u44s8']]);
+session('register.captcha');
+
+//file存取
+$cache = with('cache','8.json','user_profile',3600);
+//$cache->save(['id'=>8,'profile'=>['name'=>'art','avatar'=>'8_1408031532.gif']]);
+$cache->get('profile.avatar');
+
+//memcache集群
+$memcache=memory::cluster();
+$memcache->set('version','3.0',0,0);
+$memcache->replace('memcache','EQPHP is a PHP framework!',0,300);
+$memcache->delete('memcache');
+$memcache->get('version');
+
+ //redis主从：
+$master=memory::group(true);
+$slave=memory::group(false);
+$master->set('version','3.0',0,0);
+$master->replace('redis','EQPHP is a PHP framework!',0,300);
+//10s内(0,立即)删除memcache
+$master->delete('redis',10);
+$slave->get('version');
+```
+
 
 加入我们
 ===========================
