@@ -51,7 +51,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 花絮
 ===========================
 #####TPS-MVC：调用流程与执行原理
-![](https://github.com/eqphp/framework/blob/master/file/static/image/eqphp_frame_relation.gif)
+![](http://www.eqphp.com/file/manual/image/eqphp_frame_relation.gif)
 
 #####数据库：点、线、面、体查询模型
 ```php
@@ -63,7 +63,8 @@ query('user')->select('avatar,nick_name,sign')->where(['user_id'=>8])->out('reco
 //['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！']
 
 //查询年龄大于30岁的前20位女性会员的基本信息并按年龄降序排列
-query('user_info')-> select('avatar,nick_name,avatar,sign')-> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch')
+query('user_info')-> select('avatar,nick_name,avatar,sign')
+-> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch')
 //[['avatar' => 'member.png', 'nick_name' => 'EQPHP', 'sign' => 'EQPHP,一个神级框架！'],
 //['avatar' => '14030215.png', 'nick_name' => 'Art', 'sign' => '我想你们都懂我']]
 ```
