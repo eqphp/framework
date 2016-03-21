@@ -40,6 +40,17 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 #####TPS-MVC：调用流程与执行原理
 ![](http://www.eqphp.com/file/manual/image/eqphp_frame_relation.gif)
 
+#####性能：各php版本输出 Hello world 测试报告
+    * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
+    * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
+
+| PHP版本 | 5.3.22 | 5.4.12 | 5.5.33 | 5.6.19 | 7.0.4|
+| :------ | :----- | :----- | :----- | :----- | :----|
+|CPU(%) | 1.07 | 1.11 | 1.09 | 1.06 | 0.71|
+|时间(s) | 0.017 | 0.014 | 0.014 | 0.015 | 0.011|
+|内存(KB) | 1584.625 | 1516.312 | 1579.118 | 1580.215 | 1209.496|
+|内存峰值(KB) | 6748.625 | 6518.324 | 6589.115 | 6689.079 | 4448.151|
+
 #####数据库：点、线、面、体查询模型
 ```php
 //查询用户ID为8的邮箱：
@@ -56,18 +67,6 @@ query('user_info')-> select('avatar,nick_name,avatar,sign')
 query(s_trade::TABLE_PREPAY_PROCESS)->select('id,trade_no,method,status,amount,time')
 ->where($condition)->order('id desc')->out('page', $record_count, $page, $page_size);
 ```
-
-#####性能：各php版本输出 Hello world 测试报告
-    * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
-    * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
-
-| PHP版本 | 5.3.22 | 5.4.12 | 5.5.33 | 5.6.19 | 7.0.4|
-| :------ | :----- | :----- | :----- | :----- | :----|
-|CPU(%) | 1.07 | 1.11 | 1.09 | 1.06 | 0.71|
-|时间(s) | 0.017 | 0.014 | 0.014 | 0.015 | 0.011|
-|内存(KB) | 1584.625 | 1516.312 | 1579.118 | 1580.215 | 1209.496|
-|内存峰值(KB) | 6748.625 | 6518.324 | 6589.115 | 6689.079 | 4448.151|
-
 
 #####缓存：友好支持session、file、memcache、redis等常用缓存类型
 ```php
@@ -117,7 +116,6 @@ $option=[
 validate::verify($input,$option);
 
 //批量接收过滤、键值映射
-input::filter(['subject'=>'title','like'=>'many','birthday'=>'data','introduce'=>'text']);
 //$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']
 $filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];
 $map = ['a' => 'author', 'p' => 'password', 't' => 'type'];
@@ -125,23 +123,124 @@ $data = input::filter($filter, 'get', $map);
 //['author' => 'art', 'password' => '125**%24', 'id' => 8]
 ```
 
+#####模板：扩展方式无缝接入smarty模板引擎
+```html
+<!--======= 母版 =======-->
+{head script="jquery|common|center" style="basic|plugin/popup|center"}
+{center_header_banner user_id=$user_id}
+
+<div class="stage">
+<!--定义母版可编写区域-->
+{block name="main"}{/block}
+
+{include file="user/block/guide_tags.html"}
+</div>
+
+{include file="user/block/center_footer.html"}
+{include file="plugin/popup.html"}
+</body></html>
+
+<!--======= 子视图 =======-->
+{extends file="user/layout/center.html"}
+
+{block name="main"}
+<!--管理员信息-->
+管理员：<a href="{$manager.blog}" title="访问博客">{$manager.name}</a>
+
+<!--用户信息-->
+<ul class="{#user_list_style#}">
+{section key $user}
+<li><a href="{$url.'user/'}{$user[key].id}">{$user[key].name}</a>,
+{if $user[key].sex eq 'male'}男{elseif $user[key].sex === 'female'}女{/if}，
+年龄：{echo abs($user[key].age - 3)}，注册时间：{$user[key].time|date_format}</li>
+{/section}
+</ul>
+{/block}
+```
+
 #####restful：快速创建restful风格的API
 ```php
 class a_heartbeat extends a_restful{
 
+    private $cycle;
+    protected $category;
 
+    function __construct($category, $cycle = 60){
+        parent::__construct();
+        $this->cycle = $category;
+        $this->cycle = $cycle;
+        $this->model = with('m_heartbeat', $category, $cycle);
+    }
 
+    function get(){
+        $no = url('no', 'uuid');
+        return $this->model->get($no);
+    }
+
+    function post(){
+        $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];
+        $data = input::filter($option, 'post');
+        try {
+            $this->model->create($data);
+            return $this->response(0, 'ok');
+        } catch (Exception $e) {
+            logger::exception('heartbeat', $e->getMessage());
+            throw new cException('create heartbeat fail', 10018);
+        }
+    }
+
+    function patch(){
+        //TODO
+    }
+
+    function put(){
+        //TODO
+    }
+
+    function delete(){
+        //TODO
+    }
+
+    function head(){
+        //TODO
+    }
+
+    function __destruct(){
+
+    }
 
 }
 ```
 
+#####其他：更多精彩内容带你挖掘
+```php
+//读取配置
+config('master.host','mysql');
+
+//发送邮件
+mail::send('eqphp_framework@126.com','thanks','EQPHP, a great framework');
+
+//创建DOM、form
+html::dl(['MVC','控制器','视图模板'],['id'=>'menu', 'class'=>"dl-dd"]);
+$option=['数学','语文','英语','化学','地理','历史'];
+form::create('checkbox','subject',$option,null,'0|2|3|4');
+
+//记录日志、调试追溯
+logger::info('hello world');
+debug::out($model);
+debug::trace($data,'user_info.ini');
+
+//加密、解密
+with('crypt','#*!@secret%$&')->encrypt($order_info);
+with('crypt','#*!@secret%$&')->decrypt($input);
+
+//mongoDB
+with('mg','user')->document('uuid,wallet,login_history',['id'=>8]);
+$data['profile']=['name'=>'Art','age'=>26,'sex'=>'female'];
+$data['wallet']=['money'=>118.89,'point'=>1121];
+$this->collection->post($data,'insert');
+```
+
 加入我们
 ===========================
-
-
-
-
-
-
-
 
