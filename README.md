@@ -97,6 +97,51 @@ $master->delete('redis',10);
 $slave->get('version');
 ```
 
+#####验证、过滤：安全从输入开始、隔离危险
+```php
+//基本的输入、过滤
+input::get('page','int');
+input::post('details','text');
+input::request('amount','money');
+input::cookie('auto_login','number');
+input::server('request_method','/^(GET|PUT|POST|PATCH|DELETE)$/i');
+
+//批量验证，数据模型代替逻辑判断
+$input=input::fetch('id,name,date,sex','get');
+$option=[
+    'id'=>[['in',[1,2,3,4,8]],[1,'id error']],
+    'name'=>[['length','2,18'],[2,'name length error']],
+    'date'=>[['equal',date('Y-m-d')],[3,'date error']],
+    'sex'=>[['callback',[$this,'check',[$data['id']]]],[4,'sex error']],
+];
+validate::verify($input,$option);
+
+//批量接收过滤、键值映射
+input::filter(['subject'=>'title','like'=>'many','birthday'=>'data','introduce'=>'text']);
+//$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']
+$filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];
+$map = ['a' => 'author', 'p' => 'password', 't' => 'type'];
+$data = input::filter($filter, 'get', $map);
+//['author' => 'art', 'password' => '125**%24', 'id' => 8]
+```
+
+#####restful：快速创建restful风格的API
+```php
+class a_heartbeat extends a_restful{
+
+
+
+
+}
+```
 
 加入我们
 ===========================
+
+
+
+
+
+
+
+
