@@ -244,3 +244,8 @@ $this->collection->post($data,'insert');
 加入我们
 ===========================
 
+| [博客](http://www.eqphp.com/blog)、[微博](http://weibo.com/eqphp) | http://www.eqphp.com/blog　　　http://weibo.com/eqphp |
+| :------------- | :----------- |
+| 技术交流QQ群 | 67693067　　　278464325　　　264386791 |
+| [getter聊天](https://gitter.im/eqphp/framework) | https://gitter.im/eqphp/framework |
+|   | [加入我们](http://www.eqphp.com/user/register) |
