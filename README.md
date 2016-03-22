@@ -35,6 +35,16 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
     * 当然，你也会有漂亮女朋友、帅气的老公
     * 拥有时间、拥有金钱，甚至拥有整个世界……
 
+加入我们
+===========================
+
+| 技术交流QQ群 | 67693067　278464325　264386791 |
+| :------------- | :----------- |
+| [博客](http://www.eqphp.com/blog) | http://www.eqphp.com/blog |
+| [微博](http://weibo.com/eq80) | http://weibo.com/eq80 |
+| [getter聊天](https://gitter.im/eqphp/framework) | https://gitter.im/eqphp/framework |
+| [加入我们](http://www.eqphp.com/user/register) | http://www.eqphp.com/user/register |
+
 花絮
 ===========================
 #####TPS-MVC：调用流程与执行原理
@@ -240,13 +250,3 @@ $data['profile']=['name'=>'Art','age'=>26,'sex'=>'female'];
 $data['wallet']=['money'=>118.89,'point'=>1121];
 $this->collection->post($data,'insert');
 ```
-
-加入我们
-===========================
-
-| 技术交流QQ群 | 67693067　278464325　264386791 |
-| :------------- | :----------- |
-| [博客](http://www.eqphp.com/blog) | http://www.eqphp.com/blog |
-| [微博](http://weibo.com/eq80) | http://weibo.com/eq80 |
-| [getter聊天](https://gitter.im/eqphp/framework) | https://gitter.im/eqphp/framework |
-| [加入我们](http://www.eqphp.com/user/register) | http://www.eqphp.com/user/register |
