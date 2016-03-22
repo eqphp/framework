@@ -247,6 +247,6 @@ $this->collection->post($data,'insert');
 | 技术交流QQ群 | 67693067　278464325　264386791 |
 | :------------- | :----------- |
 | [博客](http://www.eqphp.com/blog) | http://www.eqphp.com/blog |
-| [微博](http://weibo.com/eqphp) | http://weibo.com/eqphp |
+| [微博](http://weibo.com/eq80) | http://weibo.com/eq80 |
 | [getter聊天](https://gitter.im/eqphp/framework) | https://gitter.im/eqphp/framework |
 | [加入我们](http://www.eqphp.com/user/register) | http://www.eqphp.com/user/register |
