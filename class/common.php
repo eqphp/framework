@@ -101,11 +101,12 @@ function process_error(){
             exit;
         }
 
-        header(UTF8);
-        $html = CSS . '<div class="trace">' . PREO;
+        header('Content-Type:text/html; charset=utf-8');
+        $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+	$html .= '<div class="trace"><pre>';
         $html .= sprintf('<h5><b>%s</b>%s</h5>', $type, $error->message);
         $html .= sprintf('<h6>%s<b>%s</b></h6>', $error->file, $error->line);
-        $html .= PREC . '</div>';
+        $html .= '</pre></div>';
         exit($html);
     }
 }

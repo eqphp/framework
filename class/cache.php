@@ -65,7 +65,7 @@ class cache{
                 return array_get($data, $option_name);
             }
 
-            if ($this->ext == 'js') {
+            if ($this->ext == 'json') {
                 $data = json_decode(file_get_contents($this->file_name), true);
                 return array_get($data, $option_name);
             }

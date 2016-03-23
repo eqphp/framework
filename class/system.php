@@ -6,31 +6,31 @@ class system{
     //初始化系统变量
     static function init(){
         //设置错误提示
-        //$error_switch=config('state.error_switch');
-        //error_reporting($error_switch ? (E_ALL|E_STRICT) : 0);
+        $state=config('state','config');
+        //error_reporting($state['error_switch'] ? E_ALL|E_STRICT : 0);
+
+        //设置目录常量
+        self::set_system_constant();
 
         //设置时区
-        ini_set('date.timezone', 'Asia/Chongqing');
+        ini_set('date.timezone', $state['timezone']);
 
         //mongoDB设置
         //ini_set('mongo.long_as_object',true);
 
         //session设置
-        session_name('eqphp_session');
-        ini_set('session.cookie_httponly', true);
-        //ini_set('session.save_handler','files'); //存数据库（user）
-        //session_save_path(PATH_CACHE.'session'); //设置session文件存放路径
-        //ini_set('session.cookie_domain','domain.com'); //设置session域名（二级域名下session共享）
-        //ini_set('session.gc_maxlifetime',1440); //周期(秒)
-        //session_set_cookie_params(1440); //等价于gc_maxlifetime
-        //session_cache_limiter('private'); //值为nocache时cache_expire设置无效
-        //ini_set('session.cache_expire',180); //客户端cache中的有限期（分）
-        //ini_set('session.use_trans_sid',0); //是否使用明码在URL中显示SID(慎用)
-        //ini_set('session.use_cookies',0); //是否使用cookie在客户端保存会话ID
-        //ini_set('session.auto_start',true); //是否自动开启session，作用与session_start()相同
-        session_start(); //开启session
+        $session=(object)config(null,'session');
+        session_name($session->name);
+        ini_set('session.cookie_httponly', $session->mode);
+        //ini_set('session.save_handler',$session->storage);
+        //session_save_path($session->path);
+        //session_set_save_handler('ds::open', 'ds::close', 'ds::read', 'ds::write', 'ds::destroy', 'ds::gc');
+        //ini_set('session.gc_maxlifetime',$session->expire);
+        session_start();
+    }
 
-        //分配目录常量
+    //设置目录常量
+    static function set_system_constant(){
         $directory = config(null, 'directory');
         foreach ($directory as $dir_name => $dir_value) {
             foreach ($dir_value as $key => $value) {

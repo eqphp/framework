@@ -86,11 +86,11 @@ picker.date = {
         var get_month = parseInt(param.show_month.html());
         var m_f_w = new Date(get_year, (get_month - 1), 1).getDay();
         var lucky_my_days = (((get_year % 4 == 0) && (get_year % 100 != 0)) || (get_year % 400 == 0)) ? 29 : 28;
-        var md_arr = [31, lucky_my_days, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var days_month = [31, lucky_my_days, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
         $('#table_calendar td').each(function (td) {
             if (td >= m_f_w) i++;
-            if (i > 0 && i <= md_arr[get_month-1]) {
+            if (i > 0 && i <= days_month[get_month-1]) {
                 $(this).html(i);
                 var show_color = (param.now_year == get_year && param.now_month == get_month && i == param.now_day) ? 'red' : 'gray';
                 $(this).css('color', show_color);

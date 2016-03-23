@@ -5,7 +5,7 @@ class debug{
 
     //开发模式-调试方法
     static function out($param, $mode = 1, $is_exit = true){
-        header(UTF8);
+        header('Content-Type:text/html; charset=utf-8');
         echo '<pre>' . PHP_EOL;
         $method = array('var_dump', 'print_r', 'var_export');
         $method[$mode]($param);
@@ -87,7 +87,7 @@ class debug{
 
     //输出异常追溯信息
     static function exception($e){
-        header(UTF8);
+        header('Content-Type:text/html; charset=utf-8');
         echo CSS . '<div class="trace">' . PREO;
         echo html::h5(html::b($e->getCode()) . $e->getMessage());
         echo html::h6($e->getFile() . html::b($e->getLine()));
@@ -112,7 +112,7 @@ class debug{
             'PREO' => '<pre>', 'PREC' => '</pre>',
             'BR' => '<br>', 'HR' => '<hr>',
             'UTF8' => 'Content-Type:text/html; charset=utf-8',
-            'CSS' => '<link rel="stylesheet" type="text/css" href="' . URL_STYLE . 'basic.css">',
+            'CSS' => '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">',
             );
         foreach ($constant as $key => $value) {
             if (defined($key)) {

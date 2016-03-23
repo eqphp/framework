@@ -9,7 +9,9 @@ return array(
 
     'state'=>array(
         'environment'=>'local',//(local,test,similar,product)
+        'timezone'=>'Asia/Chongqing',
         'error_switch'=>true,
+
         'common_load'=>true,
         'greedy_load'=>true,
         'config_route'=>true,

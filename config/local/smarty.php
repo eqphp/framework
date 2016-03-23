@@ -2,21 +2,21 @@
 
 return array(
 	'home'=>array(
-		//ÔÊÐíphpÄ£°å¡¢¿ªÆô´íÎó¡¢µ÷ÊÔ
+		//å…è®¸phpæ¨¡æ¿ã€å¼€å¯é”™è¯¯ã€è°ƒè¯•
 		'allow_php'=>false,
 		'error'=>true,
 		'debug'=>false,
 
-		//¶¨½ç·û
+		//å®šç•Œç¬¦
 		'left'=>'{',
 		'right'=>'}',
 
-		//Ä£°å¡¢³£Á¿¡¢±àÒë´æ·ÅÄ¿Â¼
+		//æ¨¡æ¿ã€å¸¸é‡ã€ç¼–è¯‘å­˜æ”¾ç›®å½•
 		'template'=>'view/',
 		'const'=>'cache/smarty/const/',
 		'compile'=>'cache/smarty/compile/',
 
-		//»º´æ
+		//ç¼“å­˜
 		'expire'=>68400,
 		'caching'=>false,
 		'path'=>'cache/smarty/data/',

@@ -15,9 +15,11 @@ return array(
     'store_level'=>1,
 
     //报警模式：不报警(null)、发邮件(email)、发手机短信(message)、发邮件并发短信(both)
-    'alarm_mode'=>'email',
-    'title'=>'EQPHP system alarm',
-    'email'=>'2581221391@qq.com',
-    'phone'=>'1866677****',
+    'alarm'=>array(
+        'mode'=>null,
+        'title'=>'EQPHP system alarm',
+        'email'=>'2581221391@qq.com',
+        'phone'=>'1866677****',
+    ),
 
 );
