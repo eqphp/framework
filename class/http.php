@@ -151,7 +151,8 @@ class http{
             header('HTTP/1.1 ' . $code . ' ' . $status[$code]);
             header('Status:' . $code . ' ' . $status[$code]);
             if ($is_out) {
-                smarty()->display('abort/' . $code);
+                echo $status[$code];
+                //smarty()->display('abort/' . $code);
             }
             $is_exit && exit;
         }

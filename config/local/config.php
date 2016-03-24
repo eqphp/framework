@@ -4,7 +4,7 @@ return array(
     'frame'=>array(
         'name'=>'eqphp',
         'version'=>'3.0',
-        'size'=>'2.11MB',
+        'size'=>'868KB',
     ),
 
     'state'=>array(
@@ -19,14 +19,14 @@ return array(
     ),
 	
     'domain'=>array(
-        'cookie'=>'eqphp.com',
+        'cookie'=>'127.0.0.1',
         'allow_port'=>array(80,8080),
-        'default'=>array('http','www.eqphp.com',80),
-        'allow_host'=>array('eqphp.com','www.eqphp.com','172.16.2.221'),
+        'default'=>array('http','127.0.0.1',80),
+        'allow_host'=>array('127.0.0.1'),
     ),
 
     'group'=>array(
-        'list'=>array('admin','user','blog'),
+        'list'=>array('admin','user'),
         'subdomain'=>false,
     ),
 

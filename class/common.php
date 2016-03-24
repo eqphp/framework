@@ -234,19 +234,9 @@ function out($param, $mode = 1, $is_exit = true){
     debug::out($param, $mode, $is_exit);
 }
 
-//模板配置
-function smarty($group = 'home'){
-    return s_smarty::tpl($group);
-}
-
 //会话
 function session($key = null, $value = false){
     return session::merge($key, $value);
-}
-
-//多库操作获取db对象
-function db($flag = 0){
-    return mysql::get_instance($flag);
 }
 
 //表单值接收处理
@@ -257,10 +247,4 @@ function post($name, $mode = 'title'){
 //实例化数据表模型
 function query($table){
     return new query($table);
-}
-
-//积分
-function point($rule, $user_id, $action = ''){
-    $class = 's_point_' . $rule;
-    return with($class, $user_id, $action);
 }
