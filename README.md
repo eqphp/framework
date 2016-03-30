@@ -222,7 +222,7 @@ class a_heartbeat extends a_restful{
 }
 ```
 
-#####其他：更多精彩内容带你挖掘
+#####其他：更多精彩内容待你发现
 ```php
 //读取配置
 config('master.host','mysql');
