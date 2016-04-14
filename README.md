@@ -6,7 +6,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 
 囊括：[文件目录操作](http://www.eqphp.com/file/manual/#18)、[数据库使用](http://www.eqphp.com/file/manual/#15)、[图形图像处理](http://www.eqphp.com/file/manual/#21)、[邮件短信发送](http://www.eqphp.com/file/manual/#21)、[DOM表单构建](http://www.eqphp.com/file/manual/#19)、[模板引擎解析](http://www.eqphp.com/file/manual/#24)等解决方案；
 
-结构简洁（单一入口、自动加载、类库丰富）、体积小（1.58MB），部署灵活，可任意调整等特性，适合所有Web项目开发。
+结构简洁（单一入口、自动加载、类库丰富）、体积小（868KB），部署灵活，可任意调整等特性，适合所有Web项目开发。
 
 为什么选择 EQPHP ？
 ===========================
@@ -227,8 +227,9 @@ class a_heartbeat extends a_restful{
 //读取配置
 config('master.host','mysql');
 
-//发送邮件
-mail::send('eqphp_framework@126.com','thanks','EQPHP, a great framework');
+//短信、邮件
+with('message')->take(['code'=>6781],'withdraw','message_code')->send('15001237788');
+with('mail')->take(['user_id'=>8,'url'=>route('user/register')],'invite_friend')->send('xxx@eqphp.com');
 
 //创建DOM、form
 html::dl(['MVC','控制器','视图模板'],['id'=>'menu', 'class'=>"dl-dd"]);
