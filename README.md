@@ -177,8 +177,8 @@ class a_heartbeat extends a_restful{
 
     function __construct($category, $cycle = 60){
         parent::__construct();
-        $this->cycle = $category;
         $this->cycle = $cycle;
+        $this->category = $category;
         $this->model = with('m_heartbeat', $category, $cycle);
     }
 
