@@ -26,7 +26,7 @@ return array(
     ),
 
     'module'=>array(
-        'list'=>array('admin','demo','api'),
+        'list'=>array('admin','demo'),
         'subdomain'=>array(),
     ),
 

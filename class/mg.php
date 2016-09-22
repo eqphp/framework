@@ -101,7 +101,7 @@ class mg{
     }
 
     //分页查询
-    function page($field = '', $condition = array(), $sort = array(), $page, $page_size = 20){
+    function page($field = '', $condition = array(), $sort = array(), $page = 1, $page_size = 20){
         $document_amount = $this->count($condition);
         if ($document_amount < 1) {
             return array(0, 1, array());

@@ -79,8 +79,7 @@ function config($name, $file = 'config', $is_module = false){
 
 //获取(restful风格)请求(URL位段-pathInfo=>get)参数值
 function url($lie = 0, $type = 0){
-    // $lie=$lie+n; //n为相对根目录的深度
-    $param = explode('/', URL_REQUEST);
+    $param = explode('/', preg_replace('/(\?.*)/', '', URL_REQUEST));
     if ($lie < count($param)) {
         $value = get_magic_quotes_gpc() ? $param[$lie] : addslashes($param[$lie]);
         if (is_int($type)) {

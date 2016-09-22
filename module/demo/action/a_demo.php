@@ -13,13 +13,13 @@ class a_demo{
 
     //详情
     static function detail(){
-        with('view')->assign('name', 'art')->display('demo/demo');
+    
     }
 
     //创建
     static function create(){
 
-        out('lol');
+        out('create');
 
     }
 

@@ -100,10 +100,13 @@ class system{
     static function parse_route($is_camel = false, $root_lie = 0){
         $is_module = false;
         $module = $segment = url($root_lie);
-        if (defined('MODULE_NAME')) {
+        if (defined('MODULE_NAME') || defined('SUBDOMAIN')) {
             $is_module = true;
-            $root_lie += 1;
-            $segment = url($root_lie);
+            $module = MODULE_NAME;
+            if ($module === $segment) {
+                $root_lie += 1;
+                $segment = url($root_lie);
+            }
         }
 
         if (config('state.config_route')) {
@@ -124,7 +127,6 @@ class system{
 
         $controller = $prefix . $segment . $suffix;
         $method = trim(url($root_lie + 1));
-
 
         if (class_exists($controller)) {
             if ($method && method_exists($controller, $method)) {

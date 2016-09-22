@@ -16,7 +16,7 @@ class finance{
 
     function __construct(){
         //$this->data = with('current_finance_task', 'pending')->get(100);
-        //¡­¡­
+        //……
     }
 
     static function receivable(){
