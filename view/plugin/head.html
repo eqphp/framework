@@ -11,32 +11,32 @@
 <meta name="author" content="{if (isset($head.author))}{$head.author}{else}{$meta.author}{/if}" />
 
 {foreach from=$style item=value}
-{if (strpos($value,'.'))}
+{if (strpos($value,'?'))}
 <link rel="stylesheet" type="text/css" href="{$dir.style}{str_replace('?','.css?version=',$value)}" />
 {else}
 <link rel="stylesheet" type="text/css" href="{$dir.style}{$value}.css" />
 {/if}
 {/foreach}
-{foreach from=$group_style item=value}
-{if (strpos($value,'.'))}
-<link rel="stylesheet" type="text/css" href="{$group.style}{str_replace('?','.css?version=',$value)}" />
+{foreach from=$module_style item=value}
+{if (strpos($value,'?'))}
+<link rel="stylesheet" type="text/css" href="{$module.style}{str_replace('?','.css?version=',$value)}" />
 {else}
-<link rel="stylesheet" type="text/css" href="{$group.style}{$value}.css" />
+<link rel="stylesheet" type="text/css" href="{$module.style}{$value}.css" />
 {/if}
 {/foreach}
 
 {foreach from=$script item=value}
-{if (strpos($value,'.'))}
+{if (strpos($value,'?'))}
 <script type="text/javascript" src="{$dir.script}{str_replace('?','.js?version=',$value)}"></script>
 {else}
 <script type="text/javascript" src="{$dir.script}{$value}.js"></script>
 {/if}
 {/foreach}
-{foreach from=$group_script item=value}
-{if (strpos($value,'.'))}
-<script type="text/javascript" src="{$group.script}{str_replace('?','.js?version=',$value)}"></script>
+{foreach from=$module_script item=value}
+{if (strpos($value,'?'))}
+<script type="text/javascript" src="{$module.script}{str_replace('?','.js?version=',$value)}"></script>
 {else}
-<script type="text/javascript" src="{$group.script}{$value}.js"></script>
+<script type="text/javascript" src="{$module.script}{$value}.js"></script>
 {/if}
 {/foreach}
 

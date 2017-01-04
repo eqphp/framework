@@ -1,6 +1,6 @@
 <?php
 
-class p_modifier{
+class p_modifierPlugin{
 
     //解析配置文件的常量
     static function constant($name, $file = 'const', $mode = 0){
@@ -79,34 +79,38 @@ class p_modifier{
 
     //智能时间
     static function friendly_time($time){
-        $stamp = strtotime($time);
-        $s_time = time() - $stamp;
-        if ($s_time <= 60) {
+        if (strpos($time, ':')) {
+            $time = strtotime($time);
+        }
+        $diff = time() - $time;
+        if ($diff <= 60) {
             return '刚刚';
         }
-        if ($s_time <= 3600) {
-            return intval($s_time / 60) . '分钟前';
+        if ($diff <= 3600) {
+            return intval($diff / 60) . '分钟前';
         }
 
-        list($year, $date, $day, $week, $apm, $clock) = explode('|', date('Y|Y-m-d|n月j日|w|a|g:i', $stamp));
+        list($year, $date, $day, $week, $apm, $clock) = explode('|', date('Y|Y-m-d|n月j日|w|a|g:i', $time));
 
         $apm = $apm === 'am' ? '上午' : '下午';
         if ($date === date('Y-m-d')) {
             return $apm . ' ' . $clock;
         }
+
         if ($date === date("Y-m-d", strtotime("-1 day"))) {
             return '昨天 ' . $apm . ' ' . $clock;
         }
 
-        $option = array('天', '一', '二', '三', '四', '五', '六');
-        if ($s_time <= 604800) {
+        if ($diff <= 604800) {
+            $option = array('天', '一', '二', '三', '四', '五', '六');
             return implode(' ', array('星期' . $option[$week], $apm, $clock));
         }
 
         if ($year === date('Y')) {
             return implode(' ', array($day, $apm, $clock));
         }
-        return $time;
+
+        return date('Y-m-d',$time);
     }
 
 

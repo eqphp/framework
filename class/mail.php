@@ -4,165 +4,135 @@
 final class mail{
 
     static $exception = array();
-    private static $object = null;
-    private $sock, $host, $port, $mail, $password, $time_out;
+    private $socket, $timeout;
+    private $host, $port, $user, $password;
+    protected $header, $from, $copy;
+    public $subject, $body;
 
     //初始化构造函数
-    function __construct($host, $port, $mail, $password, $auth = false){
-        $this->host = $host;
-        $this->port = $port;
-        $this->mail = $mail;
-        $this->password = $password;
-        $this->auth = $auth;
-        $this->time_out = 30;
+    function __construct($config = array()){
+        if (empty($config)) {
+            $config = config(null, 'mail');
+        }
+        $this->host = $config['host'];
+        $this->port = $config['port'];
+        $this->user = $config['user'];
+        $this->password = $config['password'];;
+        $this->auth = true;
+        $this->timeout = 30;
     }
 
-    //发送邮件
-    private function send_mails($to, $title, $content, $type = 'HTML', $from = array(), $cc = ''){
-        list($header, $from_address, $cc) = self::process_header($to, $title, $type, $from, $cc);
-        $content = preg_replace("/(^|(\r\n))(\\.)/", "\\1.\\3", $content);
-        if (strpos($to, ',') === false && empty($cc)) {
-            return $this->send_mail($to, $from_address, $header, $content);
+    //构建邮件头信息
+    function build_header($to, $title, $type = 'HTML', $from = array(), $copy = ''){
+        if (empty($from)) {
+            $from = config('from','mail');
         }
-        $receive_list = explode(',', self::act_address_list($to));
-        $cc and $receive_list = array_merge($receive_list, explode(',', $cc));
-        foreach ($receive_list as $receive) {
-            $this->send_mail($receive, $from_address, $header, $content);
-        }
-    }
-
-    //拼接邮件头信息
-    static function process_header($to, $title, $type = 'HTML', $from = array(), $cc = ''){
-        $header = "MIME-Version:1.0\r\n";
+        $this->header = 'MIME-Version:1.0' . PHP_EOL;
         if ($type === "HTML") {
-            $header .= "Content-Type:text/html; charset=utf-8\r\n";
+            $this->header .= 'Content-Type:text/html; charset=utf-8' . PHP_EOL;
         }
-        $header .= "To: " . $to . "\r\n";
-        if ($cc = self::act_address_list($cc)) {
-            $header .= "Cc: " . $cc . "\r\n";
+        $this->header .= 'To: ' . $to . PHP_EOL;
+        $this->copy = $copy;
+        if ($this->copy) {
+            $this->header .= 'Cc: ' . $this->copy . PHP_EOL;
         }
-        $from['address'] = self::act_address(self::act_address_list($from['address']));
-        $header .= 'From: ' . $from['name'] . '<' . $from['address'] . ">\r\n";
-        $header .= "Subject: " . $title . "\r\n";
-        $header .= "Date: " . date("r") . "\r\n";
-        $header .= 'X-Mailer:By EQPHP (version:3.0)' . "\r\n";
+        $this->from = $from['address'];
+        $this->header .= "From: {$from['name']}<{$this->from}>" . PHP_EOL;
+        $this->header .= 'Subject: ' . $title . PHP_EOL;
+        $this->header .= 'Date: ' . date('r') . PHP_EOL;
+        $this->header .= 'X-Mailer:By EQPHP (version:3.0)' . PHP_EOL;
         list($msec, $sec) = explode(' ', microtime());
-        $header .= 'Message-ID: <' . date('YmdHis', $sec) . '.' . ($msec * 1000000) . '.' . $from['name'] . ">\r\n";
-        return array($header, $from['address'], $cc);
+        $id = date('YmdHis', $sec) . '.' . ($msec * 1000000) . '.' . $from['name'];
+        $this->header .= "Message-ID: <{$id}>" . PHP_EOL;
     }
 
-    //发送单封邮件
-    private function send_mail($receive, $from_address, $header, $content){
-        if ($this->smtp_sockopen()) {
-            $receive = self::act_address($receive);
-            if ($this->smtp_send($this->host, $from_address, $receive, $header, $content)) {
-                if (config('log.is_record_mail', 'mail')) {
-                    logger::mail($receive);
-                }
-                return true;
-            }
-        }
-        array_push(self::$exception, 'cannot send email to ' . $receive);
-    }
-
-    //执行socket
-    private function smtp_sockopen(){
-        $this->sock = fsockopen($this->host, $this->port, $error_code, $error_message, $this->time_out);
-        if ($this->sock && $this->act_smtp()) {
+    //打开socket
+    private function socket_open(){
+        $this->socket = fsockopen($this->host, $this->port, $error, $message, $this->timeout);
+        if ($this->socket && $this->process_response()) {
             return true;
         }
-        $message = $this->host . ',' . $error_message . '(' . $error_code . ')';
-        array_push(self::$exception, "can't connect to relay host: " . $message);
-        return false;
+        $message = $this->host . ',' . $message . '(' . $error . ')';
+        array_push(self::$exception, 'host connect fail: ' . $message);
     }
 
-    //内核单一发送
-    private function smtp_send($host, $from, $to, $header, $content = ''){
+    //单一发送
+    private function smtp_send($to){
         try {
-            $this->smtp_put_cmd("HELO", $host);
-            $this->smtp_put_cmd("AUTH LOGIN", base64_encode($this->mail));
-            $this->smtp_put_cmd("", base64_encode($this->password));
-            $this->smtp_put_cmd("MAIL", "FROM:<" . $from . ">");
-            $this->smtp_put_cmd("RCPT", "TO:<" . $to . ">");
-            $this->smtp_put_cmd("DATA");
-            fwrite($this->sock, $header . "\r\n" . $content);
-            fwrite($this->sock, "\r\n.\r\n");
+            $this->smtp_put_cmd('HELO', $this->host);
+            $this->smtp_put_cmd('AUTH LOGIN', base64_encode($this->user));
+            $this->smtp_put_cmd('', base64_encode($this->password));
+            $this->smtp_put_cmd('MAIL', "FROM:<{$this->from}>");
+            $this->smtp_put_cmd('RCPT', "TO:<{$to}>");
+            $this->smtp_put_cmd('DATA');
+            fwrite($this->socket, $this->header . PHP_EOL . $this->body);
+            fwrite($this->socket, PHP_EOL . '.' . PHP_EOL);
             $this->smtp_put_cmd('QUIT');
-            return true;
         } catch (Exception $e) {
             array_push(self::$exception, $e->getMessage());
-            return false;
         }
     }
 
     //处理put_cmd
     private function smtp_put_cmd($cmd, $arg = ''){
         $arg and $cmd = $cmd ? $cmd . ' ' . $arg : $arg;
-        fwrite($this->sock, $cmd . "\r\n");
-        if ($this->act_smtp()) {
+        fwrite($this->socket, $cmd . "\r\n");
+        if ($this->process_response()) {
             return true;
         }
-        throw new Exception('sending ' . $cmd . ' command fail', 109);
+        array_push(self::$exception, $cmd . ' command send fail');
     }
 
     //处理smtp
-    private function act_smtp(){
-        $response = str_replace("\r\n", "", fgets($this->sock, 512));
-        if (preg_match("/^[23]/", $response)) {
+    private function process_response(){
+        $response = str_replace(PHP_EOL, '', fgets($this->socket, 512));
+        if (preg_match('/^[23]/', $response)) {
             return true;
         }
-        fwrite($this->sock, "QUIT\r\n");
-        fgets($this->sock, 512);
-        array_push(self::$exception, 'remote host returned: ' . $response);
-        return false;
-    }
-
-    //处理单个邮箱
-    static function act_address($address){
-        $address = preg_replace("/([ \t\r\n])+/", "", $address);
-        return preg_replace("/^.*<(.+)>.*$/", "\\1", $address);
-    }
-
-    //处理邮箱列表
-    static function act_address_list($address){
-        while (preg_match("/\\([^()]*\\)/", $address)) {
-            $address = preg_replace("/\\([^()]*\\)/", '', $address);
-        }
-        return $address;
-    }
-
-    //解析配置，返回mail对象
-    static function get_instance($mail = null){
-        if (self::$object instanceof self) {
-            return self::$object;
-        }
-        if (is_null($mail)) {
-            $mail = config(null, 'mail');
-        }
-        self::$object = new self($mail['host'], $mail['port'], $mail['user'], $mail['password'], true);
-        return self::$object;
+        fwrite($this->socket, 'QUIT' . PHP_EOL);
+        fgets($this->socket, 512);
+        array_push(self::$exception, 'remote host response: ' . $response);
     }
 
     //发送邮件
-    static function send($to, $title, $content, $cc = '', $type = 'HTML'){
-        $mail = self::get_instance();
-        $from = config('from', 'mail');
-        $mail->send_mails($to, $title, $content, $type, $from, $cc);
+    function send($to, $copy = '', $from = array(), $type = 'HTML'){
+        $this->build_header($to, $this->subject, $type, $from, $copy);
+        $this->body = preg_replace("/(^|(\r\n))(\\.)/", "\\1.\\3", $this->body);
+         if ($this->copy) {
+            $to .= ';' . $this->copy;
+        }
+        $receive_list = explode(';', trim($to, ';'));
+        foreach ($receive_list as $receive) {
+            if ($this->socket_open()) {
+                $this->smtp_send($receive);
+            }
+        }
         if (self::$exception) {
             logger::exception('mail', implode(PHP_EOL, self::$exception));
-        }
-    }
-
-    //解析邮件模版
-    static function tpl($tpl, $data, &$title, &$content){
-        $html = file_get_contents(VIEW_TEMPLATE . $tpl . '.html');
-        $html = preg_replace($data[0], $data[1], $html);
-        $regular = '/<title>(.*)<\/title>[\w\W]*<body>(.*)<\/body>/isU';
-        preg_match($regular, $html, $option);
-        if (count($option) == 3) {
-            list($title, $content) = array($option[1], $option[2]);
+            throw new Exception('part mail send fail', 109);
         }
         return true;
     }
+
+    //解析邮件模版
+    function take(array $data, $template = ''){
+        if ($template) {
+            $dom = file_get_contents(VIEW_TEMPLATE . $template . '.html');
+            foreach ($data as $key => $value) {
+                $dom = str_replace('{' . $key . '}', $value, $dom);
+            }
+            $regular = '/<title>(.*)<\/title>[\w\W]*<body>(.*)<\/body>/isU';
+            preg_match($regular, $dom, $option);
+            $this->subject = $this->body = '';
+            if (count($option) == 3) {
+                $this->subject = $option[1];
+                $this->body = $option[2];
+            }
+        } else {
+            list($this->subject, $this->body) = $data;
+        }
+        return $this;
+    }
+
 
 }

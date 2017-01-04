@@ -1,11 +1,12 @@
 <?php
 
-class s_smarty{
+class smarty3{
 
     protected static $object = null;
 
     static function get_instance(){
         if (!(isset(self::$object) && self::$object instanceof Smarty)) {
+            include PATH_ROOT . 'data/vendor/smarty/Smarty.class.php';
             self::$object = new Smarty;
         }
         return isset(self::$object) ? self::$object : null;
@@ -37,26 +38,23 @@ class s_smarty{
 
 
     //配置视图环境
-    static function tpl($group = 'home'){
+    static function tpl(){
         //基本配置
         $tpl = self::get_instance();
-        self::process_view_config($group, $tpl);
+        self::process_view_config('common', $tpl);
 
         //网站元信息
         $tpl->assign(config(null, 'site'));
 
         //设置目录常量
         $tpl->assign('url', U_R_L);
-        $dir_data = system::set_url_dir(true);
-        $tpl->assign('dir', $dir_data);
-        if ($group === 'home') {
-            $tpl->assign('user_id', session('user_id'));
-        }
+        $directory_data = system::build_view_directory();
+        $tpl->assign('dir', $directory_data);
 
         //注册全局组件
+        list($prefix,$suffix)=array('p_','Plugin');
         foreach (array('function', 'modifier') as $type) {
-            $class = 'p_' . $type;
-            include PATH_ROOT . 'plugin/' . $class . '.php';
+            $class = $prefix . $type . $suffix;
             if (class_exists($class)) {
                 $method_data = get_class_methods($class);
                 foreach ($method_data as $method) {
@@ -66,58 +64,66 @@ class s_smarty{
         }
 
         //处理分组业务
-        if (defined('GROUP_NAME')) {
-            self::process_group($tpl);
+        if (defined('MODULE_NAME')) {
+            self::process_module($tpl);
         }
         return $tpl;
     }
 
 
-    static function process_view_config($group, $tpl){
+    static function process_view_config($module, $tpl){
         $smarty = config(null, 'smarty');
-        //$tpl->debugging=$smarty[$group]['debug'];
-        //$tpl->error_reporting=$smarty[$group]['error'];
-        //$tpl->allow_php_templates=$smarty[$group]['allow_php'];
+        //$tpl->debugging=$smarty[$module]['debug'];
+        //$tpl->error_reporting=$smarty[$module]['error'];
+        //$tpl->allow_php_templates=$smarty[$module]['allow_php'];
 
-        $tpl->left_delimiter = $smarty[$group]['left'];
-        $tpl->right_delimiter = $smarty[$group]['right'];
+        $tpl->left_delimiter = $smarty[$module]['left'];
+        $tpl->right_delimiter = $smarty[$module]['right'];
 
-        $tpl->config_dir = $smarty[$group]['const'];
-        $tpl->compile_dir = $smarty[$group]['compile'];
-        $tpl->template_dir = $smarty[$group]['template'];
+        $tpl->config_dir = $smarty[$module]['const'];
+        $tpl->compile_dir = $smarty[$module]['compile'];
+        $tpl->template_dir = $smarty[$module]['template'];
 
-        $tpl->cache_dir = $smarty[$group]['path'];
-        $tpl->caching = $smarty[$group]['caching'];
-        $tpl->cache_lifetime = $smarty[$group]['expire'];
+        $tpl->cache_dir = $smarty[$module]['path'];
+        $tpl->caching = $smarty[$module]['caching'];
+        $tpl->cache_lifetime = $smarty[$module]['expire'];
     }
 
 
-    static function process_group($tpl){
+    static function process_module($tpl){
         //赋值分组常量
-        $group_path['url'] = route(GROUP_NAME) . '/';
-        $group_path['script'] = URL_STATIC . GROUP_NAME . '/script/';
-        $group_path['style'] = URL_STATIC . GROUP_NAME . '/style/';
-        $group_path['image'] = URL_STATIC . GROUP_NAME . '/image/';
-        $tpl->assign('group', $group_path);
+        $module_path['url'] = route(MODULE_NAME) . '/';
+        $module_path['script'] = URL_STATIC . MODULE_NAME . '/script/';
+        $module_path['style'] = URL_STATIC . MODULE_NAME . '/style/';
+        $module_path['image'] = URL_STATIC . MODULE_NAME . '/image/';
+        $tpl->assign('module', $module_path);
 
         //注册分组私有模块组件
-        if ($plugin = group_config(null, 'plugin')) {
+        if ($plugin = module_config(null, 'plugin')) {
             self::parse_plugin($plugin, $tpl);
         }
 
         //处理分组私有事情
-        $method = strtolower(GROUP_NAME) . '_init';
+        $method = strtolower(MODULE_NAME) . '_init';
         if (method_exists(__CLASS__, $method)) {
             call_user_func(array(__CLASS__, $method), $tpl);
         }
     }
 
-    static function message_init($tpl){
+    static function blog_init($tpl){
+        $tpl->assign('user_id', session('user_id'));
+    }
+
+    static function user_init($tpl){
+        $tpl->assign('user_id', session('user_id'));
+    }
+
+    static function guest_book_init($tpl){
         $tpl->assign('admin', session('admin'));
     }
 
     static function admin_init($tpl){
-        $tpl->assign('admin', session('admin'));
+        $tpl->assign('manager', session('manager'));
     }
 
 

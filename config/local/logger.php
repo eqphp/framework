@@ -9,7 +9,7 @@ return array(
     'store_mode'=>'single',
 
     //是否分组保存
-    'is_group_save'=>true,
+    'is_module_save'=>true,
 
     //均不保存(0),全部保存(1),指定level中的部分值
     'store_level'=>1,

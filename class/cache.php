@@ -3,11 +3,8 @@
 //rely on: file help
 class cache{
 
-    private $custom_dir; //用户自定义的缓存文件目录
-    private $save_dir; //真实目录
-    private $file_name; //文件名
-    private $ext; //扩展名
-    private $expire; //有效期
+    //用户自定义的缓存文件目录、真实目录、文件名、扩展名、有效期
+    private $custom_dir, $save_dir, $file_name, $ext, $expire;
 
 
     //初始化成员属性(expire:default=>30 days,0=>360 days)

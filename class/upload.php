@@ -9,11 +9,11 @@ class upload{
     static $file_error = array('upload successful', 'greater than server allow size',
         'greater than client allow size', 'only upload part', 'please select upload file');
 
-    function __construct($file, $save_name, $allow_size = array(1), $from = 'system', $save_directory = ''){
+    function __construct($file, $file_name, $allow_size = array(1), $from = 'system'){
         $this->file = $file;
-        $this->save_name = $save_name;
+        $this->save_name = basename($file_name);
         $this->from = $from;
-        $this->save_directory = $save_directory;
+        $this->save_directory = trim($file_name,$this->save_name);
         $this->check_file();
 
         if (is_array($allow_size)) {

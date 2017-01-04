@@ -2,7 +2,7 @@
 
 class form{
 
-    static function select($name = '', $data = array(), $attribute = '', $value = ''){
+    static function select($name = '', $data = array(), $value = '', $attribute = ''){
         $attribute = self::_parse_attribute($attribute);
         $from = '<select' . $attribute . ' name="' . $name . '">' . PHP_EOL;
         if ($data && is_array($data)) {
@@ -17,7 +17,7 @@ class form{
         return $from . '</select>';
     }
 
-    static function checkbox($name = '', $data = array(), $attribute = '', $value = ''){
+    static function checkbox($name = '', $data = array(), $value = '', $attribute = ''){
         $attribute = self::_parse_attribute($attribute);
         is_string($value) and $value = explode('|', $value);
         $from = '';
@@ -33,7 +33,7 @@ class form{
         return $from;
     }
 
-    static function radio($name = '', $data = array(), $attribute = '', $value = ''){
+    static function radio($name = '', $data = array(), $value = '', $attribute = ''){
         $attribute = self::_parse_attribute($attribute);
         $from = '';
         if ($data && is_array($data)) {

@@ -1,0 +1,66 @@
+.h1_title {float:left; padding:5px 24px; width:952px; border-bottom:solid #005EAC 2px;}
+.h1_title .logo {color:#E13300;}
+.fal {float:left;}
+.far {float:right;}
+.nav_title dl {float:left; margin:3px 4px; padding:0 5px; width:180px; font-size:14px;}
+.nav_title dt {padding:2px 2px 3px 3px; font-size:15px; color:white; background:#005EAC; font-weight:bold;}
+.nav_title dl dd {display:none; color:#005EAC; cursor:pointer;}
+.main {margin-top:5px; padding:5px 10px; width:980px;}
+.main a {margin:0 5px;}
+.main h1 {float:left; padding:5px; font-size:15px; color:#E13300; font-weight:bold;}
+.main h1 strong {width:600px;}
+.main h1 b {float:left; width:90px;}
+
+.main .item {display:none; float:left; width:920px; padding:8px 24px; font-size:12px; border:solid #efefef 1px;}
+.item table {width:100%; font-size:14px; line-height:32px; text-indent:0;}
+#index_table {width:60%; border:solid #dfdfdf 1px;}
+#index_table th, #index_table td {padding-left:5px; border-bottom:dashed #efefef 1px;}
+#index_table th {border-bottom:0; background-color:#efefef; color:#666666;}
+.main li {padding:3px 0;}
+.case_img {width:978px; border:solid #efefef 1px;}
+#join_us {border:0; width:120px; height:36px; border-radius:3px; background-color:#030681; color:white; cursor:pointer;}
+
+.item code {display:block; padding:25px 15px; width:760px; color:white; font-size:14px; line-height:24px; font-style:italic; border-radius:3px; font-family:Consolas, Microsoft YaHei; background-color:#1a0101; text-indent:0;}
+.item code i {color:green; font-size:14px;}
+.item code pre {color:red; width:600px; border:solid red 1px;}
+.item code .i24 {padding-left:32px;}
+.item code .i48 {padding-left:64px;}
+.item code .i72 {padding-left:96px;}
+.item code .i96 {padding-left:128px;}
+.item code .i120 {padding-left:160px;}
+
+.item .manual tr {border-bottom:dashed #005eac 1px;}
+.item .manual th, .item .manual td {padding-left:12px;}
+
+
+.item h3 {padding:10px 0; font-size:14px;}
+.item .function {margin-bottom:15px; padding:10px 0; border:solid #efefef 1px; border-radius:3px; font-size:15px; font-family:Consolas, Microsoft YaHei;}
+.item .function b {color:#005eac; font-size:18px;}
+.item .function em {color:blue;}
+
+.comment {display:none; margin:10px; padding:10px 24px; width:920px; border:solid #efefef 1px;}
+.comment h5 {margin-bottom:10px; font-size:15px; font-weight:bold; border-bottom:solid #dfdfdf 1px;}
+.comment table {margin:2px 12px;}
+.comment_detail {height:26px;}
+#comment_data {width:900px; overflow-x:hidden;}
+
+.avatar, .avatar_30 {text-align:center; vertical-align:top;}
+.avatar {width:65px;}
+.avatar img {border-radius:3px;}
+.avatar_30 {padding-top:10px; width:50px;}
+.avatar_30 img {border-radius:1px; width:30px;}
+.reply_textarea {padding:2px 5px; width:480px; height:60px; overflow-x:hidden;  overflow-y:auto;}
+.reply_result_tip {width:400px; height:27px;}
+.reply_result_tip i,.pub_result_tip i {color:green; font-weight:bold;}
+.reply_result_tip em,.pub_result_tip em {color:red; font-weight:bold;}
+.reply_submit {width:60px; height:26px; cursor:pointer;}
+.comment_textarea {padding:2px 5px; width:500px; height:90px; overflow:hidden;}
+.comment_submit {width:90px; height:26px; cursor:pointer;}
+.pub_result_tip {width:400px; height:32px;}
+
+#load_more {float:left; margin-bottom:20px; width:480px; text-align:center;}
+#load_more button {width:240px; height:32px; color:#2971BD; cursor:pointer;}
+#reply_form_html {display:none;}
+#vote_tip {display:none; position:absolute; left:580px; top:35px; width:240px; text-align:center; background-color:#FCDEDE;}
+
+.foot {margin-top:15px; padding:12px; width:976px; background-color:#efefef;}

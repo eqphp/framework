@@ -13,6 +13,8 @@ class regexp{
     const MONEY = '/^[0-9]+([.][0-9]{1,2})?$/';
     const NUMBER = '/^\-?[0-9]*\.?[0-9]*$/';
     const NUMERIC = '/^\d+$/';
+    const CAPTCHA = '/^[a-z0-9]{5}$/';
+    const MESSAGE_CODE = '/^[1-9]\d{5}$/';
     const URL = '/^http(s?):\/\/([\w-]+\.)+[\w-]+(\/[\\w\- \.\/?%&=]*)?/';
     const CID = '/^\d{15}$|^\d{17}(\d|X|x)$/';
     const ZIP = '/^\d{6}$/';
@@ -25,7 +27,7 @@ class regexp{
     const NAME = '/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]+$/u';
     const FILE_NAME = '/^[^\/:*?"<>|,\\\]+$/';
     const ID = '/^[1-9]{1}[0-9]{0,9}$/';
-    const UUID = '/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/';
+    const UUID = '/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i';
     const IMAGE = '/<img[^\/>src]+src="([^"]+)"[^\/>]*\/?/';
     const BUSINESS_LICENSE = '/^\d{13}$|^\d{14}([0-9]|X|x)$|^\d{6}(N|n)(A|a|B|b)\d{6}(X|x)$/';
 

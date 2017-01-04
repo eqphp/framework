@@ -62,9 +62,9 @@ class input{
             return $value;
         }
         //trim过滤、魔术引号转义
-        if (is_string($value)) {
-            $value = get_magic_quotes_gpc() ? trim($value) : trim(addslashes($value));
-        }
+        //if (is_string($value)) {
+        //    $value = get_magic_quotes_gpc() ? trim($value) : trim(addslashes($value));
+        //}
         switch ($mode) {
             case 'title'://标题、关键词(去空、特殊字符、html标签)
                 return trim(htmlspecialchars(strip_tags($value)));
@@ -72,7 +72,9 @@ class input{
                 return abs((int)($value));
             case 'text'://介绍、详细内容(就留允许的html标签)
                 $allow_tags = config('allow_tags', 'secure');
-                return trim(htmlspecialchars(strip_tags($value, $allow_tags)));
+                return trim(strip_tags($value, $allow_tags));
+            case 'bool'://bool值(0,1)
+                return (bool)$value + 0;
             case 'number'://数字
                 return regexp::match($value, 'number') ? $value : 0;
             case 'float'://小数、浮点数(货币、概率)
@@ -86,6 +88,7 @@ class input{
                 $format_time = date($option[$mode], strtotime($value));
                 return ($format_time === $value) ? $value : null;
             case 'many'://联合复选框(checkbox)
+                sort($value);
                 return implode(',', $value);
             default://正则匹配输出
                 return regexp::match($value, $mode) ? $value : null;

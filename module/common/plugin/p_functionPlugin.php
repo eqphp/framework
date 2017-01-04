@@ -1,16 +1,16 @@
 <?php
 
-class p_function{
+class p_functionPlugin{
 
     //页头
     static function head($params, $tpl){
         extract($params);
         $script = isset($script) ? explode('|', $script) : array();
-        $group_script = isset($group_script) ? explode('|', $group_script) : array();
+        $module_script = isset($module_script) ? explode('|', $module_script) : array();
         $style = isset($style) ? explode('|', $style) : array();
-        $group_style = isset($group_style) ? explode('|', $group_style) : array();
-        $data = compact('script', 'group_script', 'style', 'group_style');
-        return s_smarty::show('plugin/head', $data, $tpl);
+        $module_style = isset($module_style) ? explode('|', $module_style) : array();
+        $data = compact('script', 'module_script', 'style', 'module_style');
+        return smarty3::show('plugin/head', $data, $tpl);
     }
 
     //输出swf格式动画
@@ -21,7 +21,7 @@ class p_function{
         $height = isset($height) ? $height : 300;
         $title = isset($title) ? $title : 'EQPHP flash player';
         $data = compact('src', 'width', 'height', 'title');
-        return s_smarty::show('plugin/flash', $data, $tpl);
+        return smarty3::show('plugin/flash', $data, $tpl);
     }
 
     //输出flv格式视频
@@ -33,7 +33,7 @@ class p_function{
         $autostart = isset($autostart) ? $autostart : 'true';
         $allowfullscreen = isset($allowfullscreen) ? $allowfullscreen : 'true';
         $data = compact('src', 'width', 'height', 'autostart', 'allowfullscreen');
-        return s_smarty::show('plugin/media', $data, $tpl);
+        return smarty3::show('plugin/media', $data, $tpl);
     }
 
 

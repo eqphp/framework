@@ -25,8 +25,8 @@ return array(
         'allow_host'=>array('127.0.0.1'),
     ),
 
-    'group'=>array(
-        'list'=>array('admin','user'),
+    'module'=>array(
+        'list'=>array('admin','guest_book'),
         'subdomain'=>false,
     ),
 

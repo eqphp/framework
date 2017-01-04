@@ -2,19 +2,19 @@
 ===========================
 EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；
 
-涵盖：[日志调试](http://www.eqphp.com/file/manual/#22)、[性能分析](http://www.eqphp.com/file/manual/#22)、[请求响应](http://www.eqphp.com/file/manual/#16)、[上传下载](http://www.eqphp.com/file/manual/#25)、[验证过滤](http://www.eqphp.com/file/manual/#17)、[加密解密](http://www.eqphp.com/file/manual/#21)、[缓存静态化](http://www.eqphp.com/file/manual/#20)、[国际化](http://www.eqphp.com/file/manual/#28)等技术点；
+涵盖：[请求响应](http://www.eqphp.com/file/manual/#16)、[验证过滤](http://www.eqphp.com/file/manual/#17)、[上传下载](http://www.eqphp.com/file/manual/#25)、[加密解密](http://www.eqphp.com/file/manual/#21)、[日志调试](http://www.eqphp.com/file/manual/#22)、[性能测试](http://www.eqphp.com/file/manual/#22)、[缓存静态化](http://www.eqphp.com/file/manual/#20)、[国际化](http://www.eqphp.com/file/manual/#28)等技术点；
 
 囊括：[文件目录操作](http://www.eqphp.com/file/manual/#18)、[数据库使用](http://www.eqphp.com/file/manual/#15)、[图形图像处理](http://www.eqphp.com/file/manual/#21)、[邮件短信发送](http://www.eqphp.com/file/manual/#21)、[DOM表单构建](http://www.eqphp.com/file/manual/#19)、[模板引擎解析](http://www.eqphp.com/file/manual/#24)等解决方案；
 
-结构简洁（单一入口、自动加载、类库丰富）、体积小（868KB），部署灵活，可任意调整等特性，适合所有Web项目开发。
+结构简洁（单一入口、自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。
 
 为什么选择 EQPHP ？
 ===========================
 
 * 简单
-    * 命名简洁、语法规范（符合psr4规则），让你愉悦阅览
+    * 命名简洁、语法规范（符合psr4），阅览愉快
     * 有手册，用法齐全；参考demo、开发得心应手
-    * 兼容php5.3以上所有版本（包括php7），版本升级、扩展更加容易
+    * 兼容php5.3以上所有版本，版本升级、扩展更加容易
 
 * 自由
     * 免费开源，遵循Apache2开源协议发布
@@ -113,7 +113,7 @@ input::get('page','int');
 input::post('details','text');
 input::request('amount','money');
 input::cookie('auto_login','number');
-input::server('request_method','/^(GET|PUT|POST|PATCH|DELETE)$/i');
+input::server('request_method','/^(GET|POST|PUT|DELETE)$/i');
 
 //批量验证，数据模型代替逻辑判断
 $input=input::fetch('id,name,date,sex','get');
@@ -184,23 +184,20 @@ class a_heartbeat extends a_restful{
 
     function get(){
         $no = url('no', 'uuid');
-        return $this->model->get($no);
+        $user = $this->model->get($no);
+        $this->response(0, 'ok', $user);
     }
 
     function post(){
         $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];
         $data = input::filter($option, 'post');
         try {
-            $this->model->create($data);
-            return $this->response(0, 'ok');
+            $manager_id = $this->model->create($data);
+            $this->response(0, 'ok', $manager_id);
         } catch (Exception $e) {
             logger::exception('heartbeat', $e->getMessage());
-            throw new cException('create heartbeat fail', 10018);
+            $this->response(1, 'create manager fail: ' . $e->getMessage());
         }
-    }
-
-    function patch(){
-        //TODO
     }
 
     function put(){
@@ -216,7 +213,6 @@ class a_heartbeat extends a_restful{
     }
 
     function __destruct(){
-
     }
 
 }
@@ -228,13 +224,13 @@ class a_heartbeat extends a_restful{
 config('master.host','mysql');
 
 //短信、邮件
-with('message')->take(['code'=>6781],'withdraw','message_code')->send('15001237788');
+with('message',$provider, $channel)->take(['code'=>6781],'withdraw','message_code')->send('1500123****');
 with('mail')->take(['user_id'=>8,'url'=>route('user/register')],'invite_friend')->send('xxx@eqphp.com');
 
 //创建DOM、form
 html::dl(['MVC','控制器','视图模板'],['id'=>'menu', 'class'=>"dl-dd"]);
-$option=['数学','语文','英语','化学','地理','历史'];
-form::create('checkbox','subject',$option,null,'0|2|3|4');
+$option=[1=>'数学','语文','英语','化学','地理','历史'];
+form::checkbox('subject',$option,null,[2,3,4]);
 
 //记录日志、调试追溯
 logger::info('hello world');

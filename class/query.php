@@ -60,7 +60,9 @@ class query{
                 $this->sql .= ' ' . $value . ' ' . trim($this->option[$key]);
             }
 
-            unset($this->option[$key]);
+            if ($key !== 'from') {
+                unset($this->option[$key]);
+            }
         }
         $this->sql = trim($this->sql);
 
@@ -100,9 +102,9 @@ class query{
                 unset($data['logic']);
             }
 
-            //处理字符串(本生sql)
+            //处理字符串(原生sql)
             $condition = array();
-            foreach (array('query', 'native', 'processed') as $name) {
+            foreach (array('query', 'native', 'string') as $name) {
                 if (isset($data[$name])) {
                     $condition[] = '(' . $data[$name] . ')';
                     unset($data[$name]);
@@ -111,7 +113,20 @@ class query{
 
             //处理条件数据
             foreach ($data as $key => $value) {
-                $condition[] = '(' . self::parse_expression($key, $value) . ')';
+                if (strpos($key, '|')) {
+                    $option = array_fill_keys(explode('|', $key), $value);
+                    $option['logic'] = 'or';
+                    $condition[] = '('.self::condition($option).')';
+                } elseif (strpos($key, '&')) {
+                    $option = array_fill_keys(explode('&', $key), $value);
+                    $condition[] = '('.self::condition($option).')';
+                } elseif (strpos($key, ',') && is_array($value)) {
+                    $logic = in_array('or', $value) ? array_pop($value) : 'and';
+                    $option = array_combine(explode(',', $key), $value);
+                    $condition[] = self::condition($option + compact('logic'));
+                } else {
+                    $condition[] = '(' . self::parse_expression($key, $value) . ')';
+                }
             }
 
             return implode($logic, $condition);
@@ -174,36 +189,18 @@ class query{
                     $logic = isset($value[2]) ? ' ' . $value[2] . ' ' : ' or ';
                     return implode($logic, $buffer);
                 }
-
-                if (strpos($key, '|') !== false) {
-                    $buffer = array();
-                    foreach (explode('|', $key) as $field) {
-                        $value[1] = str_replace(array("'", '"'), '', $value[1]);
-                        $buffer[] = '(' . $field . ' ' . $value[0] . ' "' . $value[1] . '")';
-                    }
-                    return implode(' or ', $buffer);
-                }
-
-                if (strpos($key, '&') !== false) {
-                    $buffer = array();
-                    foreach (explode('&', $key) as $field) {
-                        $value[1] = str_replace(array("'", '"'), '', $value[1]);
-                        $buffer[] = '(' . $field . ' ' . $value[0] . ' "' . $value[1] . '")';
-                    }
-                    return implode(' and ', $buffer);
-                }
                 $value[1] = str_replace(array("'", '"'), '', $value[1]);
                 return $key . ' ' . $value[0] . ' "' . $value[1] . '"';
             }
 
             //数学区间查询(1,9)/[2,3)
-            if ($value[0] === 'extent') {
-                $logic = isset($value[2]) ? ' ' . $value[2] . ' ' : ' && ';
+            if ($value[0] === 'interval') {
+                $logic = isset($value[2]) ? ' ' . $value[2] . ' ' : ' and ';
                 $operator = array('(' => '>', '[' => '>=', ')' => '<', ']' => '<=');
                 preg_match('/^(\(|\[)(.*),(.*)(\)|\])$/', $value[1], $param);
                 $result = '';
-                isset($param[2]) && $result .= $key . $operator[$param[1]] . $param[2];
-                isset($param[4]) && $result .= $logic . $key . $operator[$param[4]] . $param[3];
+                isset($param[2]) and $result .= $key . $operator[$param[1]] . $param[2];
+                isset($param[4]) and $result .= $logic . $key . $operator[$param[4]] . $param[3];
                 return $result;
             }
         }

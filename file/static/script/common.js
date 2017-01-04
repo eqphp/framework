@@ -6,7 +6,7 @@ system.url = '/';//'http://' + system.domain + '/';
 var lang = {};
 
 //表单处理结果提示
-var tip = ['操作成功','未登陆','已登陆','无权限操作','服务器繁忙，请稍后再试','','','','',''];
+var exception_message = ['操作成功','未登陆','已登陆','无权限操作','服务器繁忙，请稍后再试','','','','',''];
 
 
 //正则表达式
@@ -74,7 +74,7 @@ var cookie = {
         }
     },
 
-    del: function (name, path, domain) {
+    move: function (name, path, domain) {
         if (!name || name == "" || !this.get(name)) return false;
         document.cookie = name + "=;"
         + (path ? "path=" + path + ";" : "")

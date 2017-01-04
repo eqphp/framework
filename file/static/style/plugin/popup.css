@@ -1,7 +1,7 @@
 /**popup dialog **/
 .popup_mask, .popup_border, .popup_notice {position:fixed; background:url("../../image/transparent.png") repeat scroll left top transparent;}
 .popup_mask {display:none; left:0; top:0; width:100%; height:100%; overflow:hidden; z-index:2008;}
-.popup_border {padding:10px; top:20%; left:50%; margin:0 0 0 -200px; min-width:400px; border-radius:5px;}
+.popup_border {padding:10px; top:10%; left:50%; margin:0 0 0 -200px; min-width:400px; border-radius:5px;}
 
 .popup_notice {display:none; padding:10px; bottom:0; right:0; width:400px; border-radius:5px;}
 .popup_data {float:left; height:auto; background-color:white;}

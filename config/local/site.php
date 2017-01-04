@@ -21,7 +21,7 @@ return array(
 	),
 
 	'mobile'=>array(
-		'category'=>array('iphone','ipad','ipod','android','windows phone','windows ce','opera mini','symbian','blackberry','kindle'),
+		'equipment'=>array('iphone','ipad','ipod','android','windows phone','windows ce','opera mini','symbian','blackberry','kindle'),
 		'android_key'=>'#*!@android%$&',
 		'ios_key'=>'#*!@ios%$&',
 	),

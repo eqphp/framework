@@ -6,7 +6,7 @@ table {border-collapse:collapse;}
 th {font-weight:normal; text-align:left;}
 ol,ol li,form {float:left;}
 pre {white-space:pre-wrap; word-wrap:break-word;}
-input {padding-left:3px; height:24px;}
+input {-webkit-tap-highlight-color:transparent; padding-left:3px; height:24px;}
 select {padding:2px 3px; height:26px; font-size:14px;}
 ul,ol {list-style:none;}
 li {height:auto;}

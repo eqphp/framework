@@ -18,19 +18,19 @@ class logger{
             list($date, $time) = explode('@', date('Y_m_d@H:i:s'));
             $file_name .= '_' . $date . '.log';
             $data = '[' . $time . '] ' . $name . ': ' . (string)$param[0] . PHP_EOL;
-            if (defined('GROUP_NAME') && $log->is_group_save) {
-                is_dir(LOG_RUN . GROUP_NAME) or mkdir(LOG_RUN . GROUP_NAME, 0777);
-                $file_name = GROUP_NAME . '/' . $file_name;
+            if (defined('MODULE_NAME') && $log->is_module_save) {
+                is_dir(LOG_RUN . MODULE_NAME) or mkdir(LOG_RUN . MODULE_NAME, 0777);
+                $file_name = MODULE_NAME . '/' . $file_name;
             }
             file_write(LOG_RUN . $file_name, $data, 'a+');
 
             //报警
             if (in_array($name, array('alert', 'collapse'))) {
                 if (in_array($log->alarm['mode'], array('both', 'email'))) {
-                    mail::send($log->alarm['email'], $log->alarm['title'], $data);
+                    with('mail')->take(array($log->alarm['title'],$data))->send($log->alarm['email']);
                 }
                 if (in_array($log->alarm['mode'], array('both', 'message'))) {
-                    //message::send($log->alarm['phone'],$log->alarm['title'].': '.$data);
+                    with('message')->message($log->alarm['title'].': '.$data)->send($log->alarm['phone']);
                 }
             }
         }
@@ -56,6 +56,12 @@ class logger{
 
     static function mail($data){
         $file = PATH_LOG . 'mail/' . date('y-m') . '.log';
+        $data = '[' . date('d H:i:s') . '] ' . $data . PHP_EOL;
+        file_write($file, $data, 'a+');
+    }
+
+    static function message($data){
+        $file = PATH_LOG . 'message/' . date('y-m') . '.log';
         $data = '[' . date('d H:i:s') . '] ' . $data . PHP_EOL;
         file_write($file, $data, 'a+');
     }

@@ -1,76 +1,59 @@
 <?php
 
-//rely on: query logger
 class db{
 
     static $object = null;
-    private static $conn = null;
+    static $pdo = null;
 
     static $pattern = array(
         'post' => 'insert into %s %s values %s',
         'delete' => 'delete from %s where %s',
         'patch' => 'update %s set %s where %s',
         'field' => 'select %s from %s where %s limit 0,1',
-    );
+        'dsn' => 'mysql:host=%s;dbname=%s;port=%s;charset=%s;',
+        );
 
     //构造函数-初始化db
     private function __construct(){
         $db = (object)config('server', 'db');
-        self::$conn = mysqli_connect($db->host . ':' . $db->port, $db->user, $db->password);
-
-        if (self::$conn) {
-            if (mysqli_select_db(self::$conn, $db->database)) {
-                mysqli_query(self::$conn, 'set names ' . $db->charset);
-            } else {
-                $message = 'database select fail';
-                if (config('log.is_record_exception', 'db')) {
-                    logger::exception('mysql', $message);
-                }
-                throw new Exception($message, 103);
-            }
-        } else {
-            $message = 'mysqli connect fail';
-            if (config('log.is_record_exception', 'db')) {
-                logger::exception('mysql', $message);
-            }
-            throw new Exception($message, 102);
+        $dsn = sprintf(self::$pattern['dsn'], $db->host, $db->database, $db->port, $db->charset);
+        $dsn = trim(str_replace(array('port=;', 'charset=;'), '', $dsn), ';');
+        try {
+            self::$pdo = new PDO($dsn, $db->user, $db->password);
+            self::$pdo->exec('set names ' . $db->charset);
+        } catch (PDOException $e) {
+            logger::Exception('mysql', $db->host . ' connect fail, ' . $e->getMessage());
+            throw new Exception("mysql can't connect", 102);
         }
-
     }
 
     //禁止克隆
     final public function __clone(){
     }
 
+    //析构函数-资源回收
+    function __destruct(){
+    }
+
     //返回唯一实例
-    private static function get_instance(){
+    private static function get(){
         if (!self::$object instanceof self) {
             self::$object = new self();
         }
-        return self::$object;
+        return self::$pdo;
     }
-
-    //析构函数-资源回收
-    function __destruct(){
-        if (is_resource(self::$conn)) {
-            mysqli_close(self::$conn);
-        }
-        self::$conn = self::$object = null;
-    }
-
 
     //执行SQL语句
     static function query($sql, $is_read = true){
-        self::get_instance();
-        $result = mysqli_query(self::$conn, $sql);
+        $pdo=self::get();
+        $result = $pdo->query($sql);
         if ($result) {
             if (config('log.is_record_sql', 'db')) {
                 logger::sql($sql, $is_read);
             }
             return $result;
         }
-
-        $message = $sql . ' {' . mysqli_error(self::$conn) . '}';
+        $message = $sql . implode(' : ', $pdo->errorInfo());
         if (config('log.is_record_exception', 'db')) {
             logger::exception('mysql', $message);
         }
@@ -79,23 +62,38 @@ class db{
 
     //添加数据记录
     static function post($table, $data, $option = ''){
-        if (is_array($data)) {
-            $value = "('" . implode("','", array_values($data)) . "')";
-            $data = '(' . implode(",", array_keys($data)) . ')';
+        if (is_array($data) && $data) {
+            $buffer = array_values($data);
+            if (isset($buffer[0]) && is_array($buffer[0])) {
+                $value = array();
+                foreach ($buffer as $item) {
+                    array_push($value, "('" . implode("','", array_values($item)) . "')");
+                }
+                $field = '(' . implode(',', array_keys($buffer[0])) . ')';
+                return self::post($table, $field, $value);
+            }
+
+            $pdo = self::get();
+            $field = $value = '(';
+            foreach ($data as $key => $input) {
+                $field .= $key . ',';
+                $value .= $pdo->quote($input) . ',';
+            }
+            $data = trim($field, ',') . ')';
+            $value = trim($value, ',') . ')';
         } else {
             $value = is_array($option) ? implode(',', $option) : $option;
         }
         $sql = sprintf(self::$pattern['post'], $table, $data, $value);
         self::query($sql, false);
-        return mysqli_insert_id(self::$conn);
+        return self::$pdo->lastInsertId();
     }
 
     //删除数据记录
     static function delete($table, $condition){
         $condition = query::condition($condition);
         $sql = sprintf(self::$pattern['delete'], $table, $condition);
-        self::query($sql, false);
-        return mysqli_affected_rows(self::$conn);
+        return self::query($sql, false)->rowCount();
     }
 
     //修改数据记录
@@ -103,16 +101,16 @@ class db{
         if (is_string($data)) {
             $data = trim($data);
         } else {
+            $pdo=self::get();
             list($field_info, $data) = array('', (array)$data);
             foreach ($data as $key => $value) {
-                $field_info .= $key . "='" . $value . "',";
+                $field_info .= $key . '=' . $pdo->quote($value) . ',';
             }
             $data = trim($field_info, ',');
         }
         $condition = query::condition($condition);
         $sql = sprintf(self::$pattern['patch'], $table, $data, $condition);
-        self::query($sql, false);
-        return mysqli_affected_rows(self::$conn);
+        return self::query($sql, false)->rowCount();
     }
 
     //查询-修改-创建
@@ -133,33 +131,23 @@ class db{
             $pattern = str_replace('where %s ', '', $pattern);
             $sql = sprintf($pattern, $field, $table);
         }
-        $record = mysqli_fetch_array(self::query($sql));
-        if ($record && isset($record[$field])) {
-            return $is_numeric ? $record[$field] + 0 : $record[$field];
+        $value = self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
+        if ($is_numeric || strpos($field, '(') !== false) {
+            $value += 0;
         }
+        return $value;
     }
 
     //查询一条数据记录（数字、关联数组）
     static function record($sql, $mode = false){
-        $result = self::query($sql . ' limit 0,1');
-        return $mode ? mysqli_fetch_object($result) : mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $mode = $mode ? PDO::FETCH_OBJ : PDO::FETCH_ASSOC;
+        return self::query($sql . ' limit 0,1', true)->fetch($mode);
     }
 
     //查询多条数据记录（数组-数组）模式
     static function batch($sql, $mode = false){
-        $result = self::query($sql);
-        $record = array();
-        if ($mode) {
-            while ($row = mysqli_fetch_object($result)) {
-                $record[] = $row;
-            }
-        } else {
-            while ($row = mysqli_fetch_array($result)) {
-                $record[] = $row;
-            }
-        }
-        mysqli_free_result($result);
-        return $record;
+        $mode = $mode ? PDO::FETCH_OBJ : PDO::FETCH_ASSOC;
+        return self::query($sql, true)->fetchAll($mode);
     }
 
     //分页查询方法
@@ -181,7 +169,15 @@ class db{
 
     //事务处理
     static function transaction($command){
-        return self::query($command, false);
+        if (config('log.is_record_sql', 'db')) {
+            logger::sql($command, true);
+        }
+        if ($command === 'begin') {
+            $command = 'beginTransaction';
+        } elseif ($command === 'rollback') {
+            $command = 'rollBack';
+        }
+        self::get()->$command();
     }
 
 

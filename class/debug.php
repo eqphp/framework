@@ -5,7 +5,7 @@ class debug{
 
     //开发模式-调试方法
     static function out($param, $mode = 1, $is_exit = true){
-        header('Content-Type:text/html; charset=utf-8');
+        headers_sent() or header('Content-Type:text/html; charset=utf-8');
         echo '<pre>' . PHP_EOL;
         $method = array('var_dump', 'print_r', 'var_export');
         $method[$mode]($param);

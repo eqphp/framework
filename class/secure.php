@@ -31,6 +31,11 @@ class secure{
         return $salt . $char[rand(0, 31)] . $symbol[rand(0, 28)] . $char[rand(0, 31)];
     }
 
+    //获取加盐加密后的密码
+    static function password($password, $salt){
+        return md5(md5($password) . $salt);
+    }
+
     //加密
     static function encrypt($string, $key = 'eqphp'){
         $j = 0;

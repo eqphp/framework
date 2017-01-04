@@ -31,19 +31,19 @@ class http{
     }
 
     //输出json
-    static function json($data, $is_end = true){
-        header('Content-Type:application/json; charset=utf-8');
+    static function json($data, $is_exit = true){
+        headers_sent() or header('Content-Type:application/json; charset=utf-8');
         $json = json_encode($data);
-        $is_end && exit($json);
+        $is_exit && exit($json);
         echo $json;
     }
 
     //输出xml
-    static function xml($data, $root = 'rss', $is_end = true){
-        header('Content-Type:text/xml; charset=utf-8');
+    static function xml($data, $root = 'rss', $is_exit = true){
+        headers_sent() or header('Content-Type:text/xml; charset=utf-8');
         $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= "<{$root}>" . help::data_xml($data) . "</{$root}>";
-        $is_end && exit($xml);
+        $is_exit && exit($xml);
         echo $xml;
     }
 
@@ -61,27 +61,29 @@ class http{
 
     //构造post提交并获取接口返回数据
     //header: array('Cookie: '.http_build_query($_COOKIE,'','; '))
-    static function curl($url, $data = null, $header = null){
-        $ch = curl_init();
-
+    static function curl($url, $data = null, $header = null, $option = array('type' => 'form', 'xml_tag'=>'item','is_array'=>true)){
         if (is_array($url)) {
             $url = $url['scheme'] . '://' . $url['host'] . ':' . $url['port'] . $url['path'];
         }
-
-        if ($data) {
-            if (is_array($data)) {
+        $content_type = array(
+            'xml' => 'Content-Type: text/xml',
+            'json' => 'Content-Type: application/json',
+            'form' => 'Content-type: application/x-www-form-urlencoded',
+        );
+        if (isset($content_type[$option['type']])) {
+            $header[] = $content_type[$option['type']].'; charset=utf-8';
+        }
+        if (is_array($data) && $data) {
+            if ($option['type'] === 'json') {
+                $data = json_encode($data);
+            } elseif ($option['type'] === 'xml') {
+                $data = help::data_xml($data);
+            } else {
                 $data = http_build_query($data);
             }
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, trim($data));
         }
 
-        if ($header) {
-            $header[] = 'Content-type: application/x-www-form-urlencoded';
-            curl_setopt($ch, CURLOPT_HEADER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        }
-
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         if (defined('CURLOPT_SSL_VERIFYPEEP')) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -90,16 +92,31 @@ class http{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-        $result = curl_exec($ch);
-        $status = curl_getinfo($ch);
-        if (curl_errno($ch)) {
-            logger::exception('curl', curl_errno($ch) . curl_error($ch));
+        if ($header) {
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        }
+        if ($data) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, trim($data));
         }
 
-        $result = substr($result, $status['header_size']);
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            logger::exception('curl', curl_errno($ch) . ': ' . curl_error($ch));
+        }
+        $content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        //$status = curl_getinfo($ch);
+        //$result = substr($result, $status['header_size']);
         curl_close($ch);
-        return json_decode($result, true);
+        $response = trim(substr($response, -$content_length));
+        if ($option['type'] === 'json') {
+            return json_decode($response, $option['is_array']);
+        } elseif ($option['type'] === 'xml') {
+            return simplexml_load_string($response);
+        }
+        return $response;
     }
 
     //以post请求发送socket并返回接口数据
@@ -128,11 +145,11 @@ class http{
         $data = trim($data);
 
         //构造头部信息
-        $head = 'POST ' . $url['path'] . " HTTP/1.0\r\n";
-        $head .= 'Host: ' . $url['host'] . "\r\n";
-        $head .= 'Referer: http://' . $url['host'] . $url['path'] . "\r\n";
-        $head .= "Content-type: application/x-www-form-urlencoded\r\n";
-        $head .= 'Content-Length: ' . strlen($data) . "\r\n\r\n";
+        $head = 'POST ' . $url['path'] . ' HTTP/1.0' . PHP_EOL;
+        $head .= 'Host: ' . $url['host'] . PHP_EOL;
+        $head .= 'Referer: http://' . $url['host'] . $url['path'] . PHP_EOL;
+        $head .= 'Content-type: application/x-www-form-urlencoded' . PHP_EOL;
+        $head .= 'Content-Length: ' . strlen($data) . PHP_EOL . PHP_EOL;
         $head .= $data;
 
         //接收并返回结果
@@ -163,7 +180,19 @@ class http{
         $extension = preg_replace('/.*\./', '', $save_name);
         $mime_type = config($extension, 'mime_type');
         empty($mime_type) and $mime_type = 'application/octet-stream';
-        $file_name = help::download_name($save_name);
+        $process_file_name = function () use ($save_name){
+            $save_name = str_replace(array('\\', '/', ':', '*', '?', '"', '<', '>', '|', ','), '', $save_name);
+            if (isset($_SERVER['HTTP_USER_AGENT']) && ($user_agent = $_SERVER['HTTP_USER_AGENT'])) {
+                if (preg_match('/MSIE/', $user_agent)) {
+                    return 'filename="' . str_replace('+', '%20', urlencode($save_name)) . '"';
+                } elseif (preg_match('/Firefox/', $user_agent)) {
+                    return 'filename*="utf8\'\'' . str_replace('+', '%20', urlencode($save_name)) . '"';
+                }
+            }
+            return 'filename="' . $save_name . '"';
+        };
+        $file_name = $process_file_name();
+
         if ($is_path) {
             if (is_file($data) && ($fp = fopen($data, 'rb')) !== false) {
                 help::download_header($mime_type, filesize($data), $file_name);

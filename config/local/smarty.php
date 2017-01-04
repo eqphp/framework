@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'home'=>array(
+	'common'=>array(
 		//允许php模板、开启错误、调试
 		'allow_php'=>false,
 		'error'=>true,
