@@ -4,7 +4,7 @@ return array(
     'frame'=>array(
         'name'=>'eqphp',
         'version'=>'3.0',
-        'size'=>'868KB',
+        'size'=>'1.58MB',
     ),
 
     'state'=>array(

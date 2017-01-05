@@ -125,7 +125,7 @@ function out($param, $mode = 1, $is_exit = true){
 
 //模板配置
 function smarty(){
-    return smarty3::tpl();
+    //return smarty3::tpl();
 }
 
 //会话

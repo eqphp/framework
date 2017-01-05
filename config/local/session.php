@@ -11,7 +11,7 @@ return array(
     'storage' => 'files',
 
     //存储地址：tcp://127.0.0.1:(11211/6379）
-    'path' => PATH_ROOT . 'cache/session',
+    'path' => '',//PATH_ROOT . 'cache/session',
 
     //周期：秒
     'expire' => 1440,

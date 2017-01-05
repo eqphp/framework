@@ -112,7 +112,7 @@ class a_command{
 
 
     //清理目录
-    private function clear_directory(){
+    static function clear_directory(){
         //上传临时目录
         file::delete(FILE_TEMP, true);
 
@@ -130,7 +130,7 @@ class a_command{
     }
 
     //创建目录
-    private function create_directory(){
+    static function create_directory(){
         file::folder(FILE_TEMP, 0777);
 
         $cache_list = array('smarty/compile/', 'compile/', 'data/ini/', 'data/json/', 'data/php/', 'data/txt/', 'data/xml/', 'session/');
@@ -145,8 +145,8 @@ class a_command{
     }
 
     //变更运行权限
-    private function modify_privilege(){
-        file::modify(PATH_ROOT, 'chown', 'apache:apache');
+    static function modify_privilege(){
+        //file::modify(PATH_ROOT, 'chown', 'apache:apache');
         file::modify(PATH_ROOT, 'chmod', 0755, 0644);
 
         file::modify(PATH_CACHE, 'chmod', 0777);
