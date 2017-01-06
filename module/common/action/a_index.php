@@ -12,7 +12,7 @@ class a_index{
 
         http::cookie('framework_name', 'EQPHP');
         $data = array('title' => 'EQPHP Framework 3.0', 'url' => U_R_L);
-        return with('view')->assign($data)->display('index.html');
+        return with('view')->assign($data)->display('index');
     }
 
     //创建目录
