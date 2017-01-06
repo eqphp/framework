@@ -28,9 +28,9 @@ class demoTest extends PHPUnit_Framework_TestCase{
 
     public function additionProvider(){
         return [
-            'a' => ['15001329580', true],
-            'b' => ['15202921877', true],
-            'c' => ['15847586321', true],
+            'a' => ['15001329***', true],
+            'b' => ['15202921***', true],
+            'c' => ['15847586***', true],
             'd' => ['19985410142', true],
         ];
     }

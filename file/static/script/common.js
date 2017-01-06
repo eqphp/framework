@@ -83,19 +83,3 @@ var cookie = {
         return true;
     }
 };
-
-
-//判断指定值是否在指定的数组中
-function in_array(value, option) {
-    var value_type = typeof value;
-    var option_type = typeof option;
-    if (option_type !== 'object') return false;
-    if (value_type === 'number' || value_type === 'string') {
-        for (var i = 0; i < option.length; i++) {
-            if (value === option[i]) {
-                return true;
-            }
-        }
-    }
-    return false;
-}

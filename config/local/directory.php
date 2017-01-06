@@ -15,7 +15,6 @@ return array(
     ),
 
     'file'=>array(
-        'create'=>'file/create/',
         'picture'=>'file/picture/',
         'temp'=>'file/temp/',
         'avatar'=>'file/picture/avatar/',

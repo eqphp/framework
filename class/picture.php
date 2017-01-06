@@ -62,7 +62,7 @@ class picture{
     }
 
     //按照指定尺寸缩放图片
-    static function zoom($picture, $file_name = array('eq80_test.png', 'file/create/'), $length, $is_height = false){
+    static function zoom($picture, $file_name = array('eq80_test.png', 'file/create/'), $length = 320, $is_height = false){
         $image = image::open($picture);
         $start_width = image::info($image, 'width');
         $start_height = image::info($image, 'height');
@@ -74,7 +74,7 @@ class picture{
             $end_height = $length;
         }
 
-        $canvas = image::create($end_width, $end_height, 'ffffff', true);
+        $canvas = image::create($end_width, $end_height, 'FFFFFF', true);
         $param = array(0, 0, 0, 0, $end_width, $end_height, $start_width, $start_height);
         image::copy($canvas, $image, $param, 4);
         image::save($canvas, $file_name[0], $file_name[1]);
@@ -83,9 +83,9 @@ class picture{
     }
 
     //生成指定尺寸的用户头像
-    static function avatar($image, $true_size, $size_data = array(100, 50, 32), $save_name, $save_dir = ''){
+    static function avatar($image, $true_size, $size_data = array(100, 50, 32), $save_name = 'avatar', $save_dir = ''){
         foreach ($size_data as $target_size) {
-            $target_img = image::create($target_size, $target_size, 'ffffff', true);
+            $target_img = image::create($target_size, $target_size, 'FFFFFF', true);
             $param = array(0, 0, 0, 0, $target_size, $target_size, $true_size, $true_size);
             $copy_result = image::copy($target_img, $image, $param, 5);
             if ($copy_result) {

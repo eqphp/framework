@@ -80,6 +80,7 @@ a:hover, a:active, .link {color:#FE5F1B;}
 .indent {text-indent:2em;}
 .center {text-align:center;}
 .right {text-align:right;}
+.w100 {min-width:330px; width:100%}
 .cp {cursor:pointer;}
 .hide {display:none;}
 .show {display:block;}

@@ -14,7 +14,7 @@ return array(
 		'icp'=>'京ICP备12034402号',
 		'support'=>'西安艺青网络科技有限公司',
 		'man'=>'art_youth',
-		'phone'=>'13032935175',
+		'phone'=>'13032935***',
 		'city'=>'西安市高新区',
 		'address'=>'西安市高新区光华路凯创国际A座',
 		'email'=>'eqphp_framework@126.com',

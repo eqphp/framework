@@ -587,7 +587,7 @@
                 list($module,$category,$action,$news_id)=$param;<i>//$param为控制器的参数</i><br>
             </code>
 
-            <span>2、获取url：http://www.eqphp.com/user/activate/15001357889/444bcb3a3fcf8389296c49467f27e1d6 的各段参数，</span><br>
+            <span>2、获取url：http://www.eqphp.com/user/activate/15001359***/444bcb3a3fcf8389296c49467f27e1d6 的各段参数，</span><br>
             <code>
                 $phone=url(2,'phone');<i>//手机号</i><br>
                 $code=url(3,'md5');<i>//md5值，第二个参数也可是正则表达式</i><br>
@@ -1227,7 +1227,7 @@ db::post('coupon',$data);<br>
 <code>
 <i>//修改ID为8的会员邮箱、电话、QQ号：</i><br>
 $data['email']='example@126.com';<br>
-$data['phone']='13654128745';<br>
+$data['phone']='13654128***';<br>
 $data['qq']='456987213';<br>
 db::patch('member',$data,8);<br><br>
 
@@ -1368,11 +1368,11 @@ $condition['score'] = ['interval','[60,75)'];<br>
 
 7、多字段简洁组合查询
 <code>
-    $condition['park_phone|pick_phone'] = '15001568899';<br>
-    <i>//((park_phone = '15001568899') or (pick_phone = '15001568899'))</i><br><br>
+    $condition['park_phone|pick_phone'] = '15001568***';<br>
+    <i>//((park_phone = '15001568***') or (pick_phone = '15001568***'))</i><br><br>
 
-    $condition['park_phone&pick_phone'] = '15001568899';<br>
-    <i>//((park_phone="15001568899") and (pick_phone="15001568899"))</i><br><br>
+    $condition['park_phone&pick_phone'] = '15001568***';<br>
+    <i>//((park_phone="15001568***") and (pick_phone="15001568***"))</i><br><br>
 
     $condition['order_id,client_id,bill_id'] = [12,44,89,'or'];<br>
     <i>//(order_id=12) or (client_id=44) or (bill_id=89)</i>
@@ -2235,25 +2235,25 @@ picture::code($check_code); <i>//效果如下图：</i><br>
 
 2、为图片添加水印<span class="fsb">picture::mark('图片名称','水印字符','保存参数')</span><br>
 <code>
-$picture=FILE_CREATE.'example.jpg';<br>
+$picture=FILE_TEMP.'example.jpg';<br>
 $mark_info=['http://www.eqphp.com','艺青科技'];<br>
-$save_param=['eqphp_create_mar.jpg',FILE_CREATE];<br>
+$save_param=['eqphp_create_mar.jpg',FILE_TEMP];<br>
 picture::mark($picture,$mark_info,$save_param); <i>//水印效果如下图：</i><br>
 </code><br><img src="image/pic_create_mark.gif" alt="photo water mark"><br><br>
 
 3、按照指定尺寸缩放图片：<span class="fsb">picture::zoom('图片名称','保存参数','尺寸','是否为高')</span><br>
 <code>
 <i>//将533px*800px的example.jpg等比例缩放为宽240px的pic_example_zoom.jpg</i>
-$picture=FILE_CREATE.'example.jpg';<br>
-$save_param=['pic_example_zoom.jpg',FILE_CREATE];<br>
+$picture=FILE_TEMP.'example.jpg';<br>
+$save_param=['pic_example_zoom.jpg',FILE_TEMP];<br>
 picture::zoom($picture,$save_param,240);
 </code><br>
 
 4、生成指定尺寸的用户头像：<span class="fsb">picture::avatar('图片名称','尺寸数据,'存放目录')</span><br>
 <code>
-$picture=FILE_CREATE.'example_avatar.png';<br>
+$picture=FILE_TEMP.'example_avatar.png';<br>
 $size_data=[100,75,50,32];<br>
-picture::avatar($picture,$size_data,FILE_CREATE);<i>//效果如下图：</i><br>
+picture::avatar($picture,$size_data,FILE_TEMP);<i>//效果如下图：</i><br>
 </code><br>
 <img src="image/example_avatar_100.gif" alt="100px avatar sample">&nbsp;
 <img src="image/example_avatar_75.gif" alt="750px avatar sample">&nbsp;
@@ -2490,7 +2490,7 @@ file_write($file,$data,'a+');
 
 <b class="i24"></b>return [<br>
 <b class="i48"></b>//mongodb://[username:password@]hostname[:port][/database]<br>
-<b class="i48"></b>'server'=>'mongodb://platform:platform2014@10.10.0.214:27017/che001',<br><br>
+<b class="i48"></b>'server'=>'mongodb://eqphp:123456@127.0.0.1:27017/eqphp',<br><br>
 
 <b class="i48"></b>'page_size'=>20,<br><br>
 	
@@ -3525,7 +3525,6 @@ file_write($file,$data,'a+');
             <tr><td>日志目录</td><td>PATH_LOG</td><td>/var/www/log/</td></tr>
             <tr><td>扩展工具类</td><td>PATH_LIBRARY</td><td>/var/www/class/library/</td></tr>
             <tr><td>第三方类库</td><td>PATH_VENDOR</td><td>/var/www/data/vendor/</td></tr>
-            <tr><td>系统生成资源</td><td>FILE_CREATE</td><td>/var/www/file/create/</td></tr>
             <tr><td>上传图片</td><td>FILE_PICTURE</td><td>/var/www/file/picture/</td></tr>
             <tr><td>临时操作目录</td><td>FILE_TEMP</td><td>/var/www/file/temp/</td></tr>
             <tr><td>用户头像</td><td>FILE_AVATAR</td><td>/var/www/file/picture/avatar/</td></tr>
@@ -3628,9 +3627,9 @@ file_write($file,$data,'a+');
             <i>//http://www.eqphp.com/blog/36</i><br>
             $article_id = url(1,1); <i>//36</i><br><br>
 
-            <i>//http://www.eqphp.com/user/check_only/phone/15800123112</i><br>
+            <i>//http://www.eqphp.com/user/check_only/phone/15800123***</i><br>
             $filed = url(2,'/^(phone|email|cid)$/'); <i>//phone</i><br>
-            $value = url(3,$filed); <i>//15800123112</i><br>
+            $value = url(3,$filed); <i>//15800123***</i><br>
         </code><br><br><br>
 
         <h3>构造url</h3>
@@ -3811,13 +3810,13 @@ file_write($file,$data,'a+');
         <p class="function">bool <b>regexp::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
         <code>
             <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
-            regexp::match('13650231421','phone'); <i>//true</i><br>
+            regexp::match('13650231***','phone'); <i>//true</i><br>
         </code><br><br><br>
 
         <h3>使用正则表达式检测字符串</h3>
         <p class="function">bool <b>regexp::filter</b>(mixed $string[, string $regexp <em>email</em>[, $default]])</p>
         <code>
-            regexp::filter('13650231421','phone'); <i>//13650231421</i><br>
+            regexp::filter('13650231***','phone'); <i>//13650231***</i><br>
         </code><br><br><br>
 
         <h3>检测华人姓名</h3>
@@ -3863,8 +3862,8 @@ file_write($file,$data,'a+');
         <p class="function">array <b>basic::array_set</b>(array &$data, string $map, $$value)</p>
         <code>
             $data=['user'=>['profile'=>['name'=>'Art','sex'=>'male']]];<br>
-            basic::array_set($data,'user.profile.phone','15001369857');<br>
-            <i>//['user'=>['profile'=>['name'=>'Art','sex'=>'male','phone'=>'15001369857']]]</i>
+            basic::array_set($data,'user.profile.phone','15001369***');<br>
+            <i>//['user'=>['profile'=>['name'=>'Art','sex'=>'male','phone'=>'15001369***']]]</i>
         </code><br><br><br>
 
         <h3>map方式移除数组指定单元</h3>

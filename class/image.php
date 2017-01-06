@@ -6,10 +6,12 @@ class image{
     // ellipse:椭圆;rectangle:矩形;polygon:多边形
 
     //创建
-    static function create($width, $height, $bgcolor = false, $type = false){
+    static function create($width, $height, $background_color = '', $type = false){
         $create = $type ? 'imagecreatetruecolor' : 'imagecreate';
         $image = $create($width, $height);
-        $bgcolor && self::color($image, $bgcolor);
+        if ($background_color) {
+            self::color($image, $background_color);
+        }
         return $image;
     }
 
@@ -23,15 +25,15 @@ class image{
     }
 
     //设置颜色
-    static function color(&$imgage, $color = 'ffffff', $delete = false){
+    static function color(&$image, $color = 'FFFFFF', $delete = false){
         $cd = str_split($color, ((strlen($color) > 4) ? 2 : 1));
-        $color = imagecolorallocate($imgage, hexdec($cd[0]), hexdec($cd[1]), hexdec($cd[2]));
-        $delete && imagecolordeallocate($imgage, $color);
+        $color = imagecolorallocate($image, hexdec($cd[0]), hexdec($cd[1]), hexdec($cd[2]));
+        $delete && imagecolordeallocate($image, $color);
         return $color;
     }
 
     //绘制图形
-    static function draw(&$image, $color, $param, $name = "line"){
+    static function draw(&$image, $color, $param, $name = 'line'){
         switch ($name) {
             case 'point': //像素点
                 return imagesetpixel($image, $param[0], $param[1], $color);
