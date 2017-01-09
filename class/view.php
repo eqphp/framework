@@ -31,23 +31,15 @@ class view{
         return $this;
     }
 
-
-    //支持下级目录, 如: $tpl->display('dir/xxx.html');
+    //支持多级目录
     public function display($tpl){
-        $tpl .= '.html';
-        $tplTemp = explode('/', $tpl);
-
-        if (count($tplTemp) > 1) {
-            $tplCacheDir = $this->tpl_compile_dir . $tplTemp[0] . '/';
-            //模板文件路径
-            $tpl_real = $this->tpl_template_dir . $tplTemp[0] . '/' . $tplTemp[1];
-            //缓存文件路径
-            $compiled_file = $tplCacheDir . base64_encode($tplTemp[1]) . ".%%.php";
-        } else {
-            $tplCacheDir = $this->tpl_compile_dir;
-            $tpl_real = $this->tpl_template_dir . $tpl;
-            $compiled_file = $tplCacheDir . base64_encode($tpl) . ".%%.php";
+        if (!preg_match('/\.[a-z]{3,5}$/',$tpl)) {
+            $tpl .= '.html';
         }
+
+        $tpl_real = $this->tpl_template_dir . $tpl;
+        $tplCacheDir = $this->tpl_compile_dir . dirname($tpl) . '/';
+        $compiled_file = $tplCacheDir . base64_encode($tpl) . ".%%.php";
 
         //未编译或模板文件已修改时, 编译生成模板缓存文件
         if (!is_file($compiled_file) || ($this->tpl_check && filemtime($tpl_real) > filemtime($compiled_file))) {
