@@ -27,7 +27,7 @@ return array(
 
     'module'=>array(
         'list'=>array('admin','demo','api'),
-        'subdomain'=>false,
+        'subdomain'=>array(),
     ),
 
 );

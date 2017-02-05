@@ -64,10 +64,18 @@ class system{
         }
 
         //定义当前运行模块名
-        $module_list = config('module.list');
-        $module = current(explode('/', trim($_SERVER['REQUEST_URI'], '/')));
-        if (is_array($module_list) && in_array($module, $module_list, true)) {
-            define('MODULE_NAME', $module);
+        $module = config('module');
+        if ($module['subdomain'] && is_array($module['subdomain'])) {
+            foreach ($module['subdomain'] as $subdomain) {
+                if (strpos($host, $subdomain . '.') !== false) {
+                    define('SUBDOMAIN', $subdomain);
+                    return define('MODULE_NAME', $subdomain);
+                }
+            }
+        }
+        $current_module = current(explode('/', trim($_SERVER['REQUEST_URI'], '/')));
+        if (is_array($module['list']) && in_array($current_module, $module['list'], true)) {
+            define('MODULE_NAME', $current_module);
         }
     }
 

@@ -3479,7 +3479,7 @@ file_write($file,$data,'a+');
             <code>
                 'module'=>array(<br>
                 <b class="i24"></b>'list'=>array('common','admin','user','blog','message','wap'),<br>
-                <b class="i24"></b>'subdomain'=>false,<br>
+                <b class="i24"></b>'subdomain'=>array(),<br>
                 ),
             </code><br>
 
@@ -3507,6 +3507,7 @@ file_write($file,$data,'a+');
 
             <tr class="fs18 fcb1"><td colspan="3">web模式常量</td></tr>
             <tr><td>当前运行模块名称</td><td>MODULE_NAME</td><td>user</td></tr>
+            <tr><td>当前运行模块为子域名</td><td>SUBDOMAIN</td><td>user</td></tr>
             <tr><td>当前执行控制器</td><td>CURRENT_ACTION</td><td>test:index</td></tr>
             <tr><td>当前访问域名</td><td>SITE_DOMAIN</td><td>www.eqphp.com</td></tr>
             <tr><td>当前访问参数</td><td>URL_REQUEST</td><td>user/test</td></tr>
