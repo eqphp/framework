@@ -20,11 +20,16 @@ function array_get($data, $map = null){
 
 //创建、写文件
 function file_write($file_name, $string = '', $mode = 'w'){
-    $open_file = fopen($file_name, $mode);
-    flock($open_file, LOCK_EX);
-    fwrite($open_file, $string);
-    flock($open_file, LOCK_UN);
-    fclose($open_file);
+    if ($mode === 'b'){
+        $GLOBALS['_LOG_FILE'][$file_name][] = $string;
+    } else {
+        //file_put_contents($file_name, $string, FILE_APPEND);
+        $open_file = fopen($file_name, $mode);
+        flock($open_file, LOCK_EX);
+        fwrite($open_file, $string);
+        flock($open_file, LOCK_UN);
+        fclose($open_file);
+    }
     return true;
 }
 
@@ -110,6 +115,17 @@ function route(){
     unset($param[0]);
     $query = str_replace('/#', '#', implode('/', $param));
     return U_R_L . $uri . '/' . $query;
+}
+
+//exit扩展函数
+function quit($flag = ''){
+    if (isset($GLOBALS['_LOG_FILE']) && is_array($GLOBALS['_LOG_FILE'])) {
+        foreach ($GLOBALS['_LOG_FILE'] as $key => $string) {
+            file_write($key, implode('', $string), 'a+');
+            unset($GLOBALS['_LOG_FILE'][$key]);
+        }
+    }
+    exit(strval($flag));
 }
 
 //解析分组配置文件

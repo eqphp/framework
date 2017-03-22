@@ -7,8 +7,7 @@ class system{
     static function init(){
         //设置错误提示
         $state=config('state','config');
-        //$error_level = $state['error_switch'] ? E_ALL|E_STRICT : 0;
-        //error_reporting($error_level);
+        //error_reporting($state['error_switch'] ? E_ALL|E_STRICT : 0);
 
         //设置时区
         ini_set('date.timezone', $state['timezone']);
@@ -183,6 +182,39 @@ class system{
         }
     }
 
+    //处理错误
+    static function process_error(){
+        $error = (object)error_get_last();
+        if ($error && isset($error->type)) {
+            ob_end_clean();
+            $type = config($error->type, 'error');
+            $log_data = $type . ' : ' . $error->message . ' [' . $error->file . ' - ' . $error->line . ']' . PHP_EOL;
+            if (defined('RUN_MODE') && RUN_MODE === 'cli') {
+                return file_write(LOG_CRONTAB . 'error.log', $log_data, 'a+');
+            }
+            file_write(LOG_TOPIC . 'error.log', $log_data, 'a+');
+
+            if (preg_match('/^(similar|product)$/', ENVIRONMENT)) {
+                if (isset($_SERVER["HTTP_X_REQUESTED_WITH"])){
+                    if (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === 'xmlhttprequest') {
+                        header('Content-Type:application/json; charset=utf-8');
+                        quit(json_encode(array('error' => 4, 'message' => $error->message, 'data' => null)));
+                    }
+                }
+                header('location: ' . U_R_L . 'abort/error');
+                quit();
+            }
+
+            header('Content-Type:text/html; charset=utf-8');
+            $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+            $html .= '<div class="trace"><pre>';
+            $html .= sprintf('<h5><b>%s</b>%s</h5>', $type, $error->message);
+            $html .= sprintf('<h6>%s<b>%s</b></h6>', $error->file, $error->line);
+            $html .= '</pre></div>';
+            quit($html);
+        }
+    }
+
     //snake_case风格类库自动加载
     static function snake_case_auto_load($class){
         $prefix = substr($class, 0, strpos($class, '_'));
@@ -301,37 +333,6 @@ class system{
         return false;
     }
 
-    //处理错误
-    static function process_error(){
-        $error = (object)error_get_last();
-        if ($error && isset($error->type)) {
-            ob_end_clean();
-            $type = config($error->type, 'error');
-            $log_message = $type . ' : ' . $error->message . ' [' . $error->file . ' - ' . $error->line . ']' . PHP_EOL;
-            if (defined('RUN_MODE') && RUN_MODE === 'cli') {
-                return file_write(LOG_CRONTAB . 'error.log', $log_message, 'a+');
-            }
-            file_write(LOG_TOPIC . 'error.log', $log_message, 'a+');
 
-            if (preg_match('/^(similar|product)$/', ENVIRONMENT)) {
-                if (isset($_SERVER["HTTP_X_REQUESTED_WITH"])){
-                    if (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === 'xmlhttprequest') {
-                        header('Content-Type:application/json; charset=utf-8');
-                        exit(json_encode(array('error' => 4, 'message' => $error->message, 'data' => null)));
-                    }
-                }
-                header('location: ' . U_R_L . 'abort/error');
-                exit;
-            }
-
-            header('Content-Type:text/html; charset=utf-8');
-            $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
-            $html .= '<div class="trace"><pre>';
-            $html .= sprintf('<h5><b>%s</b>%s</h5>', $type, $error->message);
-            $html .= sprintf('<h6>%s<b>%s</b></h6>', $error->file, $error->line);
-            $html .= '</pre></div>';
-            exit($html);
-        }
-    }
 
 }

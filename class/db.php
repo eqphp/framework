@@ -49,7 +49,7 @@ class db{
         $result = $pdo->query($sql);
         if ($result) {
             if (config('log.is_record_sql', 'db')) {
-                logger::sql($sql, $is_read);
+                logger::mysql($sql, $is_read);
             }
             return $result;
         }
@@ -170,7 +170,7 @@ class db{
     //事务处理
     static function transaction($command){
         if (config('log.is_record_sql', 'db')) {
-            logger::sql($command, true);
+            logger::mysql($command, true);
         }
         if ($command === 'begin') {
             $command = 'beginTransaction';

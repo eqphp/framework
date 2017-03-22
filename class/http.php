@@ -6,27 +6,27 @@ class http{
     //域内跳转
     static function redirect($url = null){
         header('Location: ' . U_R_L . $url);
-        exit;
+        quit();
     }
 
     //异常终止并跳转
     static function abort($abort_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('abort_message', 'redirect_url', 'wait_time');
         smarty()->assign($data)->display('abort/fail');
-        exit;
+        quit();
     }
 
     //完成、结束并终止并跳转
     static function success($tip_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('tip_message', 'redirect_url', 'wait_time');
         smarty()->assign($data)->display('abort/success');
-        exit;
+        quit();
     }
 
     //输出script
     static function script($data = null, $type = 'back_refresh', $is_exit = true){
         $script = html::script($data, $type);
-        $is_exit && exit($script);
+        $is_exit && quit($script);
         echo $script;
     }
 
@@ -34,7 +34,7 @@ class http{
     static function json($data, $is_exit = true){
         headers_sent() or header('Content-Type:application/json; charset=utf-8');
         $json = json_encode($data);
-        $is_exit && exit($json);
+        $is_exit && quit($json);
         echo $json;
     }
 
@@ -43,7 +43,7 @@ class http{
         headers_sent() or header('Content-Type:text/xml; charset=utf-8');
         $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= "<{$root}>" . help::data_xml($data) . "</{$root}>";
-        $is_exit && exit($xml);
+        $is_exit && quit($xml);
         echo $xml;
     }
 
@@ -171,7 +171,7 @@ class http{
                 echo $status[$code];
                 //smarty()->display('abort/' . $code);
             }
-            $is_exit && exit;
+            $is_exit && quit();
         }
     }
 
@@ -203,12 +203,12 @@ class http{
                     echo $source;
                 }
                 fclose($fp);
-                exit;
+                quit();
             }
             throw new Exception('read download file fail', 108);
         }
         help::download_header($mime_type, strlen($data), $file_name);
-        exit($data);
+        quit($data);
     }
 
     //判断是否异步请求

@@ -28,7 +28,7 @@ class image{
     static function color(&$image, $color = 'FFFFFF', $delete = false){
         $cd = str_split($color, ((strlen($color) > 4) ? 2 : 1));
         $color = imagecolorallocate($image, hexdec($cd[0]), hexdec($cd[1]), hexdec($cd[2]));
-        $delete && imagecolordeallocate($image, $color);
+        $delete and imagecolordeallocate($image, $color);
         return $color;
     }
 

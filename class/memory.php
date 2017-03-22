@@ -24,10 +24,9 @@ class memory{
 
         $cache = new Memcache;
         $config = config(null, 'memcache');
-        $logger = array('logger', 'memcache');
         foreach ($config as $mc) {
             list($host, $port, $weight) = array($mc['host'], $mc['port'], $mc['weight']);
-            $cache->addServer($host, $port, true, $weight, 1, 15, true, $logger);
+            $cache->addServer($host, $port, true, $weight, 1, 15, true, array(__CLASS__, 'memcache_logger'));
         }
         return $cache;
     }
@@ -60,5 +59,12 @@ class memory{
         return call_user_func_array(array($cache, $name), $param);
     }
 
+
+    //记录memcache异常日志
+    static function memcache_logger($host, $port){
+        $file = LOG_TOPIC . 'memcache.log';
+        $data = '[' . date('H:i:s') . '] ' . $host . ':' . $port . PHP_EOL;
+        file_write($file, $data, 'a+');
+    }
 
 }

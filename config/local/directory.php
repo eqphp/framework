@@ -55,7 +55,7 @@ return array(
         'trace'=>'log/trace/',
         'run'=>'log/run/',
         'topic'=>'log/topic/',
-        'sql'=>'log/sql/',
+        'mysql'=>'log/mysql/',
         'mongo'=>'log/mongo/',
         'visit'=>'log/visit/',
         'test'=>'log/test/',

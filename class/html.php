@@ -83,7 +83,7 @@ class html{
             case 'back_refresh':
                 $refer = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : U_R_L;
                 header('Location: ' . $refer);
-                exit;
+                quit();
             case 'alert':
                 $script = 'alert("' . $data . '");';
                 break;

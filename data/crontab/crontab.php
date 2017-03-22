@@ -5,7 +5,7 @@ define('RUN_MODE', 'cli');
 $environment = get_cfg_var('environment');
 empty($environment) and $environment = 'local';
 define('ENVIRONMENT', $environment);
-define('PATH_ROOT', realpath(trim(dirname(__FILE__), 'data' . DIRECTORY_SEPARATOR . 'crontab')) . '/');
+define('PATH_ROOT', realpath(substr(dirname(__FILE__), 0, -12)) . '/');
 
 include PATH_ROOT . 'class/common.php';
 include PATH_ROOT . 'class/system.php';

@@ -9,7 +9,7 @@ class debug{
         echo '<pre>' . PHP_EOL;
         $method = array('var_dump', 'print_r', 'var_export');
         $method[$mode]($param);
-        $is_exit ? exit('</pre>') : print('</pre>');
+        $is_exit ? quit('</pre>') : print('</pre>');
     }
 
     //追溯方法
@@ -17,11 +17,7 @@ class debug{
         is_object($data) and $data = help::object_array($data);
         is_array($data) and $data = print_r($data, true);
         empty($file_name) and $file_name = date('Y_m_d') . '.log';
-        $file = fopen(LOG_TRACE . $file_name, 'a+');
-        flock($file, LOCK_EX);
-        fwrite($file, $data . PHP_EOL);
-        flock($file, LOCK_UN);
-        fclose($file);
+        file_put_contents($file_name, $data . PHP_EOL, FILE_APPEND);
     }
 
     //获取系统信息

@@ -170,7 +170,7 @@ $data = input::filter($filter, 'get', $map);
 
 #####restful：快速创建restful风格的API
 ```php
-class a_heartbeat extends a_restful{
+class a_news extends a_restful{
 
     private $cycle;
     protected $category;
@@ -179,7 +179,7 @@ class a_heartbeat extends a_restful{
         parent::__construct();
         $this->cycle = $cycle;
         $this->category = $category;
-        $this->model = with('m_heartbeat', $category, $cycle);
+        $this->model = with('m_news', $category, $cycle);
     }
 
     function get(){

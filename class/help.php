@@ -7,7 +7,7 @@ class help{
         if ($is_vendor) {
             $path = trim($path, '/.... ') . '/';
         } else {
-            $path = trim($path) ? 'module/'.$path . '/model/' : 'module/common/model/';
+            $path = trim($path) ? 'module/' . $path . '/model/' : 'module/common/model/';
         }
         require_once PATH_ROOT . $path . $class . '.php';
         return class_exists($class) ? $class : null;
@@ -77,7 +77,7 @@ class help{
 
     //检测银行卡
     static function is_bank_card($card_no, $bank){
-        if (validate::check($card_no,'length','15,19')) {
+        if (validate::check($card_no, 'length', '15,19')) {
             $prefix_number = config($bank, 'bank');
             foreach ($prefix_number as $value) {
                 if (strpos($card_no, $value) === 0) {

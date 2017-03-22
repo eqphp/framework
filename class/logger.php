@@ -22,7 +22,7 @@ class logger{
                 is_dir(LOG_RUN . MODULE_NAME) or mkdir(LOG_RUN . MODULE_NAME, 0777);
                 $file_name = MODULE_NAME . '/' . $file_name;
             }
-            file_write(LOG_RUN . $file_name, $data, 'a+');
+            file_write(LOG_RUN . $file_name, $data, 'b');
 
             //报警
             if (in_array($name, array('alert', 'collapse'))) {
@@ -42,41 +42,32 @@ class logger{
         file_write($file, $data, 'a+');
     }
 
-    static function sql($data, $is_read = true){
-        $log_type = $is_read ? '_s.log' : '_u.log';
-        $log_file = LOG_SQL . date('Y_m_d') . $log_type;
+    static function visit(){
+        $log_file = LOG_VISIT . date('Y_m_d') . '.log';
+        $data = '[' . date('H:i:s') . '] ' . help::ip() . ' ';
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $data .= $_SERVER['REQUEST_URI'];
+        }
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $data .= PHP_EOL . $_SERVER['HTTP_USER_AGENT'];
+        }
+        file_write($log_file, $data . PHP_EOL, 'a+');
+    }
+
+
+    static function mysql($data, $is_read = true){
+        $log_type = $is_read ? '_r.log' : '_w.log';
+        $log_file = LOG_MYSQL . date('Y_m_d') . $log_type;
         file_write($log_file, '[' . date('H:i:s') . '] ' . $data . PHP_EOL, 'a+');
     }
 
     static function mongo($data, $is_read = true){
-        $log_type = $is_read ? '_f.log' : '_u.log';
+        $log_type = $is_read ? '_r.log' : '_w.log';
         $log_file = LOG_MONGO . date('Y_m_d') . $log_type;
         file_write($log_file, '[' . date('H:i:s') . '] ' . $data . PHP_EOL, 'a+');
     }
 
-    static function mail($data){
-        $file = PATH_LOG . 'mail/' . date('y-m') . '.log';
-        $data = '[' . date('d H:i:s') . '] ' . $data . PHP_EOL;
-        file_write($file, $data, 'a+');
-    }
 
-    static function message($data){
-        $file = PATH_LOG . 'message/' . date('y-m') . '.log';
-        $data = '[' . date('d H:i:s') . '] ' . $data . PHP_EOL;
-        file_write($file, $data, 'a+');
-    }
 
-    static function memcache($host, $port){
-        if (config('exception.memcache', 'log')) {
-            $file = LOG_TOPIC . 'memcache.log';
-            $data = '[' . date('H:i:s') . '] ' . $host . ':' . $port . PHP_EOL;
-            file_write($file, $data, 'a+');
-        }
-    }
-
-    static function visit($data){
-        $log_file = LOG_VISIT . date('Y_m_d') . '.log';
-        file_write($log_file, '[' . date('H:i:s') . '] ' . $data . PHP_EOL, 'a+');
-    }
 
 }
