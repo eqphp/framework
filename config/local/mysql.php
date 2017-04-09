@@ -14,7 +14,7 @@ return array(
 		array(
 			'host'=>'localhost',
 			'user'=>'root',
-			'password'=>'root',
+			'password'=>'',
 			'database'=>'phpmyadmin',
 			'port'=>3306,
 			'charset'=>'utf8',
@@ -31,13 +31,5 @@ return array(
 		),
 	),	
 
-	'query'=>array(
-		'page_size'=>20,
-	),
-	
-	'log'=>array(
-		'is_record_exception'=>true,
-		'is_record_sql'=>true,
-	),
 
 );

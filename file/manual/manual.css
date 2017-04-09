@@ -1,0 +1,136 @@
+/***** reset tags style *****/
+html,body,iframe,div,table,tr,th,td,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p,span,a,img,form,label,input,select,textarea,pre {margin:0; padding:0;}
+body,input,select,textarea,h1,h2,h3,h4,h5,h6,pre,b,i,em,cite {color:#666666; font:normal normal normal 12px/22px Microsoft YaHei,Verdana,Geneva,sans-serif;}
+body {background:#ffffff;}
+table {border-collapse:collapse;}
+th {font-weight:normal; text-align:left;}
+ol,ol li,form {float:left;}
+pre {white-space:pre-wrap; word-wrap:break-word;}
+input {-webkit-appearance:none; -webkit-tap-highlight-color:transparent; padding-left:3px; height:24px;}
+select {padding:2px 3px; height:26px; font-size:14px;}
+ul,ol {list-style:none;}
+li {height:auto;}
+img {border:0;}
+a,del {text-decoration:none;}
+a:link, a:visited {color:#2971BD;}
+a:hover, a:active, .link {color:#FE5F1B;}
+
+
+/***** text(span) style *****/
+.fs12 {font-size:12px;}
+.fs14 {font-size:14px;}
+.fs15 {font-size:15px;}
+.fs16 {font-size:16px;}
+.fs18 {font-size:18px;}
+.fs20 {font-size:20px;}
+.fs24 {font-size:24px;}
+.fs32 {font-size:32px;}
+
+.fcr {color:red;}
+.fcr1 {color:#a50000;}
+.fco {color:#eb7350;}
+.fcg {color:green;}
+.fcg1 {color:#045a04;}
+.fc0 {color:black;}
+.fc3 {color:#333333;}
+.fc6 {color:#666666;}
+.fc8 {color:gray;}
+.fc9 {color:#999999;}
+.fcs {color:#e9e9d8;}
+.fcb {color:blue;}
+.fcb1 {color:#005eac;}
+.fcy {color:yellow;}
+.fcy1 {color:#f6af27;}
+.fcp {color:purple;}
+.fcw {color:white;}
+
+.ml3 {margin-left:3px;}
+.mr3 {margin-right:3px;}
+.m3 {margin:3px;}
+.ml5 {margin-left:5px;}
+.mr5 {margin-right:5px;}
+.m5 {margin:5px;}
+.mt5 {margin-top:5px;}
+.mt10 {margin-top:10px;}
+.ml10 {margin-left:10px;}
+.mr10 {margin-right:10px;}
+.m10 {margin:10px;}
+
+.pl3 {padding-left:3px;}
+.pr3 {padding-right:3px;}
+.p3 {padding:3px;}
+.pl5 {padding-left:5px;}
+.pr5 {padding-right:5px;}
+.p5 {padding:5px;}
+.pl12 {padding-left:10px;}
+.pr12 {padding-right:10px;}
+.p12 {padding:12px;}
+
+.fsb {font-weight:bold;}
+.fsi {font-style:italic;}
+.fmc {font-family:Consolas,Microsoft YaHei,sans-serif;}
+.fsl {text-decoration:underline;}
+.fsd {text-decoration:line-through;}
+.border {border:solid #efefef 1px;}
+.br2 {border-radius:2px;}
+.br3 {border-radius:3px;}
+.br5 {border-radius:5px;}
+.br10 {border-radius:10px;}
+.bgg {background-color:#efefef;}
+.indent {text-indent:2em;}
+.center {text-align:center;}
+.right {text-align:right;}
+.w100 {min-width:330px; width:100%;}
+.cp {cursor:pointer;}
+.hide {display:none;}
+.show {display:block;}
+
+
+
+/***** body-first-div *****/
+.stage {margin:0 auto; width:1000px; height:auto; overflow:hidden;}
+.stage div {position:relative; float:left;}
+#kindeditor div {float:none;}
+
+
+.h1_title {float:left; padding:5px 24px; width:952px; border-bottom:solid #005EAC 2px;}
+.h1_title .logo {color:#E13300;}
+.fal {float:left;}
+.far {float:right;}
+.nav_title dl {float:left; margin:3px 4px; padding:0 5px; width:180px; font-size:14px;}
+.nav_title dt {padding:2px 2px 3px 3px; font-size:15px; color:white; background:#005EAC; font-weight:bold;}
+.nav_title dl dd {display:none; color:#005EAC; cursor:pointer;}
+.main {margin-top:5px; padding:5px 10px; width:980px;}
+.main a {margin:0 5px;}
+.main h1 {float:left; padding:5px; font-size:15px; color:#E13300; font-weight:bold;}
+.main h1 strong {width:600px;}
+.main h1 b {float:left; width:90px;}
+
+.main .item {display:none; float:left; width:920px; padding:8px 24px; font-size:12px; border:solid #efefef 1px;}
+.item table {width:100%; font-size:14px; line-height:32px; text-indent:0;}
+#index_table {width:60%; border:solid #dfdfdf 1px;}
+#index_table th, #index_table td {padding-left:5px; border-bottom:dashed #efefef 1px;}
+#index_table th {border-bottom:0; background-color:#efefef; color:#666666;}
+.main li {padding:3px 0;}
+.case_img {width:978px; border:solid #efefef 1px;}
+#join_us {border:0; width:120px; height:36px; border-radius:3px; background-color:#030681; color:white; cursor:pointer;}
+
+.item code {display:block; padding:25px 15px; width:760px; color:white; font-size:14px; line-height:24px; font-style:italic; border-radius:3px; font-family:Consolas, Microsoft YaHei; background-color:#1a0101; text-indent:0;}
+.item code i {color:green; font-size:14px;}
+.item code pre {color:red; width:600px; border:solid red 1px;}
+.item code .i24 {padding-left:32px;}
+.item code .i48 {padding-left:64px;}
+.item code .i72 {padding-left:96px;}
+.item code .i96 {padding-left:128px;}
+.item code .i120 {padding-left:160px;}
+
+.item .manual tr {border-bottom:dashed #005eac 1px;}
+.item .manual th, .item .manual td {padding-left:12px;}
+
+
+.item h3 {padding:10px 0; font-size:14px;}
+.item .function {margin-bottom:15px; padding:10px 0; border:solid #efefef 1px; border-radius:3px; font-size:15px; font-family:Consolas, Microsoft YaHei;}
+.item .function b {color:#005eac; font-size:18px;}
+.item .function em {color:blue;}
+
+.foot {margin-top:15px; padding:12px; width:976px; background-color:#efefef;}

@@ -24,7 +24,7 @@ class a_index{
             file::folder(PATH_CACHE . $path_cache, 0777);
         }
 
-        $log_list = array('trace/', 'run/', 'topic/', 'sql/', 'mongo/', 'visit/', 'test/');
+        $log_list = array('trace/', 'run/', 'topic/', 'mysql/', 'mongo/', 'visit/', 'test/');
         foreach ($log_list as $path_log) {
             file::folder(PATH_LOG . $path_log, 0777);
         }

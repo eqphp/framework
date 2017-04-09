@@ -3,8 +3,8 @@
 class p_modifierPlugin{
 
     //解析配置文件的常量
-    static function constant($name, $file = 'const', $mode = 0){
-        return config($name, $file, $mode);
+    static function constant($name, $mode = 0){
+        return system::config($name, $mode);
     }
 
     //截取指定长度的中英文混合字符串

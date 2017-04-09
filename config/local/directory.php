@@ -2,7 +2,7 @@
 return array(
     'path'=>array(
         'config'=>'config/',
-        'class'=>'class/',
+        'library'=>'library/',
         'module'=>'module/',
         'server'=>'server/',
         'file'=>'file/',
@@ -10,7 +10,6 @@ return array(
         'data'=>'data/',
         'cache'=>'cache/',
         'log'=>'log/',
-        'library'=>'class/library/',
         'vendor'=>'data/vendor/',
     ),
 
@@ -37,6 +36,8 @@ return array(
 
     'data'=>array(
         'lang'=>'data/lang/',
+        'dict'=>'data/dict/',
+        'font'=>'data/font/',
         'store'=>'data/store/',
         'backup'=>'data/backup/',
         'source'=>'data/source/',

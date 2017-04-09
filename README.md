@@ -44,6 +44,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 | [微博](http://weibo.com/eq80) | http://weibo.com/eq80 |
 | [getter聊天](https://gitter.im/eqphp/framework) | https://gitter.im/eqphp/framework |
 | [加入我们](http://www.eqphp.com/user/register) | http://www.eqphp.com/user/register |
+| 公众号:eqphpblog | ![](http://www.eqphp.com/file/manual/image/weixin_eqphp_blog.gif) |
 
 花絮
 ===========================
@@ -221,7 +222,7 @@ class a_news extends a_restful{
 #####其他：更多精彩内容待你发现
 ```php
 //读取配置
-config('master.host','mysql');
+config('mysql.master.host');
 
 //短信、邮件
 with('message',$provider, $channel)->take(['code'=>6781],'withdraw','message_code')->send('1500123****');

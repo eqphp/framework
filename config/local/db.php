@@ -10,12 +10,4 @@ return array(
 		'charset'=>'utf8',
 	),
 
-	'query'=>array(
-		'page_size'=>20,
-	),
-	
-	'log'=>array(
-		'is_record_exception'=>true,
-		'is_record_sql'=>true,
-	),
 );
