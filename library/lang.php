@@ -5,7 +5,7 @@ class lang{
     //国际化语言包解析
     static function get($name, $i18n = ''){
         if (empty($i18n)) {
-            $i18n = session('i18n');
+            $i18n = session::get('i18n');
             $i18n = empty($i18n) ? 'cn' : $i18n;
         }
         $module = '';
@@ -16,10 +16,10 @@ class lang{
         list($file_name, $map) = explode(':', $name);
         $file = DATA_LANG . $i18n . '/' . $module . $file_name . '.php';
         $key = md5($file);
-        if (empty($GLOBALS['_CONFIG'][$key])) {
-            $GLOBALS['_CONFIG'][$key] = include($file);
+        if (empty($GLOBALS['_I18N'][$key])) {
+            $GLOBALS['_I18N'][$key] = include($file);
         }
-        return basic::array_get($GLOBALS['_CONFIG'][$key], $map);
+        return basic::array_get($GLOBALS['_I18N'][$key], $map);
     }
 
     //换算值

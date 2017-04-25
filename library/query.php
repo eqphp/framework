@@ -1,5 +1,6 @@
 <?php
 
+//rely on: secure db
 class query{
 
     private $flag = null;
@@ -131,10 +132,10 @@ class query{
 
             return implode($logic, $condition);
         }
-        if (regexp::match($data, 'id')) {
+        if (secure::match($data, 'id')) {
             return 'id=' . $data;
         }
-        if (regexp::match($data, 'uuid')) {
+        if (secure::match($data, 'uuid')) {
             return 'uuid="' . $data . '"';
         }
         return $data;

@@ -1,6 +1,6 @@
 <?php
 
-//rely on: file help
+//rely on: basic file help
 class cache{
 
     //用户自定义的缓存文件目录、真实目录、文件名、扩展名、有效期
@@ -15,8 +15,8 @@ class cache{
             $this->custom_dir .= trim($dir, '/') . '/';
         }
 
-        $this->save_dir = CACHE_DATA . $this->custom_dir;
-        $name = strtolower(md5(strtolower(trim($name)) . 'eqphp'));
+        $this->save_dir = PATH_CACHE . 'data/' . $this->custom_dir;
+        $name = strtolower(md5(strtolower(trim($name)) . 'b335a4503870a1d1'));
         $this->file_name = $this->save_dir . $name . '.' . $this->ext;
         $this->expire = $expire ? $expire : 31104000;
     }
@@ -68,7 +68,7 @@ class cache{
             }
 
             if ($this->ext == 'ini') {
-                $data = parse_ini_file($this->file_name);
+                $data = parse_ini_file($this->file_name, true);
                 return basic::array_get($data, $option_name);
             }
 

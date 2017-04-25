@@ -1,5 +1,6 @@
 <?php
 
+//rely on: system
 class upload{
 
     protected $file = array();
@@ -97,7 +98,7 @@ class upload{
             $this->check_directory();
         }
 
-        if (!regexp::match($this->save_name, 'file_name')) {
+        if (!preg_match('/^[^\/\\:*?"<>|,]+$/',$this->save_name)) {
             throw new sException('file name format error', 132, 13);
         }
 

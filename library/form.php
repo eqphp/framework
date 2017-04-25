@@ -63,7 +63,7 @@ class form{
     static function open($name = '', $action = '', $attribute = '', $csrf = ''){
         $attribute = self::_parse_attribute($attribute);
         $html = '<form' . $attribute . ' name="' . $name . '" action="' . $action . '">';
-        $csrf and $html .= '<input name="eqphp_csrf_token" type="hidden" value="' . $csrf . '">';
+        $csrf and $html .= '<input name="csrf_token" type="hidden" value="' . $csrf . '">';
         return $html;
     }
 
@@ -72,8 +72,9 @@ class form{
     }
 
     static function captcha($name, $title = '看不清？点击更换', $attribute = ''){
+        //Notice captcha url
+        $src = '/captcha/show?random=&check=' . $name;
         $attribute = self::_parse_attribute($attribute);
-        $src = help::url('captcha', array('check' => $name, 'random' => ''));
         return '<img' . $attribute . ' src="' . $src . '" alt="' . $title . '" title="' . $title . '">';
     }
 

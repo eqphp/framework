@@ -1,6 +1,6 @@
 <?php
 
-//rely on: secure basic
+//rely on: basic
 class session{
 
     static function set($key, $value = null){

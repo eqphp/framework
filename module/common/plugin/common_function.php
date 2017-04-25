@@ -1,6 +1,6 @@
 <?php
 
-class p_functionPlugin{
+class common_function{
 
     //页头
     static function head($params, $tpl){

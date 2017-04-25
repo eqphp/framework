@@ -81,9 +81,10 @@ class html{
             case 'path':
                 return '<script type="text/javascript" src="' . $data . '"></script>';
             case 'back_refresh':
+                //Notice secure refer
                 $refer = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : U_R_L;
                 header('Location: ' . $refer);
-                http::quit();
+                break;
             case 'alert':
                 $script = 'alert("' . $data . '");';
                 break;

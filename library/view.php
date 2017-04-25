@@ -12,7 +12,7 @@ class view{
 
     function __construct(){
         $this->tpl_template_dir = PATH_VIEW;
-        $this->tpl_compile_dir = PATH_CACHE . 'compile/';
+        $this->tpl_compile_dir = PATH_CACHE . 'compile/mini/';
     }
 
     //模板赋值
@@ -39,7 +39,7 @@ class view{
 
         $tpl_real = $this->tpl_template_dir . $tpl;
         $tplCacheDir = $this->tpl_compile_dir . dirname($tpl) . '/';
-        $compiled_file = $tplCacheDir . base64_encode($tpl) . ".%%.php";
+        $compiled_file = $tplCacheDir . base64_encode($tpl) . '.%%.php';
 
         //未编译或模板文件已修改时, 编译生成模板缓存文件
         if (!is_file($compiled_file) || ($this->tpl_check && filemtime($tpl_real) > filemtime($compiled_file))) {
@@ -62,9 +62,9 @@ class view{
             $content = "\$this->display('{$matches[2]}')";
         } else {
             //替换 if,elseif,/if; foreach,/foreach; for,/for
-            $pattern = "/^(if|foreach|for)(([\s|\(]+)(.+))/msi";
+            $pattern = '/^(if|foreach|for)(([\s|\(]+)(.+))/msi';
             $content = preg_replace_callback($pattern, create_function('$m', '$t = trim($m[3]);$v = trim($m[2]);if(empty($t)){return "{$m[1]}($v){";}else{return "{$m[1]}$v{";}'), $content);
-            $patterns = array("/^(elseif)([\s*|\\(].*)/msi", "/^(else)/msUi", "/^\/(if|foreach|for)/msi");
+            $patterns = array('/^(elseif)([\s*|\\(].*)/msi', '/^(else)/msUi', '/^\/(if|foreach|for)/msi');
             $replacements = array('}\\1(\\2){', '}\\1{', '}');
             $content = preg_replace($patterns, $replacements, $content);
 
@@ -73,7 +73,7 @@ class view{
             $content = preg_replace('/^(\$this->_tpl_vars((\[["|\']\w+["|\']\])+)(->.+)*)$/ms', "echo \\1", $content);
         }
 
-        $content = "<?php $content; ?>";
+        $content = '<?php ' . $content . '; ?>';
         return $content;
     }
 
@@ -84,7 +84,7 @@ class view{
 
         //安全模式, 替换php可执行代码
         if ($this->tpl_safe_mode) {
-            $pattern = "/\\<\\?.*\\?>/msUi";
+            $pattern = '/\\<\\?.*\\?>/msUi';
             $content = preg_replace($pattern, '<!-- PHP CODE REPLACED ON SAFE MODE -->', $content);
         }
 
@@ -101,11 +101,11 @@ class view{
     static function remove_cache($dirPath){
         if ($handle = opendir($dirPath)) {
             while (false !== ($item = readdir($handle))) {
-                if ($item != "." && $item != "..") {
-                    if (is_dir("$dirPath/$item")) {
-                        self::remove_cache("$dirPath/$item");
+                if ($item != '.' && $item != '..') {
+                    if (is_dir($dirPath . '/' . $item)) {
+                        self::remove_cache($dirPath . '/' . $item);
                     } else {
-                        unlink("$dirPath/$item");
+                        unlink($dirPath . '/' . $item);
                     }
                 }
             }

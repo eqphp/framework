@@ -35,14 +35,18 @@ class image{
     //绘制图形
     static function draw(&$image, $color, $param, $name = 'line'){
         switch ($name) {
-            case 'point': //像素点
+            //像素点
+            case 'point':
                 return imagesetpixel($image, $param[0], $param[1], $color);
-            case 'arc': //弧(中心点/宽度-高度/起始角度-结束角度(0-360))
+            //弧(中心点/宽度-高度/起始角度-结束角度(0-360))
+            case 'arc':
                 return imagearc($image, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $color);
-            case 'polygon': //多边形$param:各顶点坐标(一维数组),顶点数
+            //多边形$param:各顶点坐标(一维数组),顶点数
+            case 'polygon':
                 return imagepolygon($image, $param, count($param) / 2, $color);
-            default: //线(起点/终点)、椭圆(中心点/宽度-高度)、矩形(左顶点/右底点)
-                $draw = 'image' . $name; //line,ellipse,rectangle
+            //线(起点/终点)、椭圆(中心点/宽度-高度)、矩形(左顶点/右底点),line,ellipse,rectangle
+            default:
+                $draw = 'image' . $name;
                 return $draw($image, $param[0], $param[1], $param[2], $param[3], $color);
         }
     }
@@ -50,16 +54,21 @@ class image{
     //填充颜色
     static function fill(&$image, $color, $param, $name = 'rectangle'){
         switch ($name) {
-            case 'fill': //填充
+            //填充
+            case 'fill':
                 return imagefill($image, $param[0], $param[1], $color);
-            case 'arc': //弧形填充
+            //弧形填充
+            case 'arc':
                 return imagefilledarc($image, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $color, $param[6]);
-            case 'polygon': //填充多边形
+            //填充多边形
+            case 'polygon':
                 return imagefilledpolygon($image, $param, count($param) / 2, $color);
-            case 'border': //区域填充到指定颜色的边界为止
+            //区域填充到指定颜色的边界为止
+            case 'border':
                 return imagefilltoborder($image, $param[0], $param[1], $param[2], $color);
-            default : //填充椭圆、矩形
-                $fill = 'imagefilled' . $name; //ellipse,rectangle
+            //填充椭圆、矩形,ellipse,rectangle
+            default :
+                $fill = 'imagefilled' . $name;
                 return $fill($image, $param[0], $param[1], $param[2], $param[3], $color);
         }
     }
@@ -79,15 +88,20 @@ class image{
     //复制图像
     static function copy(&$image, $picture, $param, $mode = 5){
         switch ($mode) {
-            case 1: //拷贝
+            //拷贝
+            case 1:
                 return imagecopy($image, $picture, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5]);
-            case 2: //拷贝+合并
+            //拷贝+合并
+            case 2:
                 return imagecopymerge($image, $picture, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $param[6]);
-            case 3: //灰度拷贝+合并
+            //灰度拷贝+合并
+            case 3:
                 return imagecopymergegray($image, $picture, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $param[6]);
-            case 4: //拷贝+调整大小
+            //拷贝+调整大小
+            case 4:
                 return imagecopyresized($image, $picture, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $param[6], $param[7]);
-            case 5: //采样+拷贝+调整大小
+            //采样+拷贝+调整大小
+            case 5:
             default:
                 return imagecopyresampled($image, $picture, $param[0], $param[1], $param[2], $param[3], $param[4], $param[5], $param[6], $param[7]);
         }
@@ -96,21 +110,29 @@ class image{
     //设置样式、风格
     static function set(&$image, $value, $style = 'mix'){
         switch ($style) {
-            case 'border': //画线粗细
+            //画线粗细
+            case 'border':
                 return imagesetthickness($image, (int)($value));
-            case 'style': //画线风格
+            //画线风格
+            case 'style':
                 return imagesetstyle($image, (array)($value));
-            case 'brush': //画笔图像
+            //画笔图像
+            case 'brush':
                 return imagesetbrush($image, $value);
-            case 'pattern': //填充的贴图 图案
+            //填充的贴图 图案
+            case 'pattern':
                 return imagesettile($image, $value);
-            case 'alias': //抗锯齿
+            //抗锯齿
+            case 'alias':
                 return imageantialias($image, (bool)($value));
-            case 'alpha': //alpha混色标志
+            //alpha混色标志
+            case 'alpha':
                 return imagelayereffect($image, (int)($value));
-            case 'transparent': //透明色
+            //透明色
+            case 'transparent':
                 return imagecolortransparent($image, (int)($value));
-            case 'mix': //混色模式
+            //混色模式
+            case 'mix':
             default :
                 return imagealphablending($image, (bool)($value));
         }

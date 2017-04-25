@@ -1,6 +1,6 @@
 <?php
 
-//rely on: http regexp
+//rely on: secure http
 class validate{
 
     //单项数据验证
@@ -57,7 +57,7 @@ class validate{
             //使用正则验证
             case 'regexp':
             default:
-                return regexp::match($value, $rule);
+                return secure::match($value, $rule);
         }
     }
 

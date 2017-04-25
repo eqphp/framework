@@ -1,6 +1,6 @@
 <?php
 
-//rely on: html help logger smarty
+//rely on: system basic file html help logger
 class http{
 
     //exit扩展函数
@@ -23,14 +23,14 @@ class http{
     //异常终止并跳转
     static function abort($abort_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('abort_message', 'redirect_url', 'wait_time');
-        smarty()->assign($data)->display('abort/fail');
+        basic::with(new view())->assign($data)->display('abort/fail');
         self::quit();
     }
 
     //完成、结束并终止并跳转
     static function success($tip_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('tip_message', 'redirect_url', 'wait_time');
-        smarty()->assign($data)->display('abort/success');
+        basic::with(new view())->assign($data)->display('abort/success');
         self::quit();
     }
 

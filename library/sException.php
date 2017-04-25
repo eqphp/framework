@@ -6,9 +6,9 @@ class sException extends Exception{
 
     //code: 500~999:exception code
     function __construct($message, $code, $error = 0){
-        logger::exception('server', $code . ' : ' . $message);
         $this->error = $error;
         parent::__construct($message, $code);
+        logger::exception('server', $code . ' : ' . $message);
     }
 
     function __get($name){

@@ -100,10 +100,10 @@ class help{
     }
 
     //检测银行卡
-    static function is_bank_card($card_no, $bank){
-        if (validate::check($card_no, 'length', '15,19')) {
-            $prefix_number = system::config('bank.' . $bank);
-            foreach ($prefix_number as $value) {
+    static function is_bank_card($card_no, $prefix_list){
+        $card_no_length = strlen($card_no);
+        if ($card_no_length >= 12 && $card_no_length <= 19) {
+            foreach ($prefix_list as $value) {
                 if (strpos($card_no, $value) === 0) {
                     return true;
                 }
@@ -159,11 +159,13 @@ class help{
         $string = '';
         if ($data && is_array($data)) {
             foreach ($data as $name => $option) {
-                if ($option && is_array($option)) {
+                if (is_array($option)) {
                     $string .= PHP_EOL . "[$name]" . PHP_EOL;
                     foreach ($option as $key => $value) {
                         $string .= $key . '=' . $value . PHP_EOL;
                     }
+                } else {
+                    $string .= $name . '=' . (string)$option . PHP_EOL;
                 }
             }
         }

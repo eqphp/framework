@@ -1,5 +1,6 @@
 <?php
 
+//rely on: image
 class picture{
 
     //返回验证码图片
@@ -47,7 +48,7 @@ class picture{
     }
 
     //添加水印
-    static function mark($picture, $mark = array('http://127.0.0.1', 'EQPHP'), $file_name = array('test.png', 'file/create/')){
+    static function mark($picture, $mark = array('http://127.0.0.1', 'water mark'), $file_name = array('test.png', 'file/create/')){
         $image = image::open($picture);
         $img_width = image::info($image, 'width');
         $img_height = image::info($image, 'height');

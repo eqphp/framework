@@ -19,7 +19,7 @@ class a_index{
     private static function create_directory(){
         file::folder(FILE_TEMP, 0777);
 
-        $cache_list = array('smarty/compile/', 'compile/', 'data/ini/', 'data/json/', 'data/php/', 'data/txt/', 'data/xml/', 'session/');
+        $cache_list = array('compile/', 'data/', 'session/');
         foreach ($cache_list as $path_cache) {
             file::folder(PATH_CACHE . $path_cache, 0777);
         }

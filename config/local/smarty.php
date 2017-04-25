@@ -13,12 +13,29 @@ return array(
 
 		//模板、常量、编译存放目录
 		'template'=>'view/',
-		'const'=>'cache/smarty/const/',
-		'compile'=>'cache/smarty/compile/',
+		'const'=>'cache/data/const/',
+		'compile'=>'cache/compile/smarty/',
 
 		//缓存
 		'expire'=>68400,
 		'caching'=>false,
-		'path'=>'cache/smarty/data/',
+		'path'=>'cache/data/smarty/',
+
+		//url静态资源
+		'dir_url'=>array(
+			'picture'=>URL_PICTURE,
+			'temp'=>URL_TEMP,
+			'avatar'=>URL_AVATAR,
+			'media'=>URL_MEDIA,
+			'doc'=>URL_DOC,
+			'zip'=>URL_ZIP,
+			'html'=>URL_HTML,
+			'json'=>URL_JSON,
+			'editor'=>URL_EDITOR,
+			'static'=>URL_STATIC,
+			'script'=>URL_SCRIPT,
+			'style'=>URL_STYLE,
+			'image'=>URL_IMAGE,
+		),
 	),
 );

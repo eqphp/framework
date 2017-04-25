@@ -6,9 +6,9 @@ class mException extends Exception{
 
     //code: 10~99:module,001~499:exception code
     function __construct($message, $code, $error = 0){
-        logger::exception('model', $code . ' : ' . $message);
         $this->error = $error;
         parent::__construct($message, $code);
+        logger::exception('model', $code . ' : ' . $message);
     }
 
     function __get($name){

@@ -4,7 +4,7 @@ class crypt{
 
     const TYPE = MCRYPT_RIJNDAEL_128;
     const MODE = MCRYPT_MODE_ECB;
-    const METHOD = 'eqphp';
+    const METHOD = 'b335a4503870a1d1';
     protected $td, $iv = '';
 
     function __construct($secret_key = 'b335a4503870a1d1'){
@@ -22,12 +22,12 @@ class crypt{
         return $string;
     }
 
-    static function eqphp_fill($text, $size){
+    static function b335a4503870a1d1_fill($text, $size){
         $pad = $size - (strlen($text) % $size);
         return $text . str_repeat(chr($pad), $pad);
     }
 
-    static function eqphp_clear($text){
+    static function b335a4503870a1d1_clear($text){
         $pad = ord($text{strlen($text) - 1});
         $compare = strspn($text, chr($pad), strlen($text) - $pad);
         if (strlen($text) < $pad || $compare != $pad) {

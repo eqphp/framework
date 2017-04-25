@@ -1,5 +1,6 @@
 <?php
 
+//rely on: system query logger
 class db{
 
     static $object = null;

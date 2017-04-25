@@ -1,6 +1,6 @@
 <?php
 
-//rely on: logger
+//rely on: system
 class memory{
 
     //memcache缓存初始化
@@ -62,9 +62,9 @@ class memory{
 
     //记录memcache异常日志
     static function memcache_logger($host, $port){
-        $file = LOG_TOPIC . 'memcache.log';
+        $file_name = LOG_TOPIC . 'memcache.log';
         $data = '[' . date('H:i:s') . '] ' . $host . ':' . $port . PHP_EOL;
-        file::write($file, $data, 'a+');
+        file_put_contents($file_name, $data, FILE_APPEND);
     }
 
 }

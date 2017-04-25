@@ -2,12 +2,11 @@
 //定义当前运行环境
 define('RUN_MODE', 'cli');
 define('ENVIRONMENT', 'local');
-define('PATH_ROOT', realpath(substr(dirname(__FILE__), 0, -12)) . '/');
+define('PATH_ROOT', dirname(dirname(dirname(__FILE__))). '/');
 
 include 'library/system.php';
 include 'library/shortcut.php';
 spl_autoload_register('system::snake_load');
-register_shutdown_function('system::process_error');
 
 system::init();
 

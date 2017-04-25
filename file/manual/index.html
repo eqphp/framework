@@ -97,7 +97,7 @@
             结构简洁（单一入口、自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。<br><br><br>
             <h5 class="fs15 fcb1 fsb">为什么选择EQPHP？</h5><br>
             <span class="fsb fcr">简单</span><br>
-            命名简洁、语法规范（符合psr4），阅览愉快<br>
+            命名简洁、语法规范（符合psr），阅览愉快<br>
             有手册，用法齐全；参考demo、开发得心应手<br>
             兼容php5.3以上所有版本，版本升级、扩展更加容易<br><br>
             <span class="fsb fcr">自由</span><br>
@@ -142,8 +142,10 @@
             　　　httpd.conf文件中去掉LoadModule rewrite_module modules/mod_rewrite.so的注释，<br>
             　　　找到AllowOverride None 改为 AllowOverride All 后并重启Apache服务.</p><br>
             
-            <p>3、配置访问域名config/local/system.php后，地址栏输入http://127.0.0.1/，即可看到欢迎界面。</p>
-            <img src="image/eqphp_default_page.gif"><br><br><br>
+            <p>3、配置访问域名config/local/system.php后，地址栏输入http://127.0.0.1/，即可看到欢迎界面：</p>
+            <img src="image/eqphp_default_page.gif"><br><br>
+            
+            <p>4、当前编码风格为 snake_case , 当然你可以点击欢迎界面的 camelCase 或 compose 重置为你习惯的编码风格。</p><br><br>
 
 
         </div>
@@ -155,58 +157,68 @@
             <table class="manual">
                 <tr>
                     <th width="150px">名称类别</th>
-                    <th width="240px">snake_case</th>
-                    <th>camelCase</th>
+                    <th width="200px">snake_case</th>
+                    <th width="200px">camelCase</th>
+                    <th>nameSpace</th>
                 </tr>
                 <tr>
                     <td>工具类</td>
                     <td>basic</td>
+                    <td>Basic</td>
                     <td>Basic</td>
                 </tr>
                 <tr>
                     <td>业务类</td>
                     <td>s_trade</td>
                     <td>TradeServer</td>
+                    <td>Trade</td>
                 </tr>
                 <tr>
                     <td>模型类</td>
                     <td>m_user</td>
                     <td>UserModel</td>
+                    <td>User</td>
                 </tr>
                 <tr>
                     <td>控制器</td>
                     <td>a_register</td>
                     <td>RegisterAction</td>
+                    <td>Register</td>
                 </tr>
                 <tr>
                     <td>函数-组件类</td>
-                    <td>p_function</td>
-                    <td>FunctionPlugin</td>
+                    <td> </td>
+                    <td>module_function</td>
+                    <td> </td>
                 </tr>
                 <tr>
                     <td>调节器-组件类</td>
-                    <td>p_modifier</td>
-                    <td>ModifierPlugin</td>
+                    <td> </td>
+                    <td>module_modifier</td>
+                    <td> </td>
                 </tr>
                 <tr>
                     <td>方法名</td>
                     <td>get_user_profile</td>
+                    <td>getUserProfile</td>
                     <td>getUserProfile</td>
                 </tr>
                 <tr>
                     <td>变量名</td>
                     <td>$user_id、 $timezone</td>
                     <td>$userId、$timezone</td>
+                    <td>$userId、$timezone</td>
                 </tr>
                 <tr>
                     <td>常量名</td>
+                    <td> </td>
                     <td>PATH_ROOT、 U_R_L</td>
-                    <td>PATH_ROOT、 U_R_L</td>
+                    <td> </td>
                 </tr>
 
                 <tr>
                     <td>比较</td>
-                    <td colspan="2">
+                    <td colspan="3">
                         1、php类名、方法名均不区分大小写，而变量名区分大小写；<br>
                         2、网址(URL，路由、控制器)不区分大小写；<br>
                         3、mysql不经过特殊配置，表、字段不支持大写；<br>
@@ -219,7 +231,7 @@
 
                 <tr>
                     <td>如何选择</td>
-                    <td colspan="2">
+                    <td colspan="3">
                         如果你是“纯真的” PHP开发者、疑惑你习惯在Windows下开发请选择snake_case风格；<br>
                         如果你是其他语言转学PHP者、或喜欢在Linux下开发、或想遵循psr规范请选择camelCase风格；<br>
                     </td>
@@ -227,10 +239,13 @@
 
                 <tr>
                     <td>如何设置</td>
-                    <td colspan="2">
+                    <td colspan="3">
                         配置入口文件index.php、data/crontab/crontab.php、test/unit/baseTest.php<br>
                         的类自动加载函数spl_autoload_register参数值：<br>
-                        camelCase风格：camelLoad、snake_case风格(默认)：snake_load、类路径（class-map）：map_load<br>
+                        1、camelCase风格：camelLoad<br>
+                        2、snake_case风格(默认)：snake_load<br>
+                        3、类路径（class-map）：map_load<br>
+                        4、命名空间：nameSpaceLoad，可使用composer.
                     </td>
                 </tr>
 
@@ -440,6 +455,10 @@
             <code>
                 www<br>
                 ├─library<i>(工具类、核心类)</i><br>
+                │  └─provider<i>(扩展类库)</i><br>
+                ├─vendor<i>(第三方类库)</i><br>
+                │  ├─alipay<i>(支付宝)</i><br>
+                │  └─smarty<i>(smarty模板引擎)</i><br>
                 ├─server<i>(业务逻辑)</i><br>
                 ├─module<i>(模块)</i><br>
                 │  ├─common<i>(默认模块、公共模块)</i><br>
@@ -467,9 +486,6 @@
                 │     ├─layout<br>
                 │     └─password<br>
                 ├─data<i>(项目私有数据)</i><br>
-                │  ├─vendor<i>(第三方类库)</i><br>
-                │  │  ├─alipay<i>(支付宝)</i><br>
-                │  │  └─smarty<i>(smarty模板引擎)</i><br>
                 │  ├─backup<i>(数据备份)</i><br>
                 │  ├─crontab<i>(计划任务)</i><br>
                 │  ├─lang<i>(语言包)</i><br>
@@ -507,15 +523,15 @@
                 │  └─unit<i>(单元测试)</i><br>
                 ├─cache<i>(缓存)</i><br>
                 │  ├─compile<i>(编译)</i><br>
+                │  │  ├─mini<br>                
+                │  │  └─smarty<br>                
                 │  ├─data<i>(缓存数据)</i><br>
                 │  │  ├─ini<br>
                 │  │  ├─json<br>
                 │  │  ├─php<br>
                 │  │  ├─txt<br>
                 │  │  └─xml<br>
-                │  ├─session<i>(会话数据)</i><br>
-                │  └─smarty<br>
-                │      └─compile<br>
+                │  └─session<i>(会话数据)</i><br>
                 └─log<i>(日志)</i><br>
                 　  ├─mongo<i>(mongoDB执行日志)</i><br>
                 　  ├─run<i>(系统运行日志)</i><br>
@@ -527,7 +543,7 @@
             </code><br>
             <strong class="fcy1">Tip：</strong><br>
             <strong>1、分组(模块)可有有多个，每个都有控制器、数据模型、组件、配置4个目录；</strong><br>
-            <strong>2、除一级目录外，其它的可自定义，详情请参考config/local/directory.php文件；</strong><br>
+            <strong>2、除一级目录外，其它的可自定义，详情请参考library/shortcut.php文件；</strong><br>
             <strong>3、视图(view)、文件(file)、数据(data)、日志(log)、缓存(cache)结构可以任意整合，此结构只做参考；</strong>
         </div>
 
@@ -923,15 +939,14 @@ b、经常性使用的功能代码，如消息发送时间加工器、颜色选�
 c、记录集循环输出中某项数据加工修饰，如工资清单中根据职位不同显示不同颜色，以便区分。<br><br>
 
 <strong>使用模式：</strong><br>
-1、系统全局组件，plugin目录下（p_functionPlugin.php、p_modifierPlugin.php文件中定义即可）；<br>
-2、分组组件，每个分组下可设plugin目录，内放分组组件，如news分组下的p_function.php、p_modifier.php<br><br>
+1、系统全局组件，module/common/plugin目录下（common_function.php、common_modifier.php文件中定义即可）；<br>
+2、分组组件，每个分组下可设plugin目录，内放分组组件，如news分组下的news_function.php、news_modifier.php<br><br>
 
 <strong>分组组件使用方法：</strong><br>
-step 1、创建组件：建一个p_组件名的php文件，且内容是一个p_组件名的类，然后放入plugin目录；<br>
-step 2、注册组件：到配置目录找到系统配置文件blog/config/plugin.php，打开找到组件配置项，根据组件类型将组件名添加到响应项；<br>
-step 3、组件模板：到视图目录制作组件数据样式模板，即html代码片段；<br>
-step 4、调用组件：到目标视图使用smarty组件调用方法调用。<a href="">案例：case plugin</a><br><br>
-case plugin(p_menu.php)<br>
+step 1、创建组件：建一个[模块名_组件类型]的php文件，且内容是一个[模块名_组件类型]组件名的类，然后放入plugin目录；<br>
+step 2、组件模板：到视图目录制作组件数据样式模板，即html代码片段；<br>
+step 3、调用组件：到目标视图使用smarty组件调用方法调用。<a href="">案例：case plugin</a><br><br>
+case plugin(news_function.php)<br>
 <code>
 
 
@@ -943,7 +958,7 @@ case plugin(p_menu.php)<br>
 3、页脚帮组导航<br>
 **/</i><br><br>
 
-class p_menu{<br><br>
+class news_function{<br><br>
 
 <b class="i24"></b><i>//项目导航条</i><br>
 <b class="i24"></b>static function top_nav($params,$tpl){<br>
@@ -973,18 +988,6 @@ class p_menu{<br><br>
 }<br>
 
 </code><br><br>
-
-config.ini<br>
-<code>
-……<br><br>
-[plugin]<br>
-function=p_fun,p_page<br>
-modifier=p_mod,<span class="fcr">p_menu</span><br>
-<i>; block=p_block</i><br><br>
-
-……<br>
-</code><br><br>
-
 
 menu.ini<br>
 <code>
@@ -1035,7 +1038,7 @@ news.html<br>
 2、可重复使用，不受环境影响，极大简化代码结构，使代码简洁易读；<br>
 3、根据项目需求，可增可减，扩展性强。<br>
 EQPHP将常用的函数方法根据其使用范畴采用单例、静态类（纯静态方法集合）、普通类等方式收集整合归类：如文件缓存类、数据库操作类、性能调试类、<br>
-表单处理类、数组字符处理类、安全过滤类、请求响应类、邮件类、模板引擎类、文件类、日志类、图片处理类、session/cookie类…
+表单处理类、数组字符处理类、安全过滤类、请求响应类、邮件类、模板引擎类、文件类、日志类、图片处理类、session/cache类…
 <br><br>
 
 <strong>使用方法：</strong><br>
@@ -1627,7 +1630,7 @@ out($user_info,1);<br>
         validate::check(input::post('email'),'regexp','email');<br><br>
 
         <i>//自定义函数校验：</i><br>
-        validate::check(input::post('bank_card'),'function',['help::is_bank_card',['icbc']]);<br><br>
+        validate::check(input::post('bank_card'),'function',['help::is_bank_card',[config('back.icbc')]]);<br><br>
 
         <i>//自定义对象回调校验：</i><br>
         validate::check(input::post('phone'),'callback',[$this,'unique',[$this->user_id]]);<br><br>
@@ -2974,7 +2977,7 @@ file::write($file,$data,'a+');
         </code><br>
 
         <strong class="fcy1">Tip：</strong>input::post($name,$mode) 第二个参数可接收的值有<br>
-        post/isset/title/int/text/number/float/account/date/time/date_time/many/正则表达式(包括已注册正则,即library/regexp.php类生命的成员属性)。<br><br><br>
+        post/isset/title/int/text/number/float/account/date/time/date_time/many/正则表达式(包括已注册正则,即config/local/regexp.php数组key值)。<br><br><br>
 
 
         <strong>二、SQL 注入与数据库安全</strong><br>
@@ -3230,7 +3233,7 @@ file::write($file,$data,'a+');
                     */</i><br>
                 function testTool($phone,$result){<br>
                 <b class="i24"></b><i>//测试工具类方法</i><br>
-                <b class="i24"></b>$this->assertEquals($result, regexp::match($phone,'phone'));<br>
+                <b class="i24"></b>$this->assertEquals($result, secure::match($phone,'phone'));<br>
                 }<br><br>
 
                 public function additionProvider(){<br>
@@ -3386,12 +3389,10 @@ file::write($file,$data,'a+');
 
             <p>3、通用加载：很多情况下，我需要使用同一控制器（或model类）做顶级控制器，各个模块（分组）同用这一个文件（都继承这个类），如：<br>
                 a_user extends a_restful; a_user 类来自于user/action/a_user.php文件，a_restful 类来自于action/a_restful.php文件；<br>
-                需要修改配置文件config/local/system.php中state.common_load=true；<br>
-                开启后，根目录下的action、model目录可可作为顶级类库，即本模块未找到所需类库是时会去这两个顶级目录查找、加载；<br><br>
+                module/common目录下的action、model目录可可作为顶级类库，即本模块未找到所需类库是时会去这两个顶级目录查找、加载；<br><br>
             </p>
 
-            <p>4、配置加载：配置文件我们常需要公共配置+各环境私自配置这种形式。这种情况加载模式是：同一文件名，私自配置的优先加载，即覆盖公共配置。<br><br>
-            </p>
+            <p>4、配置加载：配置文件我们常需要公共配置+各环境私自配置这种形式。这种情况加载模式是：同一文件名，私自配置的优先加载，即覆盖公共配置。<br><br></p>
 
             <p>5、手动加载：如果你想要跨模块加载类库，或引入第三方类库，你则需要手动加载。EQPHP框架提供help::load()工具函数，具体用法参见手册工具类详解。<br>
                 处于安全、规范化考虑，不建议频繁使用help::load()函数。<br><br>
@@ -3463,7 +3464,7 @@ file::write($file,$data,'a+');
             <tr><td>私属数据资源</td><td>PATH_DATA</td><td>/var/www/data/</td></tr>
             <tr><td>缓存目录</td><td>PATH_CACHE</td><td>/var/www/cache/</td></tr>
             <tr><td>日志目录</td><td>PATH_LOG</td><td>/var/www/log/</td></tr>
-            <tr><td>第三方类库</td><td>PATH_VENDOR</td><td>/var/www/data/vendor/</td></tr>
+            <tr><td>第三方类库</td><td>PATH_VENDOR</td><td>/var/www/vendor/</td></tr>
             <tr><td>上传图片</td><td>FILE_PICTURE</td><td>/var/www/file/picture/</td></tr>
             <tr><td>临时操作目录</td><td>FILE_TEMP</td><td>/var/www/file/temp/</td></tr>
             <tr><td>用户头像</td><td>FILE_AVATAR</td><td>/var/www/file/picture/avatar/</td></tr>
@@ -3477,18 +3478,10 @@ file::write($file,$data,'a+');
             <tr><td>前端脚本</td><td>FILE_SCRIPT</td><td>/var/www/file/static/script/</td></tr>
             <tr><td>前端样式表</td><td>FILE_STYLE</td><td>/var/www/file/static/style/</td></tr>
             <tr><td>前端背景图片</td><td>FILE_IMAGE</td><td>/var/www/file/static/image/</td></tr>
-            <tr><td>页面组件块</td><td>VIEW_PLUGIN</td><td>/var/www/view/plugin/</td></tr>
-            <tr><td>邮件、短信模板</td><td>VIEW_TEMPLATE</td><td>/var/www/view/template/</td></tr>
             <tr><td>i18n国际化语言包</td><td>DATA_LANG</td><td>/var/www/data/lang/</td></tr>
             <tr><td>临时仓</td><td>DATA_STORE</td><td>/var/www/data/store/</td></tr>
             <tr><td>备份目录</td><td>DATA_BACKUP</td><td>/var/www/data/backup/</td></tr>
             <tr><td>前端脚本</td><td>DATA_SOURCE</td><td>/var/www/data/source/</td></tr>
-            <tr><td rowspan="6">缓存数据</td><td>CACHE_DATA</td><td>/var/www/cache/data/</td></tr>
-            <tr><td>CACHE_INI</td><td>/var/www/cache/data/ini/</td></tr>
-            <tr><td>CACHE_PHP</td><td>/var/www/cache/data/php/</td></tr>
-            <tr><td>CACHE_JSON</td><td>/var/www/cache/data/json/</td></tr>
-            <tr><td>CACHE_XML</td><td>/var/www/cache/data/xml/</td></tr>
-            <tr><td>CACHE_TXT</td><td>/var/www/cache/data/txt/</td></tr>
             <tr><td>调试日志</td><td>LOG_TRACE</td><td>/var/www/log/trace/</td></tr>
             <tr><td>运行日志</td><td>LOG_RUN</td><td>/var/www/log/run/</td></tr>
             <tr><td>专题日志</td><td>LOG_TOPIC</td><td>/var/www/log/topic/</td></tr>
@@ -3512,17 +3505,6 @@ file::write($file,$data,'a+');
             <tr><td>URL_SCRIPT</td><td>http://www.eqphp.com/file/static/script/</td></tr>
             <tr><td>URL_STYLE</td><td>http://www.eqphp.com/file/static/style/</td></tr>
             <tr><td>URL_IMAGE</td><td>http://www.eqphp.com/file/static/image/</td></tr>
-
-            <tr class="fs18 fcb1"><td colspan="3" class="fs15 fcbb">临时调试常量</td></tr>
-            <tr><td rowspan="8">调试用常量</td><td>ok</td><td>ok</td></tr>
-            <tr><td>OK</td><td>OK</td></tr>
-            <tr><td>PREO</td><td>&lt;pre&gt;</td></tr>
-            <tr><td>PREC</td><td>&lt;/pre&gt;</td></tr>
-            <tr><td>BR</td><td>&lt;br&gt;</td></tr>
-            <tr><td>HR</td><td>&lt;hr&gt;</td></tr>
-            <tr><td>UTF8</td><td>Content-Type:text/html; charset=utf-8</td></tr>
-            <tr><td>CSS</td><td>&lt;link rel="stylesheet" type="text/css" href="/file/static/style/basic.css"&gt;</td></tr>
-
         </table>
 
 
@@ -3663,22 +3645,22 @@ file::write($file,$data,'a+');
         </code><br><br><br>
 
         <h3>判断是否非法银行卡</h3>
-        <p class="function">string <b>help::is_bank_card</b>(string $card_no, string $bank)</p>
+        <p class="function">string <b>help::is_bank_card</b>(string $card_no, array $prefix_list)</p>
         <code>
-            help::is_bank_card('622718972731231', 'icbc'); <i>//false</i><br>
+            help::is_bank_card('622718972731231', config('back.icbc')); <i>//false</i><br>
         </code><br><br><br>
 
         <h3>使用正则表达式检测字符串是否合法</h3>
-        <p class="function">bool <b>regexp::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
+        <p class="function">bool <b>secure::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
         <code>
             <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
-            regexp::match('13650231***','phone'); <i>//true</i><br>
+            secure::match('13650231***','phone'); <i>//true</i><br>
         </code><br><br><br>
 
         <h3>使用正则表达式检测字符串</h3>
-        <p class="function">bool <b>regexp::filter</b>(mixed $string[, string $regexp <em>email</em>[, $default]])</p>
+        <p class="function">bool <b>secure::filter</b>(mixed $string[, string $regexp <em>email</em>[, $default]])</p>
         <code>
-            regexp::filter('13650231***','phone'); <i>//13650231***</i><br>
+            secure::filter('13650231***','phone'); <i>//13650231***</i><br>
         </code><br><br><br>
 
         <h3>检测华人姓名</h3>
@@ -3954,10 +3936,10 @@ file::write($file,$data,'a+');
 
     <div class="item">
 
-        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义扩展函数库(plugin/p_functionPlugin.php)</p>
+        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义扩展函数库(plugin/module_function.php)</p>
 
         <h3>网页头部公用组件</h3>
-        <p class="function">string <b>p_functionPlugin::head</b>([array $param])</p>
+        <p class="function">string <b>module_function::head</b>([array $param])</p>
         <code>
             <strong class="fs15">{head script="jquery|plugin/picker" module_script="center?912" <br>
                 　　　style="basic|plugin/picker" module_style="center?7.0.3"}</strong><br><br>
@@ -3987,13 +3969,13 @@ file::write($file,$data,'a+');
         </code><br><br><br>
 
         <h3>flash动画播放组件</h3>
-        <p class="function">string <b>p_functionPlugin::flash</b>([array $param])</p>
+        <p class="function">string <b>module_function::flash</b>([array $param])</p>
         <code>
             {flash src="{$dir.media}eqphp_flash.swf" title="动画播放组件" width="420" height="360"}
         </code><br><br><br>
 
         <h3>视频播放组件</h3>
-        <p class="function">string <b>p_functionPlugin::media</b>([array $param])</p>
+        <p class="function">string <b>module_function::media</b>([array $param])</p>
         <code>
             {media src="{$dir.media}eqphp.mov" title="视频播放组件" <br>
             　　　　width="420" height="360" autostart="false" allowfullscreen="true"}
@@ -4001,48 +3983,48 @@ file::write($file,$data,'a+');
 
 
 
-        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义变量调节器(plugin/p_modifierPlugin.php)</p>
+        <p class="m10 bgg p5 fs15 fcr">组件 - 自定义变量调节器(module_modifier.php)</p>
 
         <h3>获取配置文件数据，用法参见：<strong class="fcg">config</strong></h3>
-        <p class="function">string <b>p_modifierPlugin::constant</b>(string $name [, boll $is_module <em>false</em>])</p>
+        <p class="function">string <b>module_modifier::constant</b>(string $name [, boll $is_module <em>false</em>])</p>
         <code>
             {"foot.email"|constant:"site"} <i>&lt;!-- eqphp_framework@126.com --&gt;</i><br>
         </code><br><br><br>
 
         <h3>字符串截取，用法参见：<strong class="fcg">basic::cut</strong></h3>
-        <p class="function">string <b>p_modifierPlugin::cut</b>(string $name [, int $length <em>15</em> [, int $tail <em>...</em>]])</p>
+        <p class="function">string <b>module_modifier::cut</b>(string $name [, int $length <em>15</em> [, int $tail <em>...</em>]])</p>
         <code>
             {$news[key].title|cut:18} <i>&lt;!-- 重大事件：EQPHP 2.0 版本... --&gt;</i><br>
         </code><br><br><br>
 
         <h3>输出过滤，用法参见：<strong class="fcg">basic::put</strong></h3>
-        <p class="function">string <b>p_modifierPlugin::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
+        <p class="function">string <b>module_modifier::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
         <code>
             {$news[key].details|put:"&lt;a&gt;&lt;img&gt;"}<br>
         </code><br><br><br>
 
         <h3>用户敏感信息掩藏器</h3>
-        <p class="function">string <b>p_modifierPlugin::mask</b>(string $name [, string $type <em>phone</em>])</p>
+        <p class="function">string <b>module_modifier::mask</b>(string $name [, string $type <em>phone</em>])</p>
         <code>
             <i>&lt;!-- $type接收参数有：phone/email/qq/bank_card/alipay_account --&gt;</i><br>
             {$user.phone|mask:"phone"} <i>&lt;!-- 138****5128 --&gt;</i><br>
         </code><br><br><br>
 
         <h3>日期、时间格式化</h3>
-        <p class="function">string <b>p_modifierPlugin::format_time</b>(string $time [, string $mode <em>Y年n月j日</em>])</p>
+        <p class="function">string <b>module_modifier::format_time</b>(string $time [, string $mode <em>Y年n月j日</em>])</p>
         <code>
             {$withdraw[key].apply_time|format_time:"y年n月j日 G点"} <i>&lt;!-- 16年3月6日 21点 --&gt;</i><br>
         </code><br><br><br>
 
         <h3>数字友好格式化</h3>
-        <p class="function">string <b>p_modifierPlugin::format_number</b>(string $number [, string $type <em>back_card</em>])</p>
+        <p class="function">string <b>module_modifier::format_number</b>(string $number [, string $type <em>back_card</em>])</p>
         <code>
             <i>&lt;!-- $type接收参数有：phone/money/id_card/bank_card --&gt;</i><br>
             {$user.bank_card|format_number:"bank_card"} <i>&lt;!-- 6227 8081 8769 131 --&gt;</i><br>
         </code><br><br><br>
 
         <h3>倒时计模式时间计算器</h3>
-        <p class="function">string <b>p_modifierPlugin::friendly_time</b>(string $time)</p>
+        <p class="function">string <b>module_modifier::friendly_time</b>(string $time)</p>
         <code>
             {$weibo[key].update_time|friendly_time} <i>&lt;!-- 5分钟前 --&gt;</i><br>
         </code><br><br><br>
@@ -4053,7 +4035,8 @@ file::write($file,$data,'a+');
     <div class="item">
     <table class="manual">
         <tr class="fs14"><th>错误码(code)</th><th>错误信息(message)</th><th>解释说明(remark)</th><th>异常产生源(class/file)</th></tr>
-        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">101~499</b> 框架、工具类异常(framework and class exception)</td></tr>
+        <tr class="fs18 fcb1"><td colspan="4"><b class="fcr">100~499</b> 框架、工具类异常(framework and class exception)</td></tr>
+        <tr><td>100</td><td>forbid host or domain</td><td>不被允许的主机地址或域名</td><td>system</td></tr>
         <tr><td>101</td><td>absent controller or method</td><td>控制器（或控制器方法）错误（或不存在）</td><td>system</td></tr>
         <tr><td>102</td><td>mysql can't connect</td><td>不能连接mysql数据库</td><td>db(mysql)</td></tr>
         <tr><td>103</td><td>mysql database select fail</td><td>mysql 数据库选择失败</td><td>db(mysql)</td></tr>
@@ -4062,7 +4045,6 @@ file::write($file,$data,'a+');
         <tr><td>106</td><td>forbid visit mongo class property</td><td>不允许访问的mongo类成员属性</td><td>mg</td></tr>
         <tr><td>107</td><td>socket connect fail</td><td>socket 连接失败</td><td>http</td></tr>
         <tr><td>108</td><td>read download file fail</td><td>不能读取下载文件</td><td>http</td></tr>
-        <tr><td>109</td><td>mail command send fail</td><td>邮件报文发送失败</td><td>mail</td></tr>
         <tr><td>110</td><td>api curl execute error</td><td>api-curl执行错误</td><td>api</td></tr>
         <tr><td>111</td><td>api server request error</td><td>api服务请求错误</td><td>api</td></tr>
         <tr><td>112</td><td>api server custom exception</td><td>api服务自定义错误</td><td>api</td></tr>

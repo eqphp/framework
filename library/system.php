@@ -1,6 +1,6 @@
 <?php
 
-//rely on: logger http debug
+//rely on: basic input http logger debug
 class system{
 
     //解析配置文件(mode:0-全局,1-分组)
@@ -36,6 +36,7 @@ class system{
         //设置错误提示
         $state = self::config('system.state');
         //error_reporting($state['error_switch'] ? E_ALL|E_STRICT : 0);
+        register_shutdown_function('system::process_error');
 
         //设置时区
         ini_set('date.timezone', $state['timezone']);
@@ -56,39 +57,23 @@ class system{
         if (defined('RUN_MODE') && RUN_MODE === 'web') {
             self::web_init();
         }
-
-        //设置目录常量、调试常亮
-        self::define_directory_constant();
-        debug::set_debug_constant();
     }
 
     //处理域名
     static private function web_init(){
         $domain = self::config('system.domain');
-        $allow_host = $domain['allow_host'];
-        $allow_port = $domain['allow_port'];
-        list($scheme, $host, $port) = $domain['default'];
+        list($scheme, , $port) = $domain['default'];
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-        if ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === '1' || strtolower($_SERVER['HTTPS']) === 'on'))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
-            || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443')) {
-            $scheme = 'https';
-        }
-        if (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], $allow_host)) {
+        if (isset($_SERVER['HTTP_HOST']) && in_array($_SERVER['HTTP_HOST'], $domain['allow_host'], true)) {
             $host = $_SERVER['HTTP_HOST'];
-        }
-        if (isset($_SERVER['SERVER_PORT']) && in_array(intval($_SERVER['SERVER_PORT']), $allow_port)) {
-            $port = intval($_SERVER['SERVER_PORT']);
+        } else {
+            throw new Exception('forbid host or domain', 100);
         }
 
         define('SITE_DOMAIN', $host);
         define('URL_REQUEST', trim($uri, '/'));
-        $port = ($port === 80) ? '' : ':' . $port;
         define('U_R_L', $scheme . '://' . $host . $port . '/');
         define('URL_URI', U_R_L . URL_REQUEST);
-        foreach (self::config('directory.file') as $key => $value) {
-            define(strtoupper('url_' . $key), U_R_L . $value);
-        }
 
         //定义当前运行模块名
         $module = self::config('system.module');
@@ -106,30 +91,15 @@ class system{
         }
     }
 
-    //设置目录常量
-    static private function define_directory_constant(){
-        $directory = self::config('directory');
-        foreach ($directory as $dir_name => $dir_value) {
-            foreach ($dir_value as $key => $value) {
-                define(strtoupper($dir_name . '_' . $key), PATH_ROOT . $value);
-            }
-        }
-    }
-
-    //构建静态资源（前端）目录常量
-    static function build_view_directory(){
-        return array_map(function ($directory){
-            return U_R_L . $directory;
-        }, self::config('directory.file'));
-    }
-
     //解析路由
-    static private function parse_route($is_camel = false, $root_lie = 0){
+    static private function parse_route($mode = 'snake_load', $root_lie = 0){
         $is_module = false;
+        $space_name = 'common';
         $module = $segment = input::url($root_lie);
         if (defined('MODULE_NAME') || defined('SUBDOMAIN')) {
             $is_module = true;
             $module = MODULE_NAME;
+            $space_name = MODULE_NAME;
             if ($module === $segment) {
                 $root_lie += 1;
                 $segment = input::url($root_lie);
@@ -146,7 +116,17 @@ class system{
             }
         }
 
-        list($prefix, $suffix) = $is_camel ? array('', 'Action') : array('a_', '');
+        $prefix = $suffix = '';
+        if ($mode === 'snake_load') {
+            $prefix = 'a_';
+        }
+        if ($mode === 'camelLoad') {
+            $suffix = 'Action';
+        }
+        if ($mode === 'nameSpaceLoad') {
+            $prefix = $space_name . '\action\\';
+        }
+
         if (empty($segment) || preg_match('/^[1-9]\d*$/', $segment)) {
             $action_name = $module ? $module : 'index';
             return array($prefix . $action_name . $suffix, 'index');
@@ -172,10 +152,10 @@ class system{
     }
 
     //动态调用、执行
-    static function bootstrap(){
+    static function bootstrap($mode = 'snake_load'){
         try {
             self::init();
-            list($controller, $method) = self::parse_route(false);
+            list($controller, $method) = self::parse_route($mode);
             if (empty($controller) || empty($method)) {
                 throw new Exception('absent controller or method', 101);
             }
@@ -212,6 +192,133 @@ class system{
         }
     }
 
+    //命名空间方式自动加载
+    static function nameSpaceLoad($class){
+        $load_file = PATH_ROOT;
+        if (strpos($class,'server\\') !== 0) {
+            $load_file .= 'module/';
+        }
+        $load_file .=  str_replace('\\', '/', $class) . '.php';
+        if (is_file($load_file)) {
+            return include $load_file;
+        }
+        return false;
+    }
+
+    //注册表方式自动加载
+    static function map_load($class){
+        if (empty($GLOBALS['_LIBRARY'][$class])) {
+            $GLOBALS['_LIBRARY'][$class] = self::config('library_map.' . $class);
+            if ($GLOBALS['_LIBRARY'][$class]) {
+                return include $GLOBALS['_LIBRARY'][$class];
+            }
+        }
+        return false;
+    }
+
+    //snake_case风格类库自动加载
+    static function snake_load($class){
+        $prefix = substr($class, 0, strpos($class, '_'));
+        $option = array('a' => 'action', 'm' => 'model');
+        if (in_array($prefix, array_keys($option), true)) {
+            $part = $option[$prefix] . '/' . $class . '.php';
+            if (defined('MODULE_NAME')) {
+                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' . $part;
+                if (is_file($load_file)) {
+                    return include $load_file;
+                }
+            }
+            $load_file = PATH_ROOT . 'module/common/' . $part;
+            if (is_file($load_file)) {
+                return include $load_file;
+            }
+
+            if ($prefix === 'a') {
+                logger::notice('class [' . $class . '] not found');
+                http::send(404);
+            }
+        }
+
+        if ($prefix === 's') {
+            $load_file = PATH_ROOT . 'server/' .$class . '.php';
+            if (is_file($load_file)) {
+                return include $load_file;
+            }
+        }
+
+        $load_file = PATH_ROOT . 'library/' .$class . '.php';
+        if (is_file($load_file)) {
+            return include $load_file;
+        }
+
+        //贪婪加载
+        if (self::config('system.state.greedy_load')) {
+            $search_directory = $prefix === 's' ? 'server' : 'library';
+            /* @var $file_list */
+            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
+                return include $load_file;
+            }
+        }
+
+        if (strpos($class,'Smarty_Internal') === false){
+            logger::error('class [' . $class . '] not found');
+        }
+    }
+
+    //camelCase风格类库自动加载
+    static function camelLoad($class){
+        if (preg_match('/(Action|Model)$/',$class,$match)) {
+            $part = strtolower($match[1]) . '/' . $class . '.php';
+            if (defined('MODULE_NAME')) {
+                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' . $part;
+                if (is_file($load_file)) {
+                    return include $load_file;
+                }
+            }
+            $load_file = PATH_ROOT . 'module/common/' . $part;
+            if (is_file($load_file)) {
+                return include $load_file;
+            }
+
+            if ($match[1] === 'Action') {
+                logger::notice('class [' . $class . '] not found');
+                http::send(404);
+            }
+        }
+
+        //业务类
+        if (strrpos($class,'Server')) {
+            $load_file = PATH_ROOT . 'server/' .$class . '.php';
+            if (is_file($load_file)) {
+                return include $load_file;
+            }
+        }
+
+        //工具类
+        $load_file = PATH_ROOT . 'library/' . strtolower($class) . '.php';
+        if (is_file($load_file)) {
+            return include $load_file;
+        }
+
+        //贪婪加载(工具类、业务类)
+        if (self::config('system.state.greedy_load')) {
+            if (strrpos($class, 'Server')) {
+                $search_directory = 'server';
+            } else {
+                $search_directory = 'library';
+                $class = strtolower($class);
+            }
+            /* @var $file_list */
+            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
+                return include $load_file;
+            }
+        }
+
+        if (strpos($class,'Smarty_Internal') === false){
+            logger::error('class [' . $class . '] not found');
+        }
+    }
+
     //处理错误
     static function process_error(){
         $error = (object)error_get_last();
@@ -243,125 +350,6 @@ class system{
         }
         http::quit();
     }
-
-    //snake_case风格类库自动加载
-    static function snake_load($class){
-        $prefix = substr($class, 0, strpos($class, '_'));
-        if (in_array($prefix, array('a', 'm', 'p'), true)) {
-            $option=array('a'=>'action', 'm'=>'model', 'p'=>'plugin');
-            if (defined('MODULE_NAME')) {
-                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' .$option[$prefix] . '/' . $class . '.php';
-                if (file_exists($load_file)) {
-                    return include $load_file;
-                }
-            }
-
-            //通用加载
-            if (self::config('system.state.common_load')) {
-                $load_file = PATH_ROOT . 'module/common/' . $option[$prefix] . '/' .$class . '.php';
-                if (file_exists($load_file)) {
-                    return include $load_file;
-                }
-            }
-
-            if ($prefix === 'a') {
-                logger::notice('class [' . $class . '] not found');
-                http::send(404);
-            }
-        }
-
-        if ($prefix === 's') {
-            $load_file = PATH_ROOT . 'server/' .$class . '.php';
-            if (file_exists($load_file)) {
-                return include $load_file;
-            }
-        }
-
-        $load_file = PATH_ROOT . 'library/' .$class . '.php';
-        if (file_exists($load_file)) {
-            return include $load_file;
-        }
-
-        //贪婪加载
-        if (self::config('system.state.greedy_load')) {
-            $search_directory = $prefix === 's' ? 'server' : 'library';
-            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
-                return include $load_file;
-            }
-        }
-
-        if (strpos($class,'Smarty_Internal') === false){
-            logger::error('class [' . $class . '] not found');
-        }
-    }
-
-    //camelCase风格类库自动加载
-    static function camelLoad($class){
-        if (preg_match('/(Action|Model|Plugin)$/',$class,$match)) {
-            if (defined('MODULE_NAME')) {
-                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' . strtolower($match[1]) . '/' . $class . '.php';
-                if (file_exists($load_file)) {
-                    return include $load_file;
-                }
-            }
-
-            //通用加载
-            if (self::config('system.state.common_load')) {
-                $load_file = PATH_ROOT . 'module/common/' . strtolower($match[1]). '/' . $class . '.php';
-                if (file_exists($load_file)) {
-                    return include $load_file;
-                }
-            }
-
-            if ($match[1] === 'Action') {
-                logger::notice('class [' . $class . '] not found');
-                http::send(404);
-            }
-        }
-
-        //业务类
-        if (strrpos($class,'Server')) {
-            $load_file = PATH_ROOT . 'server/' .$class . '.php';
-            if (file_exists($load_file)) {
-                return include $load_file;
-            }
-        }
-
-        //工具类
-        $load_file = PATH_ROOT . 'library/' . strtolower($class) . '.php';
-        if (file_exists($load_file)) {
-            return include $load_file;
-        }
-
-        //贪婪加载(工具类、业务类)
-        if (self::config('system.state.greedy_load')) {
-            if (strrpos($class, 'Server')) {
-                $search_directory = 'server';
-            } else {
-                $search_directory = 'library';
-                $class = strtolower($class);
-            }
-            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
-                return include $load_file;
-            }
-        }
-
-        if (strpos($class,'Smarty_Internal') === false){
-            logger::error('class [' . $class . '] not found');
-        }
-    }
-
-    //注册表方式自动加载
-    static function map_load($class){
-        if (empty($GLOBALS['_LIBRARY'][$class])) {
-            $GLOBALS['_LIBRARY'][$class] = self::config('library_map.' . $class);
-            if ($GLOBALS['_LIBRARY'][$class]) {
-                return include $GLOBALS['_LIBRARY'][$class];
-            }
-        }
-        return false;
-    }
-
 
 
 }

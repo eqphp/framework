@@ -1,10 +1,10 @@
 <?php
 
-class p_modifierPlugin{
+class common_modifier{
 
     //解析配置文件的常量
-    static function constant($name, $mode = 0){
-        return system::config($name, $mode);
+    static function constant($name, $is_module = false){
+        return system::config($name, $is_module);
     }
 
     //截取指定长度的中英文混合字符串

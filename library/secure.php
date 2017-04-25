@@ -1,6 +1,6 @@
 <?php
 
-//rely on: session cookie
+//rely on: system session http
 class secure{
 
     //延伸的md5方法
@@ -22,6 +22,20 @@ class secure{
         return str_replace($risk, '', $string);
     }
 
+    //正则匹配
+    static function match($string, $regexp){
+        $regexp_list = system::config('regexp');
+        if (isset($regexp_list[$regexp])) {
+            $regexp = $regexp_list[$regexp];
+        }
+        return preg_match($regexp, $string);
+    }
+
+    //正则过滤
+    static function filter($value, $regexp, $default = ''){
+        return self::match($value, $regexp) ? $value : $default;
+    }
+
     //获取6位密码保护串
     static function salt(){
         $symbol = '!@#$%&?~^<>`+-*/={}[]()|_,.:;';
@@ -36,7 +50,7 @@ class secure{
     }
 
     //加密
-    static function encrypt($string, $key = 'eqphp'){
+    static function encrypt($string, $key = 'b335a4503870a1d1'){
         $j = 0;
         $key = md5($key);
         $buffer = $data = '';
@@ -55,7 +69,7 @@ class secure{
     }
 
     //解密
-    static function decrypt($string, $key = 'eqphp'){
+    static function decrypt($string, $key = 'b335a4503870a1d1'){
         $string = base64_decode($string);
 
         $j = 0;
@@ -79,16 +93,16 @@ class secure{
     static function csrf($mode, $csrf = ''){
         $key = system::config('system.secure.csrf_name');
         if ($mode === 'get') {
-            return session($key);
+            return session::get($key);
         }
         if ($mode === 'check') {
             //Notice 是否只用一次并清掉cookie
-            //http::cookie($key,$value,1);
-            return ($csrf && $csrf === session($key));
+            //http::cookie($key,$value,true);
+            return ($csrf && $csrf === session::get($key));
         }
         if ($mode === 'set') {
-            $value = substr(secure::token(time()), 5, 8);
-            session($key, $value);
+            $value = substr(self::token(time()), 5, 8);
+            session::set($key, $value);
             http::cookie($key, $value, 7200);
             return $value;
         }

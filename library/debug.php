@@ -1,10 +1,10 @@
 <?php
 
-//rely on: basic html
+//rely on: help html http
 class debug{
 
     //开发模式-调试方法
-    static function out($param, $mode = 1, $is_exit = true){
+    static function out($param = 'ok', $mode = 1, $is_exit = true){
         headers_sent() or header('Content-Type:text/html; charset=utf-8');
         echo '<pre>' . PHP_EOL;
         $method = array('var_dump', 'print_r', 'var_export');
@@ -17,7 +17,7 @@ class debug{
         is_object($data) and $data = help::object_array($data);
         is_array($data) and $data = print_r($data, true);
         empty($file_name) and $file_name = date('Y_m_d') . '.log';
-        file_put_contents($file_name, $data . PHP_EOL, FILE_APPEND);
+        file_put_contents(LOG_TRACE . $file_name, $data . PHP_EOL, FILE_APPEND);
     }
 
     //获取系统信息
@@ -44,7 +44,7 @@ class debug{
                 return get_included_files();
             default:
                 return array(
-                    'framework'=>'EQPHP 3.1.6',
+                    'version'=>'3.1.6',
                     'system'=>php_uname(),
                     'service'=>php_sapi_name(),
                     'php_version'=>PHP_VERSION,
@@ -83,7 +83,8 @@ class debug{
     //输出异常追溯信息
     static function exception($e){
         header('Content-Type:text/html; charset=utf-8');
-        echo CSS . '<div class="trace">' . PREO;
+        echo '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+        echo '<div class="trace"><pre>';
         echo html::h5(html::b($e->getCode()) . $e->getMessage());
         echo html::h6($e->getFile() . html::b($e->getLine()));
         foreach ($e->getTrace() as $trace) {
@@ -97,24 +98,8 @@ class debug{
                 echo html::p(print_r($trace->args, true));
             }
         }
-        echo PREC . '</div>';
+        echo '</pre></div>';
     }
 
-    //设置调试常量
-    static function set_debug_constant(){
-        $constant = array(
-            'ok' => 'ok', 'OK' => 'OK',
-            'PREO' => '<pre>', 'PREC' => '</pre>',
-            'BR' => '<br>', 'HR' => '<hr>',
-            'UTF8' => 'Content-Type:text/html; charset=utf-8',
-            'CSS' => '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">',
-            );
-        foreach ($constant as $key => $value) {
-            if (defined($key)) {
-                continue;
-            }
-            define($key, $value);
-        }
-    }
 
 }

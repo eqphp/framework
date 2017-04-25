@@ -11,7 +11,7 @@ class demoTest extends PHPUnit_Framework_TestCase{
      */
     function testTool($phone,$result){
         //工具类
-        $this->assertEquals($result, regexp::match($phone,'phone'));
+        $this->assertEquals($result, secure::match($phone,'phone'));
     }
 
     //业务类
