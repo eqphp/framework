@@ -17,10 +17,10 @@ return array(
 	//5,Detects hash-contained xss payload attacks, setter usage and property overloading
  	'/(?:\W\s*hash\s*[^\w\s-])|(?:\w+=\W*[^,]*,[^\s(]\s*\()|(?:\?"[^\s"]":)|(?:(?<!\/)__[a-z]+__)|(?:(?:^|[\s)\]\}])(?:s|g)etter\s*=)/',
 
-	//6,Detects self contained xss via with(), common loops and regex to string conversion
+	//6,Detects self contained xss, common loops and regex to string conversion
 	'/(?:with\s*\(\s*.+\s*\)\s*\w+\s*\()|(?:(?:do|while|for)\s*\([^)]*\)\s*\{)|(?:\/[\w\s]*\[\W*\w)/',
 
-	//7,Detects JavaScript with(), ternary operators and XML predicate attacks
+	//7,Detects JavaScript with, ternary operators and XML predicate attacks
 	'/(?:[=(].+\?.+:)|(?:with\([^)]*\)\))|(?:\.\s*source\W)/',//TODO
 
 	//8,Detects self-executing JavaScript functions

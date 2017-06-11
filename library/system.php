@@ -123,7 +123,7 @@ class system{
         if ($mode === 'camelLoad') {
             $suffix = 'Action';
         }
-        if ($mode === 'nameSpaceLoad') {
+        if ($mode === 'composer') {
             $prefix = $space_name . '\action\\';
         }
 
@@ -190,19 +190,6 @@ class system{
             }
             debug::exception($e);
         }
-    }
-
-    //命名空间方式自动加载
-    static function nameSpaceLoad($class){
-        $load_file = PATH_ROOT;
-        if (strpos($class,'server\\') !== 0) {
-            $load_file .= 'module/';
-        }
-        $load_file .=  str_replace('\\', '/', $class) . '.php';
-        if (is_file($load_file)) {
-            return include $load_file;
-        }
-        return false;
     }
 
     //注册表方式自动加载
@@ -324,7 +311,7 @@ class system{
         $error = (object)error_get_last();
         if ($error && isset($error->type)) {
             ob_end_clean();
-            $error->type = self::config('error.' . $error->type);
+            $error->type = basic::meta('error.' . $error->type);
             $log_data = $error->type . ' : ' . $error->message . ' [' . $error->file . ' - ' . $error->line . ']';
             logger::exception('error', $log_data);
 

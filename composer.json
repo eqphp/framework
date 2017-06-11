@@ -1,0 +1,38 @@
+{
+  "name": "eqphp/framework",
+  "description": "RESTFul Web Framework",
+  "keywords": [
+    "framework",
+    "mvc",
+    "restful"
+  ],
+  "homepage": "https://github.com/eqphp/framework",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "art_youth",
+      "email": "gkz1024@126.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "autoload": {
+    "files": [
+      "config/local/shortcut.php",
+      "library/eqphp.php"
+    ],
+    "psr-4": {
+      "server\\": "server/",
+      "eqphp\\": "library/provider",
+      "common\\action\\": "module/common/action/",
+      "common\\model\\": "module/common/model/"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}

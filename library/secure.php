@@ -24,7 +24,7 @@ class secure{
 
     //正则匹配
     static function match($string, $regexp){
-        $regexp_list = system::config('regexp');
+        $regexp_list = basic::meta('regexp');
         if (isset($regexp_list[$regexp])) {
             $regexp = $regexp_list[$regexp];
         }
@@ -110,7 +110,7 @@ class secure{
 
     //xss检测（check）、过滤（filter）
     static function xss($string, $mode = 'check'){
-        $regexp_list = system::config('xss');
+        $regexp_list = basic::meta('xss');
         if ($mode === 'check') {
             $risk = 0;
             foreach ($regexp_list as $regexp) {

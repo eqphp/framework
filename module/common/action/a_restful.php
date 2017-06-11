@@ -53,8 +53,8 @@ class a_restful{
 
     //检查token是否失效
     private function check_token_expire(){
-        $token = base64_decode(trim($this->auth_token));
-        $token = with('crypt', self::TOKEN_KEY)->decrypt($token);
+        $crypt = new crypt(self::TOKEN_KEY);
+        $token = $crypt->decrypt(base64_decode(trim($this->auth_token)));
         if (substr_count($token, '|') !== 1) {
             $this->response(4, 'token expire');
         }
@@ -67,8 +67,9 @@ class a_restful{
 
     //获取指定用户的token
     protected function get_token($user_id){
+        $crypt = new crypt(self::TOKEN_KEY);
         $plain_text = $user_id . '|' . strtotime(self::TOKEN_EXPIRE);
-        return base64_encode(with('crypt', self::TOKEN_KEY)->encrypt($plain_text));
+        return base64_encode($crypt->encrypt($plain_text));
     }
 
     //异步json简易提示

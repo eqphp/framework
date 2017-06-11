@@ -22,6 +22,17 @@ class basic{
         return mb_substr($string, 0, $length, 'UTF-8') . $tail;
     }
 
+    //获取元数据包
+    static function meta($name){
+        $name = explode('.', $name);
+        $file = DATA_META . array_shift($name) . '.php';
+        $key = md5($file);
+        if (empty($GLOBALS['_META'][$key])) {
+            $GLOBALS['_META'][$key] = include($file);
+        }
+        return self::array_get($GLOBALS['_META'][$key], $name);
+    }
+
     //获取指定长度的随机字符串
     static function code($len = 4, $mode = 1){
         $data = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ23456789';
@@ -49,13 +60,6 @@ class basic{
         $by = pow(10, (int)$precision);
         $number = (int)($number * $by);
         return $number / $by;
-    }
-
-    //毫秒级时间戳
-    static function microtime(){
-        list($usec, $sec) = explode(' ', microtime());
-        $microtime = (float)$usec + (float)$sec;
-        return round($microtime * 1000);
     }
 
     //生成36位uuid
@@ -193,6 +197,10 @@ class basic{
                 return $param[0];
             }
             $class_name = array_shift($param);
+            if (strpos($class_name, '.') === false) {
+                $class_name = 'eqphp.' . $class_name;
+            }
+            $class_name = str_replace('.', '\\', $class_name);
             $reflection = new ReflectionClass($class_name);
             if ($param && $reflection->hasMethod('__construct')) {
                 return $reflection->newInstanceArgs($param);

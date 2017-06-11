@@ -87,10 +87,9 @@
         <h1 article_id="1"><strong class="fal">EQPHP简介</strong></h1>
 
         
-        <div class="item">
-
-            <img src="image/eqphp.png">
-            <span class="fsb fs18 fcr">　　欢迎使用 EQPHP</span><br><br>
+        <div class="item"><br>
+            <img src="image/eqphp.png" style="vertical-align:bottom;">
+            <span class="fsb fs18 fcr">　欢迎使用 EQPHP</span><br><br>
             EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；<br>
             涵盖：请求响应、验证过滤、上传下载、加密解密、日志调试、性能测试、缓存静态化、国际化等技术点；<br>
             囊括：文件目录操作、数据库使用、图形图像处理、邮件短信发送、DOM表单构建、模板引擎解析等解决方案；<br>
@@ -129,9 +128,12 @@
         <div class="item"><br>
             <strong>官方下载地址：</strong>
             <a href="http://www.eqphp.com/file/package/eqphp_3.0.1.zip" title="点击下载EQPHP 3.0压缩包">http://www.eqphp.com/file/package/eqphp_3.0.1.zip</a><br><br>
-
+            
             <strong>GitHub下载地址：</strong>
             <a href="https://github.com/eqphp/framework" title="EQPHP 3.0 github 下载" target="_blank">https://github.com/eqphp/framework</a><br><br>
+
+            <strong>oschina下载地址：</strong>
+            <a href="http://git.oschina.net/eqphp/framework" title="EQPHP 3.0 oschina 下载" target="_blank">http://git.oschina.net/eqphp/framework</a><br><br>
 
 
             <strong>运行环境要求：</strong>
@@ -145,7 +147,7 @@
             <p>3、配置访问域名config/local/system.php后，地址栏输入http://127.0.0.1/，即可看到欢迎界面：</p>
             <img src="image/eqphp_default_page.gif"><br><br>
             
-            <p>4、当前编码风格为 snake_case , 当然你可以点击欢迎界面的 camelCase 或 compose 重置为你习惯的编码风格。</p><br><br>
+            <p>4、当前编码风格为 snake_case , 当然你可以点击欢迎界面的 compose 重置为你习惯的编码风格。</p><br><br>
 
 
         </div>
@@ -159,7 +161,7 @@
                     <th width="150px">名称类别</th>
                     <th width="200px">snake_case</th>
                     <th width="200px">camelCase</th>
-                    <th>nameSpace</th>
+                    <th>composer</th>
                 </tr>
                 <tr>
                     <td>工具类</td>
@@ -245,7 +247,7 @@
                         1、camelCase风格：camelLoad<br>
                         2、snake_case风格(默认)：snake_load<br>
                         3、类路径（class-map）：map_load<br>
-                        4、命名空间：nameSpaceLoad，可使用composer.
+                        4、命名空间：可使用composer.
                     </td>
                 </tr>
 
@@ -757,8 +759,8 @@
 </span><br><br>
 
 
-            <strong>模板继承（view plugin-block）：</strong><br>
-            大多数时候我们需要一个上(页眉header)下（页脚footer）左（导航菜单sidebar）固定，只变动中间（主体内容main）的布局结构，若每个功能页面都include各个公共块（叶片blade），很显然这种做法就显得重复。模板继承方案正好处理这一缺陷。<br><br>
+<strong>模板继承（view plugin-block）：</strong><br>
+大多数时候我们需要一个上(页眉header)下（页脚footer）左（导航菜单sidebar）固定，只变动中间（主体内容main）的布局结构，若每个功能页面都include各个公共块（叶片blade），很显然这种做法就显得重复。模板继承方案正好处理这一缺陷。<br><br>
 
 <span>case 2: view plugin-block<br>
 <code>
@@ -3549,12 +3551,6 @@ file::write($file,$data,'a+');
             basic::float('12.891',2); <i>//12.89</i><br>
             basic::float('0.807',2); <i>//0.8</i><br>
             basic::int(3.567,2,true); <i>//3.57</i><br>
-        </code><br><br><br>
-
-        <h3>生成13位时间戳(毫秒)</h3>
-        <p class="function">string <b>basic::microtime</b>()</p>
-        <code>
-            basic::microtime(); <i>//1457279285200</i><br>
         </code><br><br><br>
 
         <h3>生成36位uuid</h3>

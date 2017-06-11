@@ -72,8 +72,8 @@ class http{
 
     //构造post提交并获取接口返回数据
     //header: array('Cookie: '.http_build_query($_COOKIE,'','; '))
-    static function curl($url, $data = null, $header = null, $option = array()){
-        $option += array('type' => array('form', 'json'), 'xml_tag' => 'item', 'is_array' => true);
+    static function curl($url, $data = null, $option = array(), $header = null){
+        $option += array('request_type' => 'json', 'response_type' => 'json', 'is_array' => true, 'xml_tag' => 'item');
         if (is_array($url)) {
             $url = $url['scheme'] . '://' . $url['host'] . ':' . $url['port'] . $url['path'];
         }
@@ -82,25 +82,23 @@ class http{
             'json' => 'Content-Type: application/json',
             'form' => 'Content-type: application/x-www-form-urlencoded',
         );
-        if (isset($content_type[$option['type'][0]])) {
-            $header[] = $content_type[$option['type'][0]].'; charset=utf-8';
+        if (isset($content_type[$option['request_type']])) {
+            $header[] = $content_type[$option['request_type']].'; charset=utf-8';
         }
         if (is_array($data) && $data) {
-            if ($option['type'][0] === 'json') {
-                $data = json_encode($data);
-            } elseif ($option['type'][0] === 'xml') {
+            if ($option['request_type'] === 'json') {
+                $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+            } elseif ($option['request_type'] === 'xml') {
                 $data = help::data_xml($data);
             } else {
-                $data = http_build_query($data);
+                $data = urldecode(http_build_query($data));
             }
         }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        if (defined('CURLOPT_SSL_VERIFYPEEP')) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEEP, 0);
-        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -119,15 +117,15 @@ class http{
             logger::exception('curl', curl_errno($ch) . ': ' . curl_error($ch));
         }
 
-        $status = curl_getinfo($ch);
-        $response = trim(substr($response, $status['header_size']));
-        //$content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-        //$response = trim(substr($response, -$content_length));
+        //$status = curl_getinfo($ch);
+        //$response = trim(substr($response, $status['header_size']));
+        $content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        $response = trim(substr($response, -$content_length));
         curl_close($ch);
 
-        if ($option['type'][1] === 'json') {
+        if ($option['response_type'] === 'json') {
             return json_decode($response, $option['is_array']);
-        } elseif ($option['type'][1] === 'xml') {
+        } elseif ($option['response_type'] === 'xml') {
             return simplexml_load_string($response);
         }
         return $response;
@@ -177,13 +175,12 @@ class http{
 
     //发送http错误头信息
     static function send($code = 404, $is_out = true, $is_exit = true){
-        $status = system::config('http_status');
-        if (isset($status[$code])) {
-            header('HTTP/1.1 ' . $code . ' ' . $status[$code]);
-            header('Status:' . $code . ' ' . $status[$code]);
+        $message = basic::meta('http_status.' . $code);
+        if (strlen($message)) {
+            header('HTTP/1.1 ' . $code . ' ' . $message);
+            header('Status:' . $code . ' ' . $message);
             if ($is_out) {
-                echo $status[$code];
-                //smarty()->display('abort/' . $code);
+                smarty()->display('abort/' . $code);
             }
             $is_exit && self::quit();
         }
@@ -192,7 +189,7 @@ class http{
     //下载文件
     static function download($data, $save_name, $is_path = false){
         $extension = preg_replace('/.*\./', '', $save_name);
-        $mime_type = system::config('mime_type.' . $extension);
+        $mime_type = basic::meta('mime_type.' . $extension);
         empty($mime_type) and $mime_type = 'application/octet-stream';
         $process_file_name = function () use ($save_name){
             $save_name = str_replace(array('\\', '/', ':', '*', '?', '"', '<', '>', '|', ','), '', $save_name);

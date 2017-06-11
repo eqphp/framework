@@ -1,6 +1,6 @@
 <?php
 
-//use eqphp\system, eqphp\session, eqphp\input, eqphp\query, eqphp\smarty3, eqphp\debug;
+//use eqphp\system, eqphp\session, eqphp\input, eqphp\query, eqphp\debug;
 
 define('PATH_CONFIG', PATH_ROOT . 'config/');
 define('PATH_LIBRARY', PATH_ROOT . 'library/');
@@ -9,8 +9,8 @@ define('PATH_SERVER', PATH_ROOT . 'server/');
 define('PATH_FILE', PATH_ROOT . 'file/');
 define('PATH_VIEW', PATH_ROOT . 'view/');
 define('PATH_DATA', PATH_ROOT . 'data/');
-define('PATH_CACHE', PATH_ROOT . 'cache/');
 define('PATH_LOG', PATH_ROOT . 'log/');
+define('PATH_CACHE', PATH_ROOT . 'cache/');
 define('PATH_VENDOR', PATH_ROOT . 'vendor/');
 
 define('FILE_PICTURE', PATH_FILE . 'picture/');
@@ -29,6 +29,7 @@ define('FILE_IMAGE', PATH_FILE . 'static/image/');
 
 define('DATA_LANG', PATH_DATA . 'lang/');
 define('DATA_DICT', PATH_DATA . 'dict/');
+define('DATA_META', PATH_DATA . 'meta/');
 define('DATA_FONT', PATH_DATA . 'font/');
 define('DATA_STORE', PATH_DATA . 'store/');
 define('DATA_BACKUP', PATH_DATA . 'backup/');
@@ -85,11 +86,6 @@ function post($name, $mode = 'title'){
 //实例化数据表模型
 function query($table){
     return new query($table);
-}
-
-//模板配置
-function smarty(){
-    return smarty3::tpl();
 }
 
 //调试

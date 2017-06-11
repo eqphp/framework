@@ -23,7 +23,7 @@ class debug{
     //获取系统信息
     static function info($type = 1){
         $data = array('basic', 'const', 'variable', 'function', 'class', 'interface', 'file');
-        if (is_int($type) && $type < 7) {
+        if (is_numeric($type) && $type < 7) {
             $type = $data[$type];
         }
         switch ($type) {
@@ -56,9 +56,7 @@ class debug{
 
     //取得微秒数、内存消耗
     static function flag(&$flag){
-        list($usec, $sec) = explode(' ', microtime());
-        $microtime = ((float)$usec + (float)$sec);
-        $flag = array($microtime, memory_get_usage());
+        $flag = array(round(microtime(true) * 1000), memory_get_usage());
     }
 
     //计算运行时间,内存消耗
@@ -78,7 +76,6 @@ class debug{
         $show_url = U_R_L . 'xhprof_html/index.php?run=' . $run_id . '&source=' . $res_name;
         return '<a href="' . $show_url . '" target="_blank">XHPROF_RESULT</a>';
     }
-
 
     //输出异常追溯信息
     static function exception($e){

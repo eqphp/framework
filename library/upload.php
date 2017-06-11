@@ -42,7 +42,7 @@ class upload{
             if ($this->file['size']) {
                 preg_match('|\.(\w+)$|', $this->file['name'], $extension_name);
                 $this->file['extension_name'] = strtolower(trim($extension_name[0], '.'));
-                if (in_array($this->file['extension_name'], system::config('upload.system.picture'))) {
+                if (in_array($this->file['extension_name'], basic::meta('upload.system.picture'))) {
                     $this->process_image_size();
                     if (isset($this->image_size)) {
                         $this->check_image_size();
@@ -69,7 +69,7 @@ class upload{
         if (isset($this->file['mime_type']) && $this->file['mime_type'] !== $this->file['type']) {
             throw new sException('fake extension name', 128, 9);
         }
-        $this->format = system::config('upload.' . $this->from);
+        $this->format = basic::meta('upload.' . $this->from);
         foreach ($this->format as $path => $format) {
             if (in_array($this->file['extension_name'], $format)) {
                 $this->save_path = PATH_FILE . $path . '/';

@@ -49,29 +49,12 @@ class help{
         return $buffer[$word];
     }
 
-
     //获取IP
     static function ip(){
         if (defined('RUN_MODE') && RUN_MODE === 'cli') {
             return '127.0.0.1';
         }
-        if (isset($_SERVER)) {
-            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                return $_SERVER['HTTP_X_FORWARDED_FOR'];
-            }
-            if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                return $_SERVER['HTTP_CLIENT_IP'];
-            }
-            return $_SERVER['REMOTE_ADDR'];
-        }
-
-        if (getenv('HTTP_X_FORWARDED_FOR')) {
-            return getenv('HTTP_X_FORWARDED_FOR');
-        }
-        if (getenv('HTTP_CLIENT_IP')) {
-            return getenv('HTTP_CLIENT_IP');
-        }
-        return getenv('REMOTE_ADDR');
+        return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
     }
 
     //获取请求ip所在的省份和城市
