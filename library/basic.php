@@ -198,7 +198,7 @@ class basic{
             }
             $class_name = array_shift($param);
             if (strpos($class_name, '.') === false) {
-                $class_name = 'eqphp.' . $class_name;
+                //$class_name = 'eqphp.' . $class_name;
             }
             $class_name = str_replace('.', '\\', $class_name);
             $reflection = new ReflectionClass($class_name);
