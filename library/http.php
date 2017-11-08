@@ -117,10 +117,8 @@ class http{
             logger::exception('curl', curl_errno($ch) . ': ' . curl_error($ch));
         }
 
-        //$status = curl_getinfo($ch);
-        //$response = trim(substr($response, $status['header_size']));
-        $content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-        $response = trim(substr($response, -$content_length));
+        $content_length = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $response = trim(substr($response, $content_length));
         curl_close($ch);
 
         if ($option['response_type'] === 'json') {
