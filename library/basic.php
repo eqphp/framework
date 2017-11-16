@@ -224,4 +224,19 @@ class basic{
         return $tree;
     }
 
+    //生成树结构
+    static function build_tree($data, $parent_id = 0, $level = 1, $field = array('id' => 'id', 'parent_id' => 'parent_id', 'child' => 'child')){
+        $buffer = array();
+        foreach ($data as &$value) {
+            if ($value[$field['parent_id']] == $parent_id) {
+                $value['level'] = $level;
+                $tem = self::build_tree($data, $value[$field['id']], $value['level'] + 1, $field);
+                $tem && $value[$field['child']] = $tem;
+                unset($value['level']);
+                $buffer[] = $value;
+            }
+        }
+        return $buffer;
+    }
+
 }

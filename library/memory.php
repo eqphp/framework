@@ -12,6 +12,11 @@ class memory{
         $cache = new $name;
         $config = system::config($name . '.' . $name);
         $cache->connect($config['host'], $config['port']);
+        if ($name === 'redis') {
+            $cache->auth($config['password']);
+            $cache->setOption(Redis::OPT_PREFIX, $config['prefix']);
+            $cache->select($config['database']);
+        }
         return $cache;
     }
 
@@ -31,7 +36,7 @@ class memory{
         return $cache;
     }
 
-    //redis主从集群（多服务器redis集群时ini配置里的第一项为master）
+    //redis主从集群
     static function group($is_master = false){
         static $cache;
         if (isset($cache) && $cache instanceof Redis) {
@@ -42,10 +47,16 @@ class memory{
         $config = system::config('redis');
         if ($is_master) {
             $cache->connect($config['redis']['host'], $config['redis']['port']);
+            $cache->auth($config['redis']['password']);
+            $cache->setOption(Redis::OPT_PREFIX, $config['redis']['prefix']);
+            $cache->select($config['redis']['database']);
         } else {
             unset($config['redis']);
             foreach ($config as $serve) {
                 $cache->connect($serve['host'], $serve['port']);
+                $cache->auth($serve['password']);
+                $cache->setOption(Redis::OPT_PREFIX, $serve['prefix']);
+                $cache->select($serve['database']);
             }
         }
 
