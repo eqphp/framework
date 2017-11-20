@@ -230,8 +230,8 @@ class basic{
         foreach ($data as &$value) {
             if ($value[$field['parent_id']] == $parent_id) {
                 $value['level'] = $level;
-                $tem = self::build_tree($data, $value[$field['id']], $value['level'] + 1, $field);
-                $tem && $value[$field['child']] = $tem;
+                $temp = self::build_tree($data, $value[$field['id']], $value['level'] + 1, $field);
+                $temp and $value[$field['child']] = $temp;
                 unset($value['level']);
                 $buffer[] = $value;
             }
