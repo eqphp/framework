@@ -59,7 +59,6 @@ class logger{
         self::record_log($file_name, $data . PHP_EOL);
     }
 
-
     static function mysql($data, $is_read = true){
         $log_type = $is_read ? '_r.log' : '_w.log';
         $file_name = LOG_MYSQL . date('Y_m_d') . $log_type;
@@ -75,7 +74,7 @@ class logger{
     }
 
     static function record_log($file_name, $data){
-        return file_put_contents($file_name, $data, FILE_APPEND);
+        $GLOBALS['_LOG_FILE'][$file_name][] = $data;
     }
 
 

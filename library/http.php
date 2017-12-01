@@ -3,41 +3,30 @@
 //rely on: system basic file html help logger
 class http{
 
-    //exit扩展函数
-    static function quit($flag = ''){
-        if (isset($GLOBALS['_LOG_FILE']) && is_array($GLOBALS['_LOG_FILE'])) {
-            foreach ($GLOBALS['_LOG_FILE'] as $key => $string) {
-                file::write($key, implode('', $string), 'a+');
-                unset($GLOBALS['_LOG_FILE'][$key]);
-            }
-        }
-        exit(strval($flag));
-    }
-
     //域内跳转
     static function redirect($url = null){
         header('Location: ' . U_R_L . $url);
-        self::quit();
+        exit();
     }
 
     //异常终止并跳转
     static function abort($abort_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('abort_message', 'redirect_url', 'wait_time');
         basic::with(new view())->assign($data)->display('abort/fail');
-        self::quit();
+        exit();
     }
 
     //完成、结束并终止并跳转
     static function success($tip_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('tip_message', 'redirect_url', 'wait_time');
         basic::with(new view())->assign($data)->display('abort/success');
-        self::quit();
+        exit();
     }
 
     //输出script
     static function script($data = null, $type = 'back_refresh', $is_exit = true){
         $script = html::script($data, $type);
-        $is_exit && self::quit($script);
+        $is_exit && exit($script);
         echo $script;
     }
 
@@ -45,7 +34,7 @@ class http{
     static function json($data, $is_exit = true){
         headers_sent() or header('Content-Type:application/json; charset=utf-8');
         $json = json_encode($data);
-        $is_exit && self::quit($json);
+        $is_exit && exit($json);
         echo $json;
     }
 
@@ -54,7 +43,7 @@ class http{
         headers_sent() or header('Content-Type:text/xml; charset=utf-8');
         $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= "<{$root}>" . help::data_xml($data) . "</{$root}>";
-        $is_exit && self::quit($xml);
+        $is_exit && exit($xml);
         echo $xml;
     }
 
@@ -83,7 +72,7 @@ class http{
             'form' => 'Content-type: application/x-www-form-urlencoded',
         );
         if (isset($content_type[$option['request_type']])) {
-            $header[] = $content_type[$option['request_type']].'; charset=utf-8';
+            $header[] = $content_type[$option['request_type']] . '; charset=utf-8';
         }
         if (is_array($data) && $data) {
             if ($option['request_type'] === 'json') {
@@ -107,7 +96,11 @@ class http{
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
         if ($data) {
-            curl_setopt($ch, CURLOPT_POST, 1);
+            if (isset($option['request_method'])) {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($option['request_method']));
+            } else {
+                curl_setopt($ch, CURLOPT_POST, 1);
+            }
             curl_setopt($ch, CURLOPT_POSTFIELDS, trim($data));
         }
 
@@ -180,7 +173,7 @@ class http{
             if ($is_out) {
                 smarty()->display('abort/' . $code);
             }
-            $is_exit && self::quit();
+            $is_exit && exit();
         }
     }
 
@@ -212,12 +205,12 @@ class http{
                     echo $source;
                 }
                 fclose($fp);
-                self::quit();
+                exit();
             }
             throw new Exception('read download file fail', 108);
         }
         help::download_header($mime_type, strlen($data), $file_name);
-        self::quit($data);
+        exit($data);
     }
 
     //判断是否异步请求

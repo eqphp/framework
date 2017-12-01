@@ -4,7 +4,7 @@
 class memory{
 
     //memcache缓存初始化
-    static function init($name = 'memcache'){
+    static function init($name = 'redis'){
         static $cache;
         if (isset($cache) && $cache instanceof $name) {
             return $cache;

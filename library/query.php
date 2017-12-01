@@ -3,7 +3,6 @@
 //rely on: secure db
 class query{
 
-    private $flag = null;
     public $sql = '';
     public $option = array();
     static $keyword = array('select', 'from', 'join', 'left join', 'right join',
@@ -11,8 +10,7 @@ class query{
 
 
     //初始化查询参数
-    function __construct($table, $flag = null){
-        $this->flag = $flag;
+    function __construct($table){
         $this->option['from'] = $table;
     }
 
@@ -66,29 +64,15 @@ class query{
             }
         }
         $this->sql = trim($this->sql);
-
-        if (is_null($this->flag)) {
-            switch ($mode) {
-                case 'record':
-                    return db::record($this->sql);
-                case 'batch':
-                    return db::batch($this->sql);
-                case 'page':
-                    return db::page($this->sql, $record_count, $page, $page_size);
-                default:
-                    return $this->sql;
-            }
-        } else {
-            switch ($mode) {
-                case 'record':
-                    return mysql::get_instance($this->flag)->record($this->sql);
-                case 'batch':
-                    return mysql::get_instance($this->flag)->batch($this->sql);
-                case 'page':
-                    return mysql::get_instance($this->flag)->page($this->sql, $record_count, $page, $page_size);
-                default:
-                    return $this->sql;
-            }
+        switch ($mode) {
+            case 'record':
+                return db::record($this->sql);
+            case 'batch':
+                return db::batch($this->sql);
+            case 'page':
+                return db::page($this->sql, $record_count, $page, $page_size);
+            default:
+                return $this->sql;
         }
     }
 

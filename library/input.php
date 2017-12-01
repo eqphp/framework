@@ -82,7 +82,7 @@ class input{
                 return (bool)$value + 0;
             //数字
             case 'number':
-                return secure::match($value, 'number') ? $value : 0;
+                return $value + 0;
             //小数、浮点数(货币、概率)
             case 'float':
                 return (float)$value;

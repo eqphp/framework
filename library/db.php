@@ -1,10 +1,8 @@
 <?php
 
-//rely on: system query logger
 class db{
 
-    static $object = null;
-    static $pdo = null;
+    static $pdo = array();
 
     static $pattern = array(
         'post' => 'insert into %s %s values %s',
@@ -14,48 +12,41 @@ class db{
         'dsn' => 'mysql:host=%s;dbname=%s;port=%s;charset=%s;',
         );
 
-    //构造函数-初始化db
-    private function __construct(){
-        $db = (object)system::config('db.server');
-        $dsn = sprintf(self::$pattern['dsn'], $db->host, $db->database, $db->port, $db->charset);
-        $dsn = trim(str_replace(array('port=;', 'charset=;'), '', $dsn), ';');
-        try {
-            self::$pdo = new PDO($dsn, $db->user, $db->password);
-            self::$pdo->exec('set names ' . $db->charset);
-        } catch (PDOException $e) {
-            logger::Exception('mysql', $db->host . ' connect fail, ' . $e->getMessage());
-            throw new Exception("mysql can't connect", 102);
-        }
-    }
-
-    //禁止克隆
-    final public function __clone(){
-    }
-
-    //析构函数-资源回收
-    function __destruct(){
-    }
-
-    //返回唯一实例
-    private static function get(){
-        if (!self::$object instanceof self) {
-            self::$object = new self();
-        }
-        return self::$pdo;
-    }
-
     //执行SQL语句
     static function query($sql, $is_read = true){
-        $pdo=self::get();
+        $flag = 0;
+        $pdo = self::connect_db($flag);
         $result = $pdo->query($sql);
         if ($result) {
             logger::mysql($sql, $is_read);
+            if (!$is_read && strpos($sql, 'insert') === 0) {
+                return $pdo->lastInsertId();
+            }
             return $result;
         }
         $message = $sql . implode(' : ', $pdo->errorInfo());
         logger::exception('mysql', $message);
         throw new Exception($message, 104);
     }
+
+    //连接数据库
+    static function connect_db($flag){
+        if (isset(self::$pdo[$flag]) && self::$pdo[$flag] instanceof PDO) {
+            return self::$pdo[$flag];
+        }
+        $db = (object)config('mysql.server.' . $flag);
+        $dsn = sprintf(self::$pattern['dsn'], $db->host, $db->database, $db->port, $db->charset);
+        $dsn = trim(str_replace(array('port=;', 'charset=;'), '', $dsn), ';');
+        try {
+            self::$pdo[$flag] = new PDO($dsn, $db->user, $db->password);//, array(PDO::ATTR_PERSISTENT => true)
+            self::$pdo[$flag]->exec('set names ' . $db->charset);
+            return self::$pdo[$flag];
+        } catch (PDOException $e) {
+            logger::Exception('mysql', $db->host . ' connect fail, ' . $e->getMessage());
+            throw new Exception("mysql can't connect", 102);
+        }
+    }
+
 
     //添加数据记录
     static function post($table, $data, $option = ''){
@@ -69,21 +60,14 @@ class db{
                 $field = '(' . implode(',', array_keys($buffer[0])) . ')';
                 return self::post($table, $field, $value);
             }
-
-            $pdo = self::get();
-            $field = $value = '(';
-            foreach ($data as $key => $input) {
-                $field .= $key . ',';
-                $value .= $pdo->quote($input) . ',';
-            }
-            $data = trim($field, ',') . ')';
-            $value = trim($value, ',') . ')';
+            $value = "('" . implode("','", array_values($data)) . "')";
+            $data = '(' . implode(",", array_keys($data)) . ')';
         } else {
             $value = is_array($option) ? implode(',', $option) : $option;
         }
+
         $sql = sprintf(self::$pattern['post'], $table, $data, $value);
-        self::query($sql, false);
-        return self::$pdo->lastInsertId();
+        return self::query($sql, false);
     }
 
     //删除数据记录
@@ -98,10 +82,9 @@ class db{
         if (is_string($data)) {
             $data = trim($data);
         } else {
-            $pdo=self::get();
             list($field_info, $data) = array('', (array)$data);
             foreach ($data as $key => $value) {
-                $field_info .= $key . '=' . $pdo->quote($value) . ',';
+                $field_info .= $key . "='" . $value . "',";
             }
             $data = trim($field_info, ',');
         }
@@ -119,7 +102,7 @@ class db{
     }
 
     //返回单字段信息（表中单元格）
-    static function field($table, $field, $condition = null, $is_numeric = false){
+    static function field($table, $field, $condition = null){
         $pattern = self::$pattern['field'];
         if ($condition) {
             $condition = query::condition($condition);
@@ -128,11 +111,7 @@ class db{
             $pattern = str_replace('where %s ', '', $pattern);
             $sql = sprintf($pattern, $field, $table);
         }
-        $value = self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
-        if ($is_numeric || strpos($field, '(') !== false) {
-            $value += 0;
-        }
-        return $value;
+        return self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
     }
 
     //查询一条数据记录（数字、关联数组）
@@ -163,14 +142,14 @@ class db{
 
     //事务处理
     static function transaction($command){
+        logger::mysql($command, true);
         if ($command === 'begin') {
             $command = 'beginTransaction';
         } elseif ($command === 'rollback') {
             $command = 'rollBack';
         }
-        self::get()->$command();
-        logger::mysql($command, true);
-    }
 
+        call_user_func(array(self::connect_db(0), $command));
+    }
 
 }

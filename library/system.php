@@ -35,8 +35,9 @@ class system{
     static function init(){
         //设置错误提示
         $state = self::config('system.state');
-        //error_reporting($state['error_switch'] ? E_ALL|E_STRICT : 0);
+        register_shutdown_function('system::save_log');
         register_shutdown_function('system::process_error');
+        //error_reporting($state['error_switch'] ? E_ALL|E_STRICT : 0);
 
         //设置时区
         ini_set('date.timezone', $state['timezone']);
@@ -306,6 +307,16 @@ class system{
         }
     }
 
+    //写入日志
+    static function save_log(){
+        if (isset($GLOBALS['_LOG_FILE']) && is_array($GLOBALS['_LOG_FILE'])) {
+            foreach ($GLOBALS['_LOG_FILE'] as $key => $string) {
+                file_put_contents($key, implode('', $string), FILE_APPEND);
+                unset($GLOBALS['_LOG_FILE'][$key]);
+            }
+        }
+    }
+
     //处理错误
     static function process_error(){
         $error = (object)error_get_last();
@@ -316,26 +327,23 @@ class system{
             logger::exception('error', $log_data);
 
             if (defined('RUN_MODE') && RUN_MODE === 'cli') {
-                http::quit($log_data);
+                exit($log_data);
             }
 
             if (preg_match('/^(similar|product)$/', ENVIRONMENT)) {
                 if (isset($_SERVER["HTTP_X_REQUESTED_WITH"])) {
                     if (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === 'xmlhttprequest') {
-                        header('Content-Type:application/json; charset=utf-8');
-                        http::quit(json_encode(array('error' => 4, 'message' => $error->message)));
+                        http::json(array('error' => 4, 'message' => $error->message));
                     }
                 }
-                header('location: ' . U_R_L . 'abort/error');
-                http::quit();
+                http::redirect('abort/error');
             }
 
             header('Content-Type:text/html; charset=utf-8');
             $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
             $html .= '<div class="trace"><pre><h5><b>%s</b>%s</h5><h6>%s<b>%d</b></h6></pre></div>';
-            http::quit(sprintf($html, $error->type, $error->message, $error->file, $error->line));
+            exit(sprintf($html, $error->type, $error->message, $error->file, $error->line));
         }
-        http::quit();
     }
 
 

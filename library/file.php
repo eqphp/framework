@@ -27,16 +27,12 @@ class file{
 
     //创建、写文件
     static function write($file_name, $string = '', $mode = 'w'){
-        if ($mode === 'b'){
-            $GLOBALS['_LOG_FILE'][$file_name][] = $string;
-        } else {
-            //file_put_contents($file_name, $string, FILE_APPEND);
-            $open_file = fopen($file_name, $mode);
-            flock($open_file, LOCK_EX);
-            fwrite($open_file, $string);
-            flock($open_file, LOCK_UN);
-            fclose($open_file);
-        }
+        //file_put_contents($file_name, $string, FILE_APPEND);
+        $open_file = fopen($file_name, $mode);
+        flock($open_file, LOCK_EX);
+        fwrite($open_file, $string);
+        flock($open_file, LOCK_UN);
+        fclose($open_file);
         return true;
     }
 

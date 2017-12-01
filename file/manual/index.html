@@ -1503,7 +1503,7 @@ http::redirect('admin/');<br><br>
 
 <i>跳转至另一域名：</i><br>
 header('location: http://bbs.eqphp.com/');<br>
-http::quit();
+exit();
 </code><br><br>
 
 2、重定向：<span class="fsb">http::redirect('目标URL','提示信息');</span><br>
@@ -1603,7 +1603,7 @@ out($user_info,1);<br>
         <tr><td>正则表达式</td><td>正则匹配，不成功则返回null</td></tr>
         <tr><td>正则名称</td><td>
             phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、<br>
-            zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license
+            zip、address、int、float、alpha、chinese、chinese_name、name、file_name、id、uuid、image、business_license
         </td></tr>
     </table><br>
 
@@ -3649,7 +3649,7 @@ file::write($file,$data,'a+');
         <h3>使用正则表达式检测字符串是否合法</h3>
         <p class="function">bool <b>secure::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
         <code>
-            <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、english、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
+            <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、alpha、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
             secure::match('13650231***','phone'); <i>//true</i><br>
         </code><br><br><br>
 

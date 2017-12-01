@@ -1,6 +1,6 @@
 <?php
 
-//rely on: help html http
+//rely on: help html
 class debug{
 
     //开发模式-调试方法
@@ -9,7 +9,7 @@ class debug{
         echo '<pre>' . PHP_EOL;
         $method = array('var_dump', 'print_r', 'var_export');
         $method[$mode]($param);
-        $is_exit ? http::quit('</pre>') : print('</pre>');
+        $is_exit ? exit('</pre>') : print('</pre>');
     }
 
     //追溯方法
