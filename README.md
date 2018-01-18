@@ -53,7 +53,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 
 ##### 性能：各php版本输出 Hello world 测试报告 #####
     * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
-    * 从mysql(5.0.5)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
+    * 从mysql(5.6.17)取一字段（Hello world）使用MVC模式渲染到浏览器页面，性能报告：
 
 | PHP版本 | 5.3.22 | 5.4.12 | 5.5.33 | 5.6.19 | 7.0.4|
 | :------ | :----- | :----- | :----- | :----- | :----|
@@ -75,7 +75,7 @@ query('user_info')-> select('avatar,nick_name,avatar,sign')
 -> where(['sex'=>'female','age'=>['gt',30]])-> order('age desc')-> limit(20)-> out('batch');
 
 //分页查询用户的充值记录
-query(s_trade::TABLE_PREPAY_PROCESS)->select('id,trade_no,method,status,amount,time')
+query(table::PREPAY_PROCESS)->select('id,trade_no,method,status,amount,time')
 ->where($condition)->order('id desc')->out('page', $record_count, $page, $page_size);
 ```
 
@@ -128,7 +128,7 @@ validate::verify($input,$option);
 
 //批量接收过滤、键值映射
 //$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']
-$filter = ['a' => 'title', 'p' => 'post', 'id' => 'int'];
+$filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];
 $map = ['a' => 'author', 'p' => 'password', 't' => 'type'];
 $data = input::filter($filter, 'get', $map);
 //['author' => 'art', 'password' => '125**%24', 'id' => 8]
@@ -171,7 +171,7 @@ $data = input::filter($filter, 'get', $map);
 
 ##### restful：快速创建restful风格的API #####
 ```php
-class a_news extends a_restful{
+class news extends restful{
 
     private $cycle;
     protected $category;
@@ -180,7 +180,7 @@ class a_news extends a_restful{
         parent::__construct();
         $this->cycle = $cycle;
         $this->category = $category;
-        $this->model = with('m_news', $category, $cycle);
+        $this->model = with('model.news', $category, $cycle);
     }
 
     function get(){
@@ -190,7 +190,7 @@ class a_news extends a_restful{
     }
 
     function post(){
-        $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'title'];
+        $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];
         $data = input::filter($option, 'post');
         try {
             $manager_id = $this->model->create($data);
