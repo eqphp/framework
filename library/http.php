@@ -86,8 +86,10 @@ class http{
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        if (defined('CURLOPT_SSL_VERIFYPEEP')) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEEP, 0);
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -129,7 +131,7 @@ class http{
             $url = parse_url($url);
         }
 
-        if (!isset($url["port"])) {
+        if (!isset($url['port'])) {
             $url['port'] = 80;
         }
 

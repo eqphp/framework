@@ -4,7 +4,7 @@ include 'crontab.php';
 
 
 //$start = input::get('start', 'int');
-//$category = input::get('category', 'account');
+//$category = input::get('category', 'title');
 //out([$start, $category]);
 
 

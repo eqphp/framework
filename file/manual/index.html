@@ -483,10 +483,11 @@
                 │  ├─abort<i>(404、500异常页面)</i><br>
                 │  ├─plugin<i>(组件视图)</i><br>
                 │  ├─template<i>(短信、邮件模板)</i><br>
-                │  └─user<br>
-                │     ├─block<br>
-                │     ├─layout<br>
-                │     └─password<br>
+                │  └─user<i>(user模块视图)</i><br>
+                │  │  ├─block<i>(公共块单元)</i><br>
+                │  │  ├─layout<i>(母版视图)</i><br>
+                │  │  └─password<i>(自定义单元)</i><br>
+                │  └─template<i>(短信、邮件模板)</i><br>
                 ├─data<i>(项目私有数据)</i><br>
                 │  ├─backup<i>(数据备份)</i><br>
                 │  ├─crontab<i>(计划任务)</i><br>
@@ -1589,7 +1590,6 @@ out($user_info,1);<br>
         <tr><th>参数值</th><th>含义</th></tr>
         <tr><td>isset</td><td>isset判断</td></tr>
         <tr><td>[方法名]</td><td>原值原味接收,不存在返回null</td></tr>
-        <tr><td>account</td><td>转小写、去标签、过滤~^<>`'"\字符、去空格</td></tr>
         <tr><td>title</td><td>去标签、转html实体、去空格</td></tr>
         <tr><td>text</td><td>与title相同，但可以设定允许的html标签</td></tr>
         <tr><td>bool</td><td>bool强转、返回0,1</td></tr>
@@ -1599,7 +1599,6 @@ out($user_info,1);<br>
         <tr><td>date</td><td>Y-m-d格式校验，反转对比，不相符则返回null</td></tr>
         <tr><td>time</td><td>H:i:s格式校验，同data</td></tr>
         <tr><td>date_time</td><td>Y-m-d H:i:s格式校验，同data</td></tr>
-        <tr><td>many</td><td>接收一维数组，并使用implode连接</td></tr>
         <tr><td>正则表达式</td><td>正则匹配，不成功则返回null</td></tr>
         <tr><td>正则名称</td><td>
             phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、<br>
@@ -1610,10 +1609,10 @@ out($user_info,1);<br>
 
     <strong>批量接收过滤、键值映射：input::filter('验证项=>规则', '数据请求方式', '映射关系')</strong><br><br>
     <code>
-        input::filter(['subject'=>'title','like'=>'many','birthday'=>'data','introduce'=>'text']);<br><br>
+        input::filter(['subject'=>'title','birthday'=>'data','introduce'=>'text']);<br><br>
 
         <i>//$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']</i><br>
-        $filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];<br>
+        $filter = ['a' => 'title', 'p' => 'post', 'id' => 'int'];<br>
         $map = ['a' => 'author', 'p' => 'password', 't' => 'type'];<br>
         $data = input::filter($filter, 'get', $map);<br>
         <i>//['author' => 'art', 'password' => '125**%24', 'id' => 8]</i><br>
@@ -2870,7 +2869,7 @@ file::write($file,$data,'a+');
                 <b class="i24"></b>}<br><br>
 
                 <b class="i24"></b>function post(){<br>
-                <b class="i48"></b>$option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];<br>
+                <b class="i48"></b>$option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'title'];<br>
                 <b class="i48"></b>$data = input::filter($option, 'post');<br>
                 <b class="i48"></b>try {<br>
                 <b class="i72"></b>$manager_id = $this->model->create($data);<br>
@@ -2979,7 +2978,7 @@ file::write($file,$data,'a+');
         </code><br>
 
         <strong class="fcy1">Tip：</strong>input::post($name,$mode) 第二个参数可接收的值有<br>
-        post/isset/title/int/text/number/float/account/date/time/date_time/many/正则表达式(包括已注册正则,即config/local/regexp.php数组key值)。<br><br><br>
+        post/isset/title/int/text/number/float/date/time/date_time/正则表达式(包括已注册正则,即config/local/regexp.php数组key值)。<br><br><br>
 
 
         <strong>二、SQL 注入与数据库安全</strong><br>
@@ -3164,7 +3163,7 @@ file::write($file,$data,'a+');
                 <i>//命令行：php /var/www/data/crontab/test.php "category=toy&start=5"</i><br><br>
 
                 $start = input::get('start','int');<br>
-                $category = input::get('category','account');<br>
+                $category = input::get('category','title');<br>
                 echo $category,',',$start; <i>//toy,5</i><br>
             </code>
         </p><br><br>

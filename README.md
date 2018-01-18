@@ -128,7 +128,7 @@ validate::verify($input,$option);
 
 //批量接收过滤、键值映射
 //$_POST=['a' => 'Art', 'p' => '125**%24', 'id' => '8']
-$filter = ['a' => 'account', 'p' => 'post', 'id' => 'int'];
+$filter = ['a' => 'title', 'p' => 'post', 'id' => 'int'];
 $map = ['a' => 'author', 'p' => 'password', 't' => 'type'];
 $data = input::filter($filter, 'get', $map);
 //['author' => 'art', 'password' => '125**%24', 'id' => 8]
@@ -190,7 +190,7 @@ class a_news extends a_restful{
     }
 
     function post(){
-        $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'account'];
+        $option = ['name' => 'title', 'no' => 'uuid', 'manager' => 'title'];
         $data = input::filter($option, 'post');
         try {
             $manager_id = $this->model->create($data);

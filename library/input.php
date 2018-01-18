@@ -61,22 +61,21 @@ class input{
         if (in_array($mode, $input_type, true)) {
             return $value;
         }
-        //trim过滤、魔术引号转义
-        //if (is_string($value)) {
-        //    $value = get_magic_quotes_gpc() ? trim($value) : trim(addslashes($value));
-        //}
+        if (is_string($value) && !get_magic_quotes_gpc()) {
+            $value = addslashes($value);
+        }
         switch ($mode) {
-            //标题、关键词(去空、特殊字符、html标签)
+            //标题、关键词(去空、转html实体)
             case 'title':
-                return trim(htmlspecialchars(strip_tags($value)));
-            //ID,自然数、POST的整型(0-N,ID、number)
-            case 'int':
-                return abs((int)($value));
-            //介绍、详细内容(就留允许的html标签)
+                return trim(htmlspecialchars($value, ENT_NOQUOTES));
+            //介绍、详细内容(过滤不允许的html标签)
             case 'text':
                 $allow_tags = '<a><img><span><b><i><em><cite><strong><br><hr>';
                 $allow_tags .= '<ul><ol><li><p><h1><h2><h3><h4><h5><h6><table><tr><th><td>';
                 return trim(strip_tags($value, $allow_tags));
+            //ID,自然数、POST的整型(0-N,ID、number)
+            case 'int':
+                return abs((int)($value));
             //bool值(0,1)
             case 'bool':
                 return (bool)$value + 0;
@@ -86,23 +85,16 @@ class input{
             //小数、浮点数(货币、概率)
             case 'float':
                 return (float)$value;
-            //邮箱、用户名(注册账号时不区分大小写)
-            case 'account':
-                return trim(secure::symbol(strip_tags(strtolower($value))));
             //日期、时间
             case 'date':
             case 'time':
             case 'date_time':
                 $option = array('date' => 'Y-m-d', 'time' => 'H:i:s', 'date_time' => 'Y-m-d H:i:s');
                 $format_time = date($option[$mode], strtotime($value));
-                return ($format_time === $value) ? $value : null;
-            //联合复选框(checkbox)
-            case 'many':
-                sort($value);
-                return implode(',', $value);
+                return ($format_time === $value) ? $format_time : '';
             //正则匹配输出
             default:
-                return secure::match($value, $mode) ? $value : null;
+                return secure::match($value, $mode) ? $value : '';
         }
     }
 
