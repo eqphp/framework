@@ -43,7 +43,7 @@ define('LOG_MYSQL', PATH_LOG . 'mysql/');
 define('LOG_MONGO', PATH_LOG . 'mongo/');
 define('LOG_VISIT', PATH_LOG . 'visit/');
 
-define('URL_FILE', 'http://www.q.com/');
+define('URL_FILE', 'http://' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '127.0.0.1') . '/');
 define('URL_PICTURE', URL_FILE . 'file/picture/');
 define('URL_TEMP', URL_FILE . 'file/temp/');
 define('URL_AVATAR', URL_FILE . 'file/picture/avatar/');
@@ -79,7 +79,7 @@ function url($lie, $type = 0){
 }
 
 //表单值接收处理
-function post($name, $mode = 'title'){
+function post($name, $mode = 'post'){
     return input::post($name, $mode);
 }
 

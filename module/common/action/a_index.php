@@ -52,6 +52,7 @@ class a_index{
         }
         $content = trim(implode('', $file_detail));
         $content = str_replace("'system::", '\'eqphp\\system::', $content);
+        $content = str_replace('//$class_name =', '$class_name =', $content);
         file_put_contents(PATH_LIBRARY . 'eqphp.php', $content);
         if (is_file(PATH_LIBRARY . 'temp.php')) {
             unlink(PATH_LIBRARY . 'temp.php');

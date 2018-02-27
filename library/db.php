@@ -82,11 +82,11 @@ class db{
         if (is_string($data)) {
             $data = trim($data);
         } else {
-            list($field_info, $data) = array('', (array)$data);
+            list($field, $data) = array('', (array)$data);
             foreach ($data as $key => $value) {
-                $field_info .= $key . "='" . $value . "',";
+                $field .= $key . "='" . $value . "',";
             }
-            $data = trim($field_info, ',');
+            $data = trim($field, ',');
         }
         $condition = query::condition($condition);
         $sql = sprintf(self::$pattern['patch'], $table, $data, $condition);
@@ -102,7 +102,7 @@ class db{
     }
 
     //返回单字段信息（表中单元格）
-    static function field($table, $field, $condition = null){
+    static function field($table, $field, $condition = null, $is_numeric = false){
         $pattern = self::$pattern['field'];
         if ($condition) {
             $condition = query::condition($condition);
@@ -111,7 +111,11 @@ class db{
             $pattern = str_replace('where %s ', '', $pattern);
             $sql = sprintf($pattern, $field, $table);
         }
-        return self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
+        $value = self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
+        if ($is_numeric || strpos($field, '(') !== false) {
+            $value += 0;
+        }
+        return $value;
     }
 
     //查询一条数据记录（数字、关联数组）
@@ -142,13 +146,12 @@ class db{
 
     //事务处理
     static function transaction($command){
-        logger::mysql($command, true);
         if ($command === 'begin') {
             $command = 'beginTransaction';
         } elseif ($command === 'rollback') {
             $command = 'rollBack';
         }
-
+        logger::mysql($command, false);
         call_user_func(array(self::connect_db(0), $command));
     }
 

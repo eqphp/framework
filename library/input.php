@@ -79,6 +79,10 @@ class input{
             //bool值(0,1)
             case 'bool':
                 return (bool)$value + 0;
+            //枚举值
+            case 'enum':
+                sort($value);
+                return implode(',',$value);
             //数字
             case 'number':
                 return $value + 0;

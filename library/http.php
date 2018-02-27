@@ -30,10 +30,15 @@ class http{
         echo $script;
     }
 
-    //输出json
+    //输出json,JSON_UNESCAPED_UNICODE
     static function json($data, $is_exit = true){
-        headers_sent() or header('Content-Type:application/json; charset=utf-8');
-        $json = json_encode($data);
+        if (!headers_sent()) {
+            //header('Access-Control-Allow-Origin: *');
+            //header('Access-Control-Allow-Headers: Token, Content-Type, Range, If-Match');
+            //header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
+            header('Content-Type:application/json; charset=utf-8');
+        }
+        $json = json_encode($data, JSON_UNESCAPED_UNICODE);
         $is_exit && exit($json);
         echo $json;
     }
@@ -127,42 +132,30 @@ class http{
     //以post请求发送socket并返回接口数据
     static function socket($url, $data){
         //解析url
-        if (!is_array($url)) {
-            $url = parse_url($url);
-        }
-
+        $url = parse_url($url);
+        $data = http_build_query($data);
         if (!isset($url['port'])) {
             $url['port'] = 80;
         }
 
-        //打开socket
-        $fp = fsockopen($url['host'], $url['port'], $error_no, $error_info, 30);
-        if (!$fp) {
-            $message = 'error:(' . $error_no . ')' . $error_info;
-            logger::exception('socket', $message);
-            throw new Exception($message, 107);
-        }
-
-        //组装发送数据
-        if (is_array($data)) {
-            $data = http_build_query($data);
-        }
-        $data = trim($data);
-
         //构造头部信息
-        $head = 'POST ' . $url['path'] . ' HTTP/1.0' . PHP_EOL;
-        $head .= 'Host: ' . $url['host'] . PHP_EOL;
-        $head .= 'Referer: http://' . $url['host'] . $url['path'] . PHP_EOL;
-        $head .= 'Content-type: application/x-www-form-urlencoded' . PHP_EOL;
-        $head .= 'Content-Length: ' . strlen($data) . PHP_EOL . PHP_EOL;
-        $head .= $data;
+        $head = "POST %s HTTP/1.0\nHost: %s\nContent-type: application/x-www-form-urlencoded\nContent-Length: %s\n\n";
+        $head = sprintf($head, $url['path'], $url['host'], strlen($data)) . $data;
+
+        //打开socket
+        $socket = fsockopen($url['host'], $url['port'], $error, $message, 30);
+        if (!$socket) {
+            logger::exception('socket', $error . ': ' . $message);
+            throw new Exception($error . ': ' . $message, 107);
+        }
 
         //接收并返回结果
-        fputs($fp, $head);
+        fwrite($socket, $head);
         $content = '';
-        while (!feof($fp)) {
-            $content = fgets($fp);
+        while (!feof($socket)) {
+            $content .= fgets($socket,128);
         }
+        fclose($socket);
         return json_decode($content, true);
     }
 

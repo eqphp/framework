@@ -61,7 +61,7 @@ class debug{
 
     //计算运行时间,内存消耗
     static function used($begin, $end){
-        $diff_time = round(($end[0] - $begin[0]), 3);
+        $diff_time = round(($end[0] - $begin[0])/1000, 3);
         $diff_memory = round(($end[1] - $begin[1]) / 128, 3);
         $max_memory = round((memory_get_peak_usage()) / 128, 3);
         return array($diff_time . 's', $diff_memory . 'kb', $max_memory . 'kb');

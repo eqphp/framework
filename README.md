@@ -1,4 +1,4 @@
-欢迎使用 EQPHP Framework
+欢迎使用 EQPHP
 ===========================
 EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；
 
