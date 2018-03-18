@@ -7,7 +7,7 @@ class picture{
     static function code($text, $width = 72, $height = 36){
         //设置head信息，输出图片
         header("Content-Type:image/gif");
-        $color = array('e8ecfd', 'f1f7e0', 'fdf2f0');
+        $color = array('f9fdfe', 'f2f8f1', 'fef3f1');
         $img = image::create($width, $height, $color[rand(0, 2)]);
 
         //设置调色板
@@ -21,14 +21,8 @@ class picture{
             imagettftext($img, rand(15, 32), rand(-45, 45), 15 * $i + 3, rand(18, $height - 18) + 10, $color[rand(0, 2)], DATA_FONT . 'lucon.ttf', $text[$i]);
         }
 
-        //设置调色板
-        $red = image::color($img, 'fee1dc');
-        $green = image::color($img, 'dae6b4');
-        $blue = image::color($img, 'cdd5fb');
-        $color = array($red, $green, $blue);
-
         //绘制模糊像素点
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 60; $i++) {
             imagesetpixel($img, rand(0, $width), rand(0, $height), $color[rand(0, 2)]);
         }
 

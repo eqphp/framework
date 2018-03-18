@@ -51,10 +51,15 @@ class help{
 
     //获取IP
     static function ip(){
+        $ip = '';
         if (defined('RUN_MODE') && RUN_MODE === 'cli') {
-            return '127.0.0.1';
+            $ip = '127.0.0.1';
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        } elseif (getenv('REMOTE_ADDR')) {
+            $ip = getenv('REMOTE_ADDR');
         }
-        return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        return $ip;
     }
 
     //获取请求ip所在的省份和城市

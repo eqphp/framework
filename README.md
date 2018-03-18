@@ -239,8 +239,8 @@ debug::out($model);
 debug::trace($data,'user_info.ini');
 
 //加密、解密
-with('crypt','#*!@secret%$&')->encrypt($order_info);
-with('crypt','#*!@secret%$&')->decrypt($input);
+with('crypt','8eab7690d2a6ee69')->encrypt($order_info);
+with('crypt','8eab7690d2a6ee69')->decrypt($input);
 
 //mongoDB
 with('mg','user')->document('uuid,wallet,login_history',['id'=>8]);

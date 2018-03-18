@@ -12,8 +12,8 @@ return array(
 	
     'domain'=>array(
         'cookie'=>'',
-        'default'=>array('http','eqphp.oschina.mopaasapp.com',''),
-        'allow_host'=>array('eqphp.oschina.mopaasapp.com','127.0.0.1','localhost'),
+        'default'=>array('http','127.0.0.1',''),
+        'allow_host'=>array('www.eqphp.com','127.0.0.1','localhost'),
     ),
 
     'module'=>array(

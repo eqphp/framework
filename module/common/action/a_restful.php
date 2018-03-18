@@ -6,35 +6,50 @@ class a_restful{
     const API_VERSION = '1.0.0';
 
     //定义token有效期、密钥
-    const TOKEN_EXPIRE = '3 days';
+    const TOKEN_EXPIRE = '30 days';
     const TOKEN_KEY = 'db4139a692060d9416ce2b2ca6156490';
 
     //指定允许的restful方法
-    static $allow_method = array('get', 'post', 'put', 'delete', 'head', 'options');
+    static $allow_method = array('get', 'post', 'put', 'patch', 'delete', 'head', 'options');
 
-    //请求方法、api版本
-    protected $request_method, $request_version;
+    //请求方法、api版本、响应数据
+    protected $request_method, $request_version, $data;
 
     //授权token,授权用户ID
     protected $auth_token, $user_id;
 
-    function __construct($is_need_authorized = false){
+    //分页
+    protected $page = 1, $page_size = 20;
+
+
+    function __construct($is_need_authorized = true){
         //检验请求方法
-        $this->request_method = input::server('request_method', 'account');
+        $this->request_method = strtolower(input::server('request_method', 'title'));
         if (!in_array($this->request_method, self::$allow_method, true)) {
             $this->response(1, 'restful method not allowed');
         }
 
-        //检测API版本
+        //检测API最低版本
         $this->request_version = input::server('http_if_match');
-        if ($this->request_version !== self::API_VERSION) {
+        if (version_compare($this->request_version, self::API_VERSION, 'lt')) {
             $this->response(2, 'application version mismatch');
+        }
+
+        //分页信息
+        $range = input::server('http_range');
+        if (strpos($range, '/')) {
+            $range = explode('/', $range);
+            $this->page = max(1, $range[0] + 0);
+            $this->page_size = max(1, $range[1] + 0);
         }
 
         //处理请求参数simplexml_load_string($request_data);
         $request_data = trim(file_get_contents('php://input'));
         if (preg_match('/^\{.*[\w\W]*\}$/', $request_data)) {
             $_POST = json_decode($request_data, true);
+        }
+        if (in_array($this->request_method, array('put', 'patch'), true)) {
+            parse_str($request_data, $_POST);
         }
 
         //用户授权
@@ -47,8 +62,6 @@ class a_restful{
                 $this->response(3, 'unauthorized');
             }
         }
-
-        $this->{$this->request_method}();
     }
 
     //检查token是否失效
@@ -78,7 +91,11 @@ class a_restful{
     }
 
     function __call($name, $param = null){
-        $this->response(5, 'undefined request method');
+        if (method_exists($this, $this->request_method)) {
+            $this->{$this->request_method}();
+        } else {
+            $this->response(5, 'undefined request method');
+        }
     }
 
 }

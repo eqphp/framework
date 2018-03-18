@@ -32,6 +32,9 @@ class http{
 
     //输出json,JSON_UNESCAPED_UNICODE
     static function json($data, $is_exit = true){
+        //if (ob_get_level() !== 0 && ob_end_clean() === false) {
+        //    ob_clean();
+        //}
         if (!headers_sent()) {
             //header('Access-Control-Allow-Origin: *');
             //header('Access-Control-Allow-Headers: Token, Content-Type, Range, If-Match');
