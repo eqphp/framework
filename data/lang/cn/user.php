@@ -1,6 +1,14 @@
 <?php
 
 return array(
+    'reminder'=>array(
+        'security'=>'账户安全',
+        'trade'=>'支付交易',
+        'wish'=>'节日祝福',
+        'activity'=>'活动通知',
+        'other'=>'其它',
+    ),
+    
     'status'=>array(
         'unactivated'=>'未激活',
         'normal'=>'正常',

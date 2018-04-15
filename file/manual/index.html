@@ -897,9 +897,7 @@ case:model<br>
     <b class="i24"></b><i>//定义模块所涉及表</i><br>
     <b class="i24"></b>const TABLE_TRADE = 'user_trade';<br>
     <b class="i24"></b>const TABLE_PREPAY_PROCESS = 'prepay_process';<br>
-    <b class="i24"></b>const TABLE_PREPAY_RECORD = 'prepay_record';<br>
     <b class="i24"></b>const TABLE_WITHDRAW_PROCESS = 'withdraw_process';<br>
-    <b class="i24"></b>const TABLE_WITHDRAW_RECORD = 'withdraw_record';<br><br>
 
     <b class="i24"></b>static function is_init($user_id){<br>
     <b class="i48"></b>return (bool)db::field(self::TABLE_TRADE, 'password', compact('user_id'));<br>

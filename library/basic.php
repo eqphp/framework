@@ -62,6 +62,21 @@ class basic{
         return $number / $by;
     }
 
+    //生成限定数量的定长编号
+    static function number($prefix, $length, $amount = 100){
+        if ($amount < 100) {
+            $amount += 100;
+        } else {
+            $amount *= 10;
+        }
+        $buffer = array();
+        $max = pow(10, $length) - 1;
+        for ($i = $amount; $i > 0; $i--) {
+            $buffer[] = $prefix . str_pad(mt_rand(1, $max), $length, 0, STR_PAD_LEFT);
+        }
+        return array_unique($buffer);
+    }
+
     //生成36位uuid
     static function uuid(){
         $string = md5(uniqid(mt_rand(), true));
@@ -196,6 +211,10 @@ class basic{
             if (is_object($param[0])) {
                 return $param[0];
             }
+            $hash = md5(json_encode($param));
+            if (isset($GLOBALS['_OBJECT'][$hash])) {
+                return $GLOBALS['_OBJECT'][$hash];
+            }
             $class_name = array_shift($param);
             if (strpos($class_name, '.') === false) {
                 //$class_name = 'eqphp.' . $class_name;
@@ -203,9 +222,11 @@ class basic{
             $class_name = str_replace('.', '\\', $class_name);
             $reflection = new ReflectionClass($class_name);
             if ($param && $reflection->hasMethod('__construct')) {
-                return $reflection->newInstanceArgs($param);
+                $GLOBALS['_OBJECT'][$hash] = $reflection->newInstanceArgs($param);
+            } else {
+                $GLOBALS['_OBJECT'][$hash] = $reflection->newInstance();
             }
-            return $reflection->newInstance();
+            return $GLOBALS['_OBJECT'][$hash];
         }
         return (object)array();
     }
