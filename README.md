@@ -38,7 +38,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 加入我们
 ===========================
 
-| 技术交流QQ群 | 67693067　278464325　264386791 |
+| 技术交流QQ群 | 278464325　264386791 |
 | :------------- | :----------- |
 | [博客](http://www.eqphp.com/blog) | http://www.eqphp.com/blog |
 | [微博](http://weibo.com/eq80) | http://weibo.com/eq80 |
