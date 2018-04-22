@@ -74,7 +74,7 @@ class logger{
     }
 
     static function record_log($file_name, $data){
-        $GLOBALS['_LOG_FILE'][$file_name][] = $data;
+        $GLOBALS['_LOG'][$file_name][] = $data;
     }
 
 

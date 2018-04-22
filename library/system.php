@@ -195,10 +195,10 @@ class system{
 
     //注册表方式自动加载
     static function map_load($class){
-        if (empty($GLOBALS['_LIBRARY'][$class])) {
-            $GLOBALS['_LIBRARY'][$class] = self::config('library_map.' . $class);
-            if ($GLOBALS['_LIBRARY'][$class]) {
-                return include $GLOBALS['_LIBRARY'][$class];
+        if (empty($GLOBALS['_PATH'][$class])) {
+            $GLOBALS['_PATH'][$class] = self::config('library_map.' . $class);
+            if ($GLOBALS['_PATH'][$class]) {
+                return include $GLOBALS['_PATH'][$class];
             }
         }
         return false;
@@ -309,10 +309,10 @@ class system{
 
     //写入日志
     static function save_log(){
-        if (isset($GLOBALS['_LOG_FILE']) && is_array($GLOBALS['_LOG_FILE'])) {
-            foreach ($GLOBALS['_LOG_FILE'] as $key => $string) {
+        if (isset($GLOBALS['_LOG']) && is_array($GLOBALS['_LOG'])) {
+            foreach ($GLOBALS['_LOG'] as $key => $string) {
                 file_put_contents($key, implode('', $string), FILE_APPEND);
-                unset($GLOBALS['_LOG_FILE'][$key]);
+                unset($GLOBALS['_LOG'][$key]);
             }
         }
     }

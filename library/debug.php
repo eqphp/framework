@@ -79,23 +79,23 @@ class debug{
 
     //输出异常追溯信息
     static function exception($e){
-        header('Content-Type:text/html; charset=utf-8');
-        echo '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
-        echo '<div class="trace"><pre>';
-        echo html::h5(html::b($e->getCode()) . $e->getMessage());
-        echo html::h6($e->getFile() . html::b($e->getLine()));
+        $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+        $html .= '<div class="trace"><pre>';
+        $html .= '<h5><b>' . $e->getCode() . '</b>' . $e->getMessage() . '</h5>';
+        $html .= '<h6>' . $e->getFile() . '<b>' . $e->getLine() . '</b></h6>';
         foreach ($e->getTrace() as $trace) {
             $trace = (object)$trace;
-            echo '<h6>' . (isset($trace->file) ? $trace->file : '');
-            echo isset($trace->line) ? html::b($trace->line) : '';
-            echo isset($trace->class) ? $trace->class : '';
-            echo isset($trace->type) ? $trace->type : '';
-            echo (isset($trace->function) ? $trace->function : '') . '</h6>';
+            $html .= '<h6>' . (isset($trace->file) ? $trace->file : '');
+            $html .= isset($trace->line) ? '<b>' . $trace->line . '</b>' : '';
+            $html .= isset($trace->class) ? $trace->class : '';
+            $html .= isset($trace->type) ? $trace->type : '';
+            $html .= (isset($trace->function) ? $trace->function : '') . '</h6>';
             if (isset($trace->args) && $trace->args) {
-                echo html::p(print_r($trace->args, true));
+                $html .= '<p>' . print_r($trace->args, true) . '</p>';
             }
         }
-        echo '</pre></div>';
+        header('Content-Type:text/html; charset=utf-8');
+        echo $html . '</pre></div>';
     }
 
 
