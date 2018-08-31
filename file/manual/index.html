@@ -57,7 +57,7 @@
             <dd>4、上传下载、目录操作</dd>
             <dd>5、构建DOM、表单</dd>
             <dd>6、session、缓存</dd>
-            <dd>7、邮件、图像、加密</dd>
+            <dd>7、图像、加密、I18N</dd>
             <dd>8、日志、代码调试</dd>
         </dl>
 
@@ -67,8 +67,8 @@
             <dd>2、模板引擎</dd>
             <dd>3、restful、API开发</dd>
             <dd>4、数据传输与安全</dd>
-            <dd>5、多语言化界面实现</dd>
-            <dd>6、cli模式、计划任务</dd>
+            <dd>5、cli模式、计划任务</dd>
+            <dd>6、socket、消息推送</dd>
             <dd>7、TDD、单元测试</dd>
             <dd>8、架构、部署方案</dd>
         </dl>
@@ -127,7 +127,7 @@
 
         <div class="item"><br>
             <strong>官方下载地址：</strong>
-            <a href="http://www.eqphp.com/file/package/eqphp_3.0.1.zip" title="点击下载EQPHP 3.0压缩包">http://www.eqphp.com/file/package/eqphp_3.0.1.zip</a><br><br>
+            <a href="http://www.eqphp.com/file/document/eqphp_3.0.1.zip" title="点击下载EQPHP 3.0压缩包">http://www.eqphp.com/file/document/eqphp_3.0.1.zip</a><br><br>
             
             <strong>GitHub下载地址：</strong>
             <a href="https://github.com/eqphp/framework" title="EQPHP 3.0 github 下载" target="_blank">https://github.com/eqphp/framework</a><br><br>
@@ -242,7 +242,7 @@
                 <tr>
                     <td>如何设置</td>
                     <td colspan="3">
-                        配置入口文件index.php、data/crontab/crontab.php、test/unit/baseTest.php<br>
+                        配置入口文件index.php、data/script/cli.php、test/unit/baseTest.php<br>
                         的类自动加载函数spl_autoload_register参数值：<br>
                         1、camelCase风格：camelLoad<br>
                         2、snake_case风格(默认)：snake_load<br>
@@ -396,7 +396,7 @@
                 <b class="i48"></b>list($record_count, $page_count, $message) = self::message_model($category, $page, 10);<br><br>
                 <b class="i48"></b><i>//处理分页导航</i><br>
                 <b class="i48"></b>$page_url = U_R_L . 'manage/' . $category . '/';<br>
-                <b class="i48"></b>$page_mark = page::mark($page_url, $page_count, $page, 3);<br><br>
+                <b class="i48"></b>$page_mark = html::mark($page_url, $page_count, $page, 3);<br><br>
 
                 <b class="i48"></b><i>//视图赋值</i><br>
                 <b class="i48"></b>$head['frame'] = '_self';<br>
@@ -419,9 +419,8 @@
 
                 <b class="i48"></b><i>//构造SQL语句、查询</i><br>
                 <b class="i48"></b>$field = 'id,is_view,time,user_name,phone,email,message';<br>
-                <b class="i48"></b>$record_count = db::field(parent::TABLE, 'count(1)', $condition);<br>
                 <b class="i48"></b>return query(parent::TABLE)->select($field)->where($condition)<br>
-                <b class="i72"></b>->order('id desc')->out('page', $record_count, $page, $page_size);<br>
+                <b class="i72"></b>->order('id desc')->out('page', $page, $page_size);<br>
                 <b class="i24"></b>}<br><br>
 
                 }
@@ -477,7 +476,7 @@
                 ├─config<i>(系统配置)</i><br>
                 │  ├─local<i>(本地开发环境)</i><br>
                 │  ├─test<i>(测试环境)</i><br>
-                │  ├─similar<i>(仿真环境)</i><br>
+                │  ├─mirror<i>(仿真环境)</i><br>
                 │  └─product<i>(生产环境)</i><br>
                 └─view<i>(视图)</i><br>
                 │  ├─abort<i>(404、500异常页面)</i><br>
@@ -490,7 +489,7 @@
                 │  └─template<i>(短信、邮件模板)</i><br>
                 ├─data<i>(项目私有数据)</i><br>
                 │  ├─backup<i>(数据备份)</i><br>
-                │  ├─crontab<i>(计划任务)</i><br>
+                │  ├─script<i>(执行脚本)</i><br>
                 │  ├─lang<i>(语言包)</i><br>
                 │  │  ├─cn<br>
                 │  │  └─en<br>
@@ -505,7 +504,6 @@
                 ├─file<i>(静态公共资源)</i><br>
                 │  ├─document<br>
                 │  ├─html<br>
-                │  ├─json<br>
                 │  ├─media<br>
                 │  ├─picture<i>(上传图片)</i><br>
                 │  │  ├─avatar<br>
@@ -520,8 +518,7 @@
                 │  │     ├─image<br>
                 │  │     ├─script<br>
                 │  │     └─style<br>
-                │  ├─temp<br>
-                │  └─package<br>
+                │  └─temp<br>
                 ├─test<i>(测试)</i><br>
                 │  └─unit<i>(单元测试)</i><br>
                 ├─cache<i>(缓存)</i><br>
@@ -1390,9 +1387,8 @@ query('user_info')-&gt; select('real_name,full_name,age,address,sign')-&gt; wher
 4、分页查询新闻列表：<br>
 <code>
 $condition='is_show=1';<br>
-$rs_count=db::field('news','count(1)',$condition);<br><br>
 query('news')->select('id,title,visited_num,pub_time')->where($condition)<br>
-->order('pub_time desc')->out('page',$rs_count,2,20);<br>
+->order('pub_time desc')->out('page',2,20);<br>
 <i>//输出结果：<br>
 [<br>
 　　[0] =&gt; [<br>
@@ -2225,6 +2221,61 @@ echo secure::decrypt($text,'753951'); <i>//输出：我的银行卡号是：6124
 </code><br>
 
 <span class="fcy1">Tip：</span>加密/解密甚耗资源，加密后数据体积2-5倍增加（越小倍数越大），请酌情使用。<br><br>
+
+
+    <strong>国际化(I18N)</strong><br>
+    1、配置语言包(data/lang/cn/user.php):<br>
+    <code>
+        return [<br>
+        <b class="i24"></b>'status'=>[<br>
+        <b class="i48"></b>'unactivated'=>'未激活',<br>
+        <b class="i48"></b>'normal'=>'正常',<br>
+        <b class="i48"></b>'freeze'=>'冻结',<br>
+        <b class="i48"></b>'deleted'=>'用户注销',<br>
+        <b class="i48"></b>'drop'=>'管理员删除',<br>
+        <b class="i24"></b>],<br>
+        ];
+
+    </code><br><br>
+
+    2、调用方式一（在视图直接调用）：<br>
+    <code>
+        <!--在视图直接调用，这种方式性能稍差-->
+        {lang('user:status.normal')}
+    </code><br>
+
+    <strong class="fcy1">Tip：</strong>将用户的选择语种存入session('i18n'=>'cn')<br><br>
+
+    3、调用方式二（控制器分配语言包给视图，视图解析）：<br>
+    <code>
+
+
+        class a_user{<br><br>
+
+        <b class="i24"></b>function register(){<br>
+        <b class="i48"></b><i>//分配视图所需语言包</i><br>
+        <b class="i48"></b>$data['i18n']=lang('user');<br>
+        <b class="i48"></b>smarty()->assign($data)->display('user/register');<br>
+        <b class="i24"></b>}<br><br>
+
+        }<br>
+
+    </code><br>
+    视图解析：
+    <code>
+        {$i18n|lang:'status.normal'}<br><br>
+
+
+    </code><br><br>
+
+    <p>脚本交互提示：配置json语言包，要用的地方直接调用json语言包对象</p>
+    <code>
+        $(function () {<br>
+        <b class="i24"></b>$('.phone_tip').html(i18n.login.phone.format_error);<br>
+        });
+    </code><br><br>
+
+
 </div>
 
 
@@ -3061,77 +3112,17 @@ file::write($file,$data,'a+');
         </code><br><br>
     </div>
 
-    <div class="item">
-        <p>web项目国际化是一个很复杂的过程，体现在界面说明文字、脚本交互提示、单位转换、时区时间格式、国际化后适应各语言的界面样式变化、以及各国家地区人的生活习惯等因素考虑，所以一个大项目工程要做到完全本地化、地域话作量巨大。</p>
 
-
-        <strong>一、操作界面说明文字国际化：</strong><br>
-        1、配置语言包(data/lang/cn/user.php):<br>
-        <code>
-            return [<br>
-            <b class="i24"></b>'status'=>[<br>
-            <b class="i48"></b>'unactivated'=>'未激活',<br>
-            <b class="i48"></b>'normal'=>'正常',<br>
-            <b class="i48"></b>'freeze'=>'冻结',<br>
-            <b class="i48"></b>'deleted'=>'用户注销',<br>
-            <b class="i48"></b>'drop'=>'管理员删除',<br>
-            <b class="i24"></b>],<br>
-            ];
-
-        </code><br><br>
-
-        2、调用方式一（在视图直接调用）：<br>
-        <code>
-            <!--在视图直接调用，这种方式性能稍差-->
-            {lang('user:status.normal')}
-        </code><br>
-
-        <strong class="fcy1">Tip：</strong>将用户的选择语种存入session('i18n'=>'cn')<br><br>
-
-        3、调用方式二（控制器分配语言包给视图，视图解析）：<br>
-        <code>
-            
-
-            class a_user{<br><br>
-
-            <b class="i24"></b>function register(){<br>
-            <b class="i48"></b><i>//分配视图所需语言包</i><br>
-            <b class="i48"></b>$data['i18n']=lang('user');<br>
-            <b class="i48"></b>smarty()->assign($data)->display('user/register');<br>
-            <b class="i24"></b>}<br><br>
-
-            }<br>
-
-        </code><br>
-        视图解析：
-        <code>
-            {$i18n|lang:'status.normal'}
-        </code><br><br>
-
-        <strong>二、脚本交互提示国际化：</strong><br>
-        <p>配置json语言包，要用的地方直接调用json语言包对象：</p>
-        <code>
-            $(function () {<br>
-            <b class="i24"></b>$('.phone_tip').html(i18n.login.phone.format_error);<br>
-            });
-        </code><br><br>
-
-
-        <strong>三、单位转换：</strong><br>
-        <code>
-            {$wallet.money|unit:'currency'}
-        </code><br><br>
-    </div>
 
     <div class="item">
         <p>在大多数人眼里，PHP是用来编写动态网页的，很多人鲜知其web模式（apache、nginx等web服务器运行的模块模式），而很少使用cli模式（命令行运行Command Line Interface）。cli多进程（Thread）属性更显PHP广泛性应用，如数据采集，邮件、短信、消息通知发送，周期性数据更新处理等，常见的如部署计划任务（crontab）、运行单元测试用例（PHP unit）。<br><br></p>
 
         <strong>一、开发简单的计划任务脚本</strong><br>
-        <p>使用EQPHP编写计划任务脚本简单方便，方法如下，在data/crontab/目录下创建脚本文件send_message.php</p>
+        <p>使用EQPHP编写计划任务脚本简单方便，方法如下，在data/script/目录下创建脚本文件send_message.php</p>
 
         <code>
             <i>//加载框架环境运行依赖脚本</i><br>
-            include 'crontab.php';<br><br>
+            include 'cli.php';<br><br>
 
             <i>//查询待发短信、每隔1秒发送一条</i><br>
             $condition['times'] = ['elt', 3];<br>
@@ -3149,16 +3140,16 @@ file::write($file,$data,'a+');
             }<br>
         </code><br>
         <p>添加crontab定时周期性执行任务命令：<br>
-            <code>5 * * * * /usr/local/php/bin/php /var/www/data/crontab/send_message.php</code></p><br><br>
+            <code>5 * * * * /usr/local/php/bin/php /var/www/data/script/send_message.php</code></p><br><br>
 
         <strong>二、执行命令中使用参数</strong><br>
         <p>cli模式不同于web模式，可使用$_GET全局变量，但可以使用$argv，稍作处理即可使用$_GET，<br>
             具体参考手册（http://php.net/manual/en/features.commandline.php），EQPHP已做处理，使用方法如下。<br>
             <code>
                 <i>//加载框架环境运行依赖脚本</i><br>
-                include 'crontab.php';<br><br>
+                include 'cli.php';<br><br>
 
-                <i>//命令行：php /var/www/data/crontab/test.php "category=toy&start=5"</i><br><br>
+                <i>//命令行：php /var/www/data/script/test.php "category=toy&start=5"</i><br><br>
 
                 $start = input::get('start','int');<br>
                 $category = input::get('category','title');<br>
@@ -3172,12 +3163,12 @@ file::write($file,$data,'a+');
 
             <code>
                 <i>//加载框架环境运行依赖脚本</i><br>
-                include 'crontab.php';<br><br>
+                include 'cli.php';<br><br>
 
                 <i>//命令行（静态方法用::符号连接类名、方法名,否则用/符号）：<br>
-                php /var/www/data/crontab/push_service_status.php "action=finance::receivable"<br>
-                php /var/www/data/crontab/push_service_status.php "action=finance/notify"<br>
-                php /var/www/data/crontab/push_service_status.php "action=finance/refund"</i><br><br>
+                php /var/www/data/script/push_service_status.php "action=finance::receivable"<br>
+                php /var/www/data/script/push_service_status.php "action=finance/notify"<br>
+                php /var/www/data/script/push_service_status.php "action=finance/refund"</i><br><br>
 
                 class finance{<br><br>
 
@@ -3208,10 +3199,69 @@ file::write($file,$data,'a+');
             </code>
 
         </p>
+    </div>
+
+    <div class="item">
+        <p>与传统的AJAX轮循相比，websocket在消息推送、即时通讯的使用场景中户体验更佳、资源消耗更低。</p><br>
+        <strong>配置websocket环境：</strong><br><br>
+        <p>step-1、配置环境参数：config/local/socket.php</p>
+        <code>
+        return array(<br>
+            <b class="i24"></b>'address' => '192.168.1.104:8000',<br>
+            <b class="i24"></b>'secure_key' => '2C5F64AB-07CC-B3E4-10AA-97FC09687CC3',<br>
+        );
+        </code><br>
+
+        <p>step-2、运行socket服务端脚本</p>
+        <code>
+            //windows环境，命令行执行：<br>
+            php E:\eqphp\data\script\websocket.php<br><br>
+
+            //linux环境，终端执行：<br>
+            nohup php /var/www/data/script/websocket.php &
+        </code><br><br>
+
+        <strong>一、推送消息</strong><br><br>
+        <p>step-1、编辑客户端网页js脚本：file/html/socket.html</p>
+        <code>
+            var container = document.getElementById('show_message');<br>
+            var webSocket = new WebSocket('ws://192.168.1.104:8000');<br><br>
+
+            webSocket.onopen = function (event) {<br>
+            <b class="i24"></b>webSocket.send('token:59f51fd0297e236d');<br>
+            <b class="i24"></b>console.log('open:' + state());<br>
+            <b class="i24"></b>container.innerHTML = '&lt;p&gt;connect to service.&lt;/p&gt;';<br>
+            };<br><br>
+
+            webSocket.onmessage = function (event) {<br>
+            <b class="i24"></b>console.log('onMessage');<br>
+            <b class="i24"></b>container.innerHTML += '&lt;p&gt;' + event.data + '&lt;/p&gt;';<br>
+            };<br><br>
+
+            webSocket.onclose = function (event) {<br>
+            <b class="i24"></b>console.log('close:' + state());<br>
+            <b class="i24"></b>container.innerHTML = '&lt;p&gt;close&lt;/p&gt;';<br>
+            <b class="i24"></b>webSocket.close();<br>
+            };<br><br>
+
+            webSocket.onerror = function (event) {<br>
+            <b class="i24"></b>console.log('error' + event.data);<br>
+            <b class="i24"></b>container.innerHTML = '&lt;p&gt;close&lt;/p&gt;';<br>
+            };<br><br>
+
+            function state() {<br>
+            <b class="i24"></b>return ['未连接', '连接成功，可通讯', '正在关闭', '连接已关闭或无法打开'][webSocket.readyState];<br>
+            }
 
 
+        </code><br><br>
 
+        <p>step-2、服务端推送数据</p>
+        <code>
+            http::socket(['59f51fd0297e236d'=>'new message.']);
+        </code><br><br>
 
+        <strong>二、即时通讯</strong><br><br>
     </div>
 
     <div class="item">
@@ -3441,7 +3491,7 @@ file::write($file,$data,'a+');
             <tr><th width="180px">含义</th><th width="150px">名称</th><th>值</th></tr>
             <tr class="fs18 fcb1"><td colspan="3">基本常量</td></tr>
             <tr><td>项目根目录</td><td>PATH_ROOT</td><td>/var/www/</td></tr>
-            <tr><td>当前运行环境</td><td>ENVIRONMENT</td><td>local,test,similar,product</td></tr>
+            <tr><td>当前运行环境</td><td>ENVIRONMENT</td><td>local,test,mirror,product</td></tr>
             <tr><td>当前运行模式</td><td>RUN_MODE</td><td>web,cli</td></tr>
 
             <tr class="fs18 fcb1"><td colspan="3">web模式常量</td></tr>
@@ -3469,9 +3519,7 @@ file::write($file,$data,'a+');
             <tr><td>用户头像</td><td>FILE_AVATAR</td><td>/var/www/file/picture/avatar/</td></tr>
             <tr><td>视频媒体资源</td><td>FILE_MEDIA</td><td>/var/www/file/media/</td></tr>
             <tr><td>说明文档目录</td><td>FILE_DOC</td><td>/var/www/file/document/</td></tr>
-            <tr><td>压缩包目录</td><td>FILE_ZIP</td><td>/var/www/file/package/</td></tr>
             <tr><td>静态网页目录</td><td>FILE_HTML</td><td>/var/www/file/html/</td></tr>
-            <tr><td>生成json文件目录</td><td>FILE_JSON</td><td>/var/www/file/json/</td></tr>
             <tr><td>编辑器目录</td><td>FILE_EDITOR</td><td>/var/www/file/editor/</td></tr>
             <tr><td>前端脚本、样式、图片</td><td>FILE_STATIC</td><td>/var/www/file/static/</td></tr>
             <tr><td>前端脚本</td><td>FILE_SCRIPT</td><td>/var/www/file/static/script/</td></tr>
@@ -3496,9 +3544,7 @@ file::write($file,$data,'a+');
             <tr><td>URL_AVATAR</td><td>http://www.eqphp.com/file/picture/avatar/</td></tr>
             <tr><td>URL_MEDIA</td><td>http://www.eqphp.com/file/media/</td></tr>
             <tr><td>URL_DOC</td><td>http://www.eqphp.com/file/document/</td></tr>
-            <tr><td>URL_ZIP</td><td>http://www.eqphp.com/file/package/</td></tr>
             <tr><td>URL_HTML</td><td>http://www.eqphp.com/file/html/</td></tr>
-            <tr><td>URL_JSON</td><td>http://www.eqphp.com/file/json/</td></tr>
             <tr><td>URL_EDITOR</td><td>http://www.eqphp.com/file/editor/</td></tr>
             <tr><td>URL_STATIC</td><td>http://www.eqphp.com/file/static/</td></tr>
             <tr><td>URL_SCRIPT</td><td>http://www.eqphp.com/file/static/script/</td></tr>
@@ -3550,6 +3596,14 @@ file::write($file,$data,'a+');
             basic::int(3.567,2,true); <i>//3.57</i><br>
         </code><br><br><br>
 
+        <h3>批量生成唯一数字序列集合</h3>
+        <p class="function">int <b>basic::number</b>(mix $prefix, int $length [, $amount <em>100</em>])</p>
+        <code>
+            <i>//$amount生成数，可取值：1-N</i><br>
+            basic::number('BJ', 7, 5000);<br>
+            basic::number('010', 5, 100);<br>
+        </code><br><br><br>
+
         <h3>生成36位uuid</h3>
         <p class="function">string <b>basic::uuid</b>()</p>
         <code>
@@ -3598,22 +3652,22 @@ file::write($file,$data,'a+');
             help::url('news.list',['category'=>'history','sort'=>'hit_desc','page'=>$page,'#'=>'bottom']);
         </code><br><br><br>
 
-        <h3>判断当前请求是否ajax请求</h3>
-        <p class="function">bool <b>http::is_ajax</b>()</p>
-        <code>
-            help::is_ajax(); <i>//false</i><br>
-        </code><br><br><br>
-
         <h3>判断当前请求是否https协议请求</h3>
-        <p class="function">bool <b>http::is_ssl</b>()</p>
+        <p class="function">bool <b>help::is_ssl</b>()</p>
         <code>
             help::is_ssl(); <i>//false</i><br>
         </code><br><br><br>
 
-        <h3>生成分页页码导航条</h3>
-        <p class="function">string <b>page::mark</b>(string $url, int $page_count[, int $page <em>1</em>[, int $show_num <em>5</em>]])</p>
+        <h3>判断当前请求是否ajax请求</h3>
+        <p class="function">bool <b>http::is_ajax</b>()</p>
         <code>
-            page::mark('news_list/?page=', 3, 2);<br>
+            http::is_ajax(); <i>//false</i><br>
+        </code><br><br><br>
+
+        <h3>生成分页页码导航条</h3>
+        <p class="function">string <b>html::mark</b>(string $url[, int $page <em>1</em>[, int $show_num <em>5</em>]])</p>
+        <code>
+            html::mark('news_list/?page=', 3, 2);<br>
             <i>//&lt;a href="news_list/?page=1"&gt;1&lt;/a&gt;&lt;a class="current_page"&gt;2&lt;/a&gt;&lt;a href="news_list/?page=3"&gt;3&lt;/a&gt;</i><br>
         </code><br><br><br>
 

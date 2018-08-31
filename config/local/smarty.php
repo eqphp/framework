@@ -30,7 +30,6 @@ return array(
 			'doc'=>URL_DOC,
 			'zip'=>URL_ZIP,
 			'html'=>URL_HTML,
-			'json'=>URL_JSON,
 			'editor'=>URL_EDITOR,
 			'static'=>URL_STATIC,
 			'script'=>URL_SCRIPT,

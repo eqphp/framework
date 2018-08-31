@@ -14,7 +14,7 @@ class upload{
         $this->file = $file;
         $this->save_name = basename($file_name);
         $this->from = $from;
-        $this->save_directory = trim($file_name,$this->save_name);
+        $this->save_directory = str_replace($this->save_name, '', $file_name);
         $this->check_file();
 
         if (is_array($allow_size)) {
@@ -40,8 +40,7 @@ class upload{
                 throw new sException($error_message, $this->file['error'] + 120, $this->file['error'] + 1);
             }
             if ($this->file['size']) {
-                preg_match('|\.(\w+)$|', $this->file['name'], $extension_name);
-                $this->file['extension_name'] = strtolower(trim($extension_name[0], '.'));
+                $this->file['extension_name'] = strtolower(pathinfo($this->file['name'], PATHINFO_EXTENSION));
                 if (in_array($this->file['extension_name'], basic::meta('upload.system.picture'))) {
                     $this->process_image_size();
                     if (isset($this->image_size)) {

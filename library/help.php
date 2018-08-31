@@ -49,6 +49,26 @@ class help{
         return $buffer[$word];
     }
 
+    //国际化语言包解析
+    static function lang($name, $i18n = ''){
+        if (empty($i18n)) {
+            $i18n = session::get('i18n');
+            $i18n = empty($i18n) ? 'cn' : $i18n;
+        }
+        $module = '';
+        if (strpos($name, '::')) {
+            list($module, $name) = explode('::', $name);
+            $module = $module . '/';
+        }
+        list($file_name, $map) = explode(':', $name);
+        $file = DATA_LANG . $i18n . '/' . $module . $file_name . '.php';
+        $key = md5($file);
+        if (empty($GLOBALS['_I18N'][$key])) {
+            $GLOBALS['_I18N'][$key] = include($file);
+        }
+        return basic::array_get($GLOBALS['_I18N'][$key], $map);
+    }
+
     //获取IP
     static function ip(){
         $ip = '';
@@ -85,6 +105,24 @@ class help{
                 }
             }
         }
+    }
+	
+    //判断是否SSL协议
+    static function is_ssl(){
+        if (isset($_SERVER['HTTPS'])) {
+            if ($_SERVER['HTTPS'] === '1' || strtolower($_SERVER['HTTPS']) === 'on') {
+                return true;
+            }
+        }
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            if (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+                return true;
+            }
+        }
+        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443') {
+            return true;
+        }
+        return false;
     }
 
     //检测银行卡

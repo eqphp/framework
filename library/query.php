@@ -39,7 +39,7 @@ class query{
 
 
     //输出查询结果
-    function out($mode = 'sql', $record_count = 0, $page = 1, $page_size = 20){
+    function out($mode = 'sql',  $page = 1, $page_size = 20){
         $this->sql = '';
         if (!isset($this->option['select'])) {
             $this->option['select'] = '*';
@@ -70,7 +70,7 @@ class query{
             case 'batch':
                 return db::batch($this->sql);
             case 'page':
-                return db::page($this->sql, $record_count, $page, $page_size);
+                return db::page($this->sql, $page, $page_size);
             default:
                 return $this->sql;
         }

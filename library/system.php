@@ -3,11 +3,11 @@
 //rely on: basic input http logger debug
 class system{
 
-    //解析配置文件(mode:0-全局,1-分组)
+    //解析配置文件
     static function config($name, $is_module = false){
         $config = 'config/';
         $module_path = $is_module ? 'module/' . MODULE_NAME . '/' : '';
-        if (preg_match('/^(local|test|similar|product)$/', ENVIRONMENT)) {
+        if (preg_match('/^(local|test|mirror|product)$/', ENVIRONMENT)) {
             $config .= ENVIRONMENT . '/';
         }
 
@@ -158,7 +158,7 @@ class system{
             self::init();
             list($controller, $method) = self::parse_route($mode);
             if (empty($controller) || empty($method)) {
-                throw new Exception('absent controller or method', 101);
+                throw new Exception('absent controller or method: '.$controller . ':' . $method, 101);
             }
 
             define('CURRENT_ACTION', substr($controller . ':' . $method, 2));
@@ -182,7 +182,7 @@ class system{
             }
         } catch (Exception $e) {
             logger::exception('exception', $e->getCode() . ' : ' . $e->getMessage());
-            if (preg_match('/^(similar|product)$/', ENVIRONMENT)) {
+            if (preg_match('/^(mirror|product)$/', ENVIRONMENT)) {
                 if (http::is_ajax()) {
                     http::json(array('error' => 4, 'message' => $e->getMessage(), 'data' => null));
                 } else {
@@ -191,17 +191,6 @@ class system{
             }
             debug::exception($e);
         }
-    }
-
-    //注册表方式自动加载
-    static function map_load($class){
-        if (empty($GLOBALS['_PATH'][$class])) {
-            $GLOBALS['_PATH'][$class] = self::config('library_map.' . $class);
-            if ($GLOBALS['_PATH'][$class]) {
-                return include $GLOBALS['_PATH'][$class];
-            }
-        }
-        return false;
     }
 
     //snake_case风格类库自动加载
@@ -330,9 +319,9 @@ class system{
                 exit($log_data);
             }
 
-            if (preg_match('/^(similar|product)$/', ENVIRONMENT)) {
-                if (isset($_SERVER["HTTP_X_REQUESTED_WITH"])) {
-                    if (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === 'xmlhttprequest') {
+            if (preg_match('/^(mirror|product)$/', ENVIRONMENT)) {
+                if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                    if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                         http::json(array('error' => 4, 'message' => $error->message));
                     }
                 }

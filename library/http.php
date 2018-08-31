@@ -94,9 +94,9 @@ class http{
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        if (defined('CURLOPT_SSL_VERIFYPEEP')) {
+        if (defined('CURLOPT_SSL_VERIFYPEER')) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEEP, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -115,7 +115,6 @@ class http{
         }
 
         $response = curl_exec($ch);
-
         if (curl_errno($ch)) {
             logger::exception('curl', curl_errno($ch) . ': ' . curl_error($ch));
         }
@@ -132,34 +131,24 @@ class http{
         return $response;
     }
 
-    //以post请求发送socket并返回接口数据
-    static function socket($url, $data){
-        //解析url
-        $url = parse_url($url);
-        $data = http_build_query($data);
-        if (!isset($url['port'])) {
-            $url['port'] = 80;
+    //websocket推送
+    static function socket(array $data, $mode = ''){
+        $socket = config('socket');
+        $address = 'tcp://' . $socket['address'];
+        $handle = stream_socket_client($address, $error_no, $error_message, 3);
+        if ($error_no || strlen($error_message)) {
+            logger::exception('websocket', $error_no . ': ' . $error_message);
+            return false;
         }
-
-        //构造头部信息
-        $head = "POST %s HTTP/1.0\nHost: %s\nContent-type: application/x-www-form-urlencoded\nContent-Length: %s\n\n";
-        $head = sprintf($head, $url['path'], $url['host'], strlen($data)) . $data;
-
-        //打开socket
-        $socket = fsockopen($url['host'], $url['port'], $error, $message, 30);
-        if (!$socket) {
-            logger::exception('socket', $error . ': ' . $message);
-            throw new Exception($error . ': ' . $message, 107);
+        $data['secure_key'] = $socket['secure_key'];
+        if ($mode === 'group' || $mode === 'user') {
+            $data['mode'] = $mode;
+        } else {
+            $data[0] = $data;
         }
-
-        //接收并返回结果
-        fwrite($socket, $head);
-        $content = '';
-        while (!feof($socket)) {
-            $content .= fgets($socket,128);
-        }
-        fclose($socket);
-        return json_decode($content, true);
+        fwrite($handle, json_encode($data) . PHP_EOL);
+        fread($handle, 1);
+        return true;
     }
 
     //发送http错误头信息
@@ -222,22 +211,5 @@ class http{
         return false;
     }
 
-    //判断是否SSL协议
-    static function is_ssl(){
-        if (isset($_SERVER['HTTPS'])) {
-            if ($_SERVER['HTTPS'] === '1' || strtolower($_SERVER['HTTPS']) === 'on') {
-                return true;
-            }
-        }
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-            if (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
-                return true;
-            }
-        }
-        if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443') {
-            return true;
-        }
-        return false;
-    }
 
 }

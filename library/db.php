@@ -34,7 +34,7 @@ class db{
         if (isset(self::$pdo[$flag]) && self::$pdo[$flag] instanceof PDO) {
             return self::$pdo[$flag];
         }
-        $db = (object)config('mysql.server.' . $flag);
+        $db = (object)config('mysql.' . $flag);
         $dsn = sprintf(self::$pattern['dsn'], $db->host, $db->database, $db->port, $db->charset);
         $dsn = trim(str_replace(array('port=;', 'charset=;'), '', $dsn), ';');
         try {
@@ -131,7 +131,11 @@ class db{
     }
 
     //分页查询方法
-    static function page($sql, $record_count, $page, $page_size = 20, $mode = false){
+    static function page($sql, $page, $page_size = 20, $mode = false){
+        $buffer = ['/^select (.*) from /', '/ order by (.*)/', '/ limit (.*)/'];
+        $buffer = 'select count(1) from ' . preg_replace($buffer, '', $sql);
+        $record_count = self::query($buffer, true)->fetch(PDO::FETCH_COLUMN) + 0;
+
         list($page, $offset) = array(max(1, $page), 0);
         $page_count = ceil($record_count / $page_size);
         if ($page > $page_count) {
