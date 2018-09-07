@@ -9,11 +9,11 @@ return array(
         'config_route'=>true,
         'auto_login'=>true,
     ),
-	
+
     'domain'=>array(
         'cookie'=>'',
         'default'=>array('http','127.0.0.1',''),
-        'allow_host'=>array('www.eqphp.com','127.0.0.1','localhost'),
+        'allow_host'=>array('www.eqphp.com','localhost','127.0.0.1','192.168.1.1'),
     ),
 
     'module'=>array(

@@ -1,6 +1,6 @@
 <?php
 
-//rely on: system basic file html help logger
+//rely on: system util file html help logger
 class http{
 
     //域内跳转
@@ -12,14 +12,14 @@ class http{
     //异常终止并跳转
     static function abort($abort_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('abort_message', 'redirect_url', 'wait_time');
-        basic::with(new view())->assign($data)->display('abort/fail');
+        util::with(new view())->assign($data)->display('abort/fail');
         exit();
     }
 
     //完成、结束并终止并跳转
     static function success($tip_message = '', $redirect_url = '', $wait_time = 10){
         $data = compact('tip_message', 'redirect_url', 'wait_time');
-        basic::with(new view())->assign($data)->display('abort/success');
+        util::with(new view())->assign($data)->display('abort/success');
         exit();
     }
 
@@ -153,7 +153,7 @@ class http{
 
     //发送http错误头信息
     static function send($code = 404, $is_out = true, $is_exit = true){
-        $message = basic::meta('http_status.' . $code);
+        $message = util::meta('http_status.' . $code);
         if (strlen($message)) {
             header('HTTP/1.1 ' . $code . ' ' . $message);
             header('Status:' . $code . ' ' . $message);
@@ -167,7 +167,7 @@ class http{
     //下载文件
     static function download($data, $save_name, $is_path = false){
         $extension = preg_replace('/.*\./', '', $save_name);
-        $mime_type = basic::meta('mime_type.' . $extension);
+        $mime_type = util::meta('mime_type.' . $extension);
         empty($mime_type) and $mime_type = 'application/octet-stream';
         $process_file_name = function () use ($save_name){
             $save_name = str_replace(array('\\', '/', ':', '*', '?', '"', '<', '>', '|', ','), '', $save_name);

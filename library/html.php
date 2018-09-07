@@ -82,7 +82,7 @@ class html{
                 return '<script type="text/javascript" src="' . $data . '"></script>';
             case 'back_refresh':
                 //Notice secure refer
-                $refer = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : U_R_L;
+                $refer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : U_R_L;
                 header('Location: ' . $refer);
                 break;
             case 'alert':

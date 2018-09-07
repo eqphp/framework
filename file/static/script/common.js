@@ -59,7 +59,7 @@ var cookie = {
     },
 
     set: function (name, value, expires, path, domain, secure) {
-        if (!name || !value || name == "" || value == "") return false;
+        if (!name || !value || name == '' || value == '') return false;
         if (expires) {
             if (/^[0-9]+$/.test(expires)) {
                 var today = new Date();

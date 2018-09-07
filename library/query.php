@@ -116,10 +116,10 @@ class query{
 
             return implode($logic, $condition);
         }
-        if (secure::match($data, 'id')) {
+        if (util::match($data, 'id')) {
             return 'id=' . $data;
         }
-        if (secure::match($data, 'uuid')) {
+        if (util::match($data, 'uuid')) {
             return 'uuid="' . $data . '"';
         }
         return $data;

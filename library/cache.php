@@ -1,6 +1,6 @@
 <?php
 
-//rely on: basic file help
+//rely on: util file help
 class cache{
 
     //用户自定义的缓存文件目录、真实目录、文件名、扩展名、有效期
@@ -59,17 +59,17 @@ class cache{
 
             if ($this->ext == 'php') {
                 $data = include($this->file_name);
-                return basic::array_get($data, $option_name);
+                return util::array_get($data, $option_name);
             }
 
             if ($this->ext == 'json') {
                 $data = json_decode(file_get_contents($this->file_name), true);
-                return basic::array_get($data, $option_name);
+                return util::array_get($data, $option_name);
             }
 
             if ($this->ext == 'ini') {
                 $data = parse_ini_file($this->file_name, true);
-                return basic::array_get($data, $option_name);
+                return util::array_get($data, $option_name);
             }
 
             if ($this->ext == 'xml') {

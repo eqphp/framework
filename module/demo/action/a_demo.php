@@ -19,8 +19,6 @@ class a_demo{
     //创建
     static function create(){
 
-        out('create');
-
     }
 
 

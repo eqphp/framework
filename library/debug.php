@@ -20,6 +20,19 @@ class debug{
         file_put_contents(LOG_TRACE . $file_name, $data . PHP_EOL, FILE_APPEND);
     }
 
+    //取得微秒数、内存消耗
+    static function flag(&$flag){
+        $flag = array(round(microtime(true) * 1000), memory_get_usage());
+    }
+
+    //计算运行时间,内存消耗
+    static function used($begin, $end){
+        $diff_time = round(($end[0] - $begin[0])/1000, 3);
+        $diff_memory = round(($end[1] - $begin[1]) / 128, 3);
+        $max_memory = round((memory_get_peak_usage()) / 128, 3);
+        return array($diff_time . 's', $diff_memory . 'kb', $max_memory . 'kb');
+    }
+
     //获取系统信息
     static function info($type = 1){
         $data = array('basic', 'const', 'variable', 'function', 'class', 'interface', 'file');
@@ -44,7 +57,7 @@ class debug{
                 return get_included_files();
             default:
                 return array(
-                    'version'=>'3.1.6',
+                    'version'=>'3.6.0',
                     'system'=>php_uname(),
                     'service'=>php_sapi_name(),
                     'php_version'=>PHP_VERSION,
@@ -53,50 +66,5 @@ class debug{
                 );
         }
     }
-
-    //取得微秒数、内存消耗
-    static function flag(&$flag){
-        $flag = array(round(microtime(true) * 1000), memory_get_usage());
-    }
-
-    //计算运行时间,内存消耗
-    static function used($begin, $end){
-        $diff_time = round(($end[0] - $begin[0])/1000, 3);
-        $diff_memory = round(($end[1] - $begin[1]) / 128, 3);
-        $max_memory = round((memory_get_peak_usage()) / 128, 3);
-        return array($diff_time . 's', $diff_memory . 'kb', $max_memory . 'kb');
-    }
-
-    //xhprof调试工具封装
-    static function xhprof($xhprof_data, $res_name = "xhprof_res"){
-        include_once PATH_ROOT . 'xhprof_lib/xhprof_lib.php';
-        include_once PATH_ROOT . 'xhprof_lib/xhprof_runs.php';
-        $xhprof_runs = new XHProfRuns_Default();
-        $run_id = $xhprof_runs->save_run($xhprof_data, $res_name);
-        $show_url = U_R_L . 'xhprof_html/index.php?run=' . $run_id . '&source=' . $res_name;
-        return '<a href="' . $show_url . '" target="_blank">XHPROF_RESULT</a>';
-    }
-
-    //输出异常追溯信息
-    static function exception($e){
-        $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
-        $html .= '<div class="trace"><pre>';
-        $html .= '<h5><b>' . $e->getCode() . '</b>' . $e->getMessage() . '</h5>';
-        $html .= '<h6>' . $e->getFile() . '<b>' . $e->getLine() . '</b></h6>';
-        foreach ($e->getTrace() as $trace) {
-            $trace = (object)$trace;
-            $html .= '<h6>' . (isset($trace->file) ? $trace->file : '');
-            $html .= isset($trace->line) ? '<b>' . $trace->line . '</b>' : '';
-            $html .= isset($trace->class) ? $trace->class : '';
-            $html .= isset($trace->type) ? $trace->type : '';
-            $html .= (isset($trace->function) ? $trace->function : '') . '</h6>';
-            if (isset($trace->args) && $trace->args) {
-                $html .= '<p>' . print_r($trace->args, true) . '</p>';
-            }
-        }
-        header('Content-Type:text/html; charset=utf-8');
-        echo $html . '</pre></div>';
-    }
-
 
 }

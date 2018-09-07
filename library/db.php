@@ -74,7 +74,11 @@ class db{
     static function delete($table, $condition){
         $condition = query::condition($condition);
         $sql = sprintf(self::$pattern['delete'], $table, $condition);
-        return self::query($sql, false)->rowCount();
+        if (preg_match('/[A-Za-z]/',$condition)) {
+            return self::query($sql, false)->rowCount();
+        }
+        logger::notice('lack condition: ' . $sql);
+        return false;
     }
 
     //修改数据记录
@@ -90,7 +94,11 @@ class db{
         }
         $condition = query::condition($condition);
         $sql = sprintf(self::$pattern['patch'], $table, $data, $condition);
-        return self::query($sql, false)->rowCount();
+        if (preg_match('/[A-Za-z]/',$condition)) {
+            return self::query($sql, false)->rowCount();
+        }
+        logger::notice('lack condition: ' . $sql);
+        return false;
     }
 
     //查询-修改-创建
@@ -110,6 +118,7 @@ class db{
         } else {
             $pattern = str_replace('where %s ', '', $pattern);
             $sql = sprintf($pattern, $field, $table);
+            logger::notice('lack condition: ' . $sql);
         }
         $value = self::query($sql, true)->fetch(PDO::FETCH_COLUMN);
         if ($is_numeric || strpos($field, '(') !== false) {

@@ -1,6 +1,6 @@
 <?php
 
-//rely on: basic input http logger debug
+//rely on: util input http logger debug
 class system{
 
     //解析配置文件
@@ -28,7 +28,7 @@ class system{
         if (empty($GLOBALS['_CONFIG'][$key])) {
             $GLOBALS['_CONFIG'][$key] = include($file_name);
         }
-        return basic::array_get($GLOBALS['_CONFIG'][$key], $name);
+        return util::array_get($GLOBALS['_CONFIG'][$key], $name);
     }
 
     //初始化系统变量
@@ -189,57 +189,68 @@ class system{
                     http::abort($e->getMessage(), '', 10);
                 }
             }
-            debug::exception($e);
+            self::exception($e);
         }
     }
 
-    //snake_case风格类库自动加载
-    static function snake_load($class){
-        $prefix = substr($class, 0, strpos($class, '_'));
-        $option = array('a' => 'action', 'm' => 'model');
-        if (in_array($prefix, array_keys($option), true)) {
-            $part = $option[$prefix] . '/' . $class . '.php';
-            if (defined('MODULE_NAME')) {
-                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' . $part;
-                if (is_file($load_file)) {
-                    return include $load_file;
+    //写入日志
+    static function save_log(){
+        if (isset($GLOBALS['_LOG']) && is_array($GLOBALS['_LOG'])) {
+            foreach ($GLOBALS['_LOG'] as $key => $string) {
+                file_put_contents($key, implode('', $string), FILE_APPEND);
+                unset($GLOBALS['_LOG'][$key]);
+            }
+        }
+    }
+
+    //处理错误
+    static function process_error(){
+        $error = (object)error_get_last();
+        if ($error && isset($error->type)) {
+            ob_end_clean();
+            $error->type = util::meta('error.' . $error->type);
+            $log_data = $error->type . ' : ' . $error->message . ' [' . $error->file . ' - ' . $error->line . ']';
+            logger::exception('error', $log_data);
+
+            if (defined('RUN_MODE') && RUN_MODE === 'cli') {
+                exit($log_data);
+            }
+
+            if (preg_match('/^(mirror|product)$/', ENVIRONMENT)) {
+                if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                    if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                        http::json(array('error' => 4, 'message' => $error->message));
+                    }
                 }
-            }
-            $load_file = PATH_ROOT . 'module/common/' . $part;
-            if (is_file($load_file)) {
-                return include $load_file;
+                http::redirect('abort/error');
             }
 
-            if ($prefix === 'a') {
-                logger::notice('class [' . $class . '] not found');
-                http::send(404);
+            header('Content-Type:text/html; charset=utf-8');
+            $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+            $html .= '<div class="trace"><pre><h5><b>%s</b>%s</h5><h6>%s<b>%d</b></h6></pre></div>';
+            exit(sprintf($html, $error->type, $error->message, $error->file, $error->line));
+        }
+    }
+
+    //输出异常追溯信息
+    static function exception($e){
+        $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
+        $html .= '<div class="trace"><pre>';
+        $html .= '<h5><b>' . $e->getCode() . '</b>' . $e->getMessage() . '</h5>';
+        $html .= '<h6>' . $e->getFile() . '<b>' . $e->getLine() . '</b></h6>';
+        foreach ($e->getTrace() as $trace) {
+            $trace = (object)$trace;
+            $html .= '<h6>' . (isset($trace->file) ? $trace->file : '');
+            $html .= isset($trace->line) ? '<b>' . $trace->line . '</b>' : '';
+            $html .= isset($trace->class) ? $trace->class : '';
+            $html .= isset($trace->type) ? $trace->type : '';
+            $html .= (isset($trace->function) ? $trace->function : '') . '</h6>';
+            if (isset($trace->args) && $trace->args) {
+                $html .= '<p>' . print_r($trace->args, true) . '</p>';
             }
         }
-
-        if ($prefix === 's') {
-            $load_file = PATH_ROOT . 'server/' .$class . '.php';
-            if (is_file($load_file)) {
-                return include $load_file;
-            }
-        }
-
-        $load_file = PATH_ROOT . 'library/' .$class . '.php';
-        if (is_file($load_file)) {
-            return include $load_file;
-        }
-
-        //贪婪加载
-        if (self::config('system.state.greedy_load')) {
-            $search_directory = $prefix === 's' ? 'server' : 'library';
-            /* @var $file_list */
-            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
-                return include $load_file;
-            }
-        }
-
-        if (strpos($class,'Smarty_Internal') === false){
-            logger::error('class [' . $class . '] not found');
-        }
+        header('Content-Type:text/html; charset=utf-8');
+        echo $html . '</pre></div>';
     }
 
     //camelCase风格类库自动加载
@@ -296,42 +307,52 @@ class system{
         }
     }
 
-    //写入日志
-    static function save_log(){
-        if (isset($GLOBALS['_LOG']) && is_array($GLOBALS['_LOG'])) {
-            foreach ($GLOBALS['_LOG'] as $key => $string) {
-                file_put_contents($key, implode('', $string), FILE_APPEND);
-                unset($GLOBALS['_LOG'][$key]);
+    //snake_case风格类库自动加载
+    static function snake_load($class){
+        $prefix = substr($class, 0, strpos($class, '_'));
+        $option = array('a' => 'action', 'm' => 'model');
+        if (in_array($prefix, array_keys($option), true)) {
+            $part = $option[$prefix] . '/' . $class . '.php';
+            if (defined('MODULE_NAME')) {
+                $load_file = PATH_ROOT . 'module/' . MODULE_NAME . '/' . $part;
+                if (is_file($load_file)) {
+                    return include $load_file;
+                }
+            }
+            $load_file = PATH_ROOT . 'module/common/' . $part;
+            if (is_file($load_file)) {
+                return include $load_file;
+            }
+
+            if ($prefix === 'a') {
+                logger::notice('class [' . $class . '] not found');
+                http::send(404);
             }
         }
-    }
 
-    //处理错误
-    static function process_error(){
-        $error = (object)error_get_last();
-        if ($error && isset($error->type)) {
-            ob_end_clean();
-            $error->type = basic::meta('error.' . $error->type);
-            $log_data = $error->type . ' : ' . $error->message . ' [' . $error->file . ' - ' . $error->line . ']';
-            logger::exception('error', $log_data);
-
-            if (defined('RUN_MODE') && RUN_MODE === 'cli') {
-                exit($log_data);
+        if ($prefix === 's') {
+            $load_file = PATH_ROOT . 'server/' .$class . '.php';
+            if (is_file($load_file)) {
+                return include $load_file;
             }
+        }
 
-            if (preg_match('/^(mirror|product)$/', ENVIRONMENT)) {
-                if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                    if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-                        http::json(array('error' => 4, 'message' => $error->message));
-                    }
-                }
-                http::redirect('abort/error');
+        $load_file = PATH_ROOT . 'library/' .$class . '.php';
+        if (is_file($load_file)) {
+            return include $load_file;
+        }
+
+        //贪婪加载
+        if (self::config('system.state.greedy_load')) {
+            $search_directory = $prefix === 's' ? 'server' : 'library';
+            /* @var $file_list */
+            if ($load_file = file::search(PATH_ROOT . $search_directory, $class, $file_list, true)) {
+                return include $load_file;
             }
+        }
 
-            header('Content-Type:text/html; charset=utf-8');
-            $html = '<link rel="stylesheet" type="text/css" href="/file/static/style/basic.css">';
-            $html .= '<div class="trace"><pre><h5><b>%s</b>%s</h5><h6>%s<b>%d</b></h6></pre></div>';
-            exit(sprintf($html, $error->type, $error->message, $error->file, $error->line));
+        if (strpos($class,'Smarty_Internal') === false){
+            logger::error('class [' . $class . '] not found');
         }
     }
 

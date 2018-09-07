@@ -28,7 +28,6 @@ return array(
 			'avatar'=>URL_AVATAR,
 			'media'=>URL_MEDIA,
 			'doc'=>URL_DOC,
-			'zip'=>URL_ZIP,
 			'html'=>URL_HTML,
 			'editor'=>URL_EDITOR,
 			'static'=>URL_STATIC,

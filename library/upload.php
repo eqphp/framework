@@ -32,16 +32,16 @@ class upload{
     //检测上传文件
     function check_file(){
         if (empty($this->file)) {
-            throw new sException('greater than upload_max_filesize', 120, 1);
+            throw new Exception('greater than upload_max_filesize', 120, 1);
         }
         if (is_uploaded_file($this->file['tmp_name'])) {
             if ($this->file['error']) {
                 $error_message = self::$file_error[$this->file['error']];
-                throw new sException($error_message, $this->file['error'] + 120, $this->file['error'] + 1);
+                throw new Exception($error_message, $this->file['error'] + 120, $this->file['error'] + 1);
             }
             if ($this->file['size']) {
                 $this->file['extension_name'] = strtolower(pathinfo($this->file['name'], PATHINFO_EXTENSION));
-                if (in_array($this->file['extension_name'], basic::meta('upload.system.picture'))) {
+                if (in_array($this->file['extension_name'], util::meta('upload.system.picture'))) {
                     $this->process_image_size();
                     if (isset($this->image_size)) {
                         $this->check_image_size();
@@ -49,9 +49,9 @@ class upload{
                 }
                 return true;
             }
-            throw new sException('please select upload file', 125, 6);
+            throw new Exception('please select upload file', 125, 6);
         }
-        throw new sException('no file upload', 126, 7);
+        throw new Exception('no file upload', 126, 7);
     }
 
     //检测文件体积
@@ -59,22 +59,22 @@ class upload{
         if ($this->file['size'] <= $allow_size * 1048576) {
             return true;
         }
-        throw new sException('greater than allow upload size', 127, 8);
+        throw new Exception('greater than allow upload size', 127, 8);
     }
 
 
     //检测上传格式
     function check_format(){
         if (isset($this->file['mime_type']) && $this->file['mime_type'] !== $this->file['type']) {
-            throw new sException('fake extension name', 128, 9);
+            throw new Exception('fake extension name', 128, 9);
         }
-        $this->format = basic::meta('upload.' . $this->from);
+        $this->format = util::meta('upload.' . $this->from);
         foreach ($this->format as $path => $format) {
             if (in_array($this->file['extension_name'], $format)) {
                 $this->save_path = PATH_FILE . $path . '/';
                 return true;
             }
-            throw new sException('allow format ' . implode(',', $format), 129, 10);
+            throw new Exception('allow format ' . implode(',', $format), 129, 10);
         }
     }
 
@@ -85,9 +85,9 @@ class upload{
             if (is_writable($this->save_path)) {
                 return true;
             }
-            throw new sException('absent directory ' . $this->save_path, 130, 11);
+            throw new Exception('absent directory ' . $this->save_path, 130, 11);
         }
-        throw new sException('unable to write directory ' . $this->save_path, 131, 12);
+        throw new Exception('unable to write directory ' . $this->save_path, 131, 12);
     }
 
     //移动到指定存放目录
@@ -98,7 +98,7 @@ class upload{
         }
 
         if (!preg_match('/^[^\/\\:*?"<>|,]+$/',$this->save_name)) {
-            throw new sException('file name format error', 132, 13);
+            throw new Exception('file name format error', 132, 13);
         }
 
         $file_name = $this->save_path . $this->save_name . '.' . $this->file['extension_name'];
@@ -107,7 +107,7 @@ class upload{
             chmod($file_name, 0644);
             return $file_name;
         }
-        throw new sException('move file fail', 133, 14);
+        throw new Exception('move file fail', 133, 14);
     }
 
     function get($key = 'file_name'){
@@ -128,16 +128,16 @@ class upload{
     private function check_image_size(){
         list($min_width, $max_width, $min_height, $max_height) = $this->image_size;
         if ($min_width && $this->file['width'] < $min_width) {
-            throw new sException('less than allow image width', 134, 15);
+            throw new Exception('less than allow image width', 134, 15);
         }
         if ($max_width && $this->file['width'] > $max_width) {
-            throw new sException('greater than allow image width', 135, 16);
+            throw new Exception('greater than allow image width', 135, 16);
         }
         if ($min_height && $this->file['width'] < $min_height) {
-            throw new sException('less than allow image height', 136, 17);
+            throw new Exception('less than allow image height', 136, 17);
         }
         if ($max_height && $this->file['width'] > $max_height) {
-            throw new sException('greater than allow image height', 137, 18);
+            throw new Exception('greater than allow image height', 137, 18);
         }
     }
 

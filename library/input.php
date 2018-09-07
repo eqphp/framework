@@ -83,12 +83,9 @@ class input{
             case 'enum':
                 sort($value);
                 return implode(',',$value);
-            //数字
+            //数字(整数、小数、浮点数)
             case 'number':
                 return $value + 0;
-            //小数、浮点数(货币、概率)
-            case 'float':
-                return (float)$value;
             //日期、时间
             case 'date':
             case 'time':
@@ -98,7 +95,7 @@ class input{
                 return ($format_time === $value) ? $format_time : '';
             //正则匹配输出
             default:
-                return secure::match($value, $mode) ? $value : '';
+                return util::match($value, $mode) ? $value : '';
         }
     }
 
@@ -124,7 +121,7 @@ class input{
             if (is_int($type)) {
                 return $type ? abs((int)$value) : strval(trim($value));
             }
-            return secure::match($value, $type) ? $value : null;
+            return util::match($value, $type) ? $value : null;
         }
     }
 

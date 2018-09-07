@@ -1,14 +1,18 @@
 <?PHP
+namespace eqphp;
 
-class mException extends Exception{
+
+class Exception extends \Exception{
 
     public $error;
 
-    //code: 10~99:module,001~499:exception code
+    //server(500~999)
+    //model(10~99:module,001~499:exception code)
+    //action(10~99:module,500~999:exception code)
     function __construct($message, $code, $error = 0){
         $this->error = $error;
         parent::__construct($message, $code);
-        logger::exception('model', $code . ' : ' . $message);
+        logger::exception('server', $code . ' : ' . $message);
     }
 
     function __get($name){

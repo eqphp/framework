@@ -1,6 +1,6 @@
 <?php
 
-//rely on: basic
+//rely on: util
 class session{
 
     static function set($key, $value = null){
@@ -9,7 +9,7 @@ class session{
                 $_SESSION[$name] = $value;
             }
         } elseif (strpos($key, '.') !== false) {
-            basic::array_set($_SESSION, $key, $value);
+            help::array_set($_SESSION, $key, $value);
         } else {
             $_SESSION[$key] = $value;
         }
@@ -17,8 +17,8 @@ class session{
     }
 
     static function get($key, $clear = false){
-        $value = basic::array_get($_SESSION, $key);
-        $clear and basic::array_unset($_SESSION, $key);
+        $value = util::array_get($_SESSION, $key);
+        $clear and help::array_unset($_SESSION, $key);
         return $value;
     }
 
@@ -30,7 +30,7 @@ class session{
                 unset($_SESSION[$k]);
             }
         } elseif (strpos($key, '.') !== false) {
-            basic::array_unset($_SESSION, $key);
+            help::array_unset($_SESSION, $key);
         } else {
             unset($_SESSION[$key]);
         }

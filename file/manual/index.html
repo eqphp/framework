@@ -91,9 +91,9 @@
             <img src="image/eqphp.png" style="vertical-align:bottom;">
             <span class="fsb fs18 fcr">　欢迎使用 EQPHP</span><br><br>
             EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架，SP-MVC架构思想；<br>
-            涵盖：请求响应、验证过滤、上传下载、加密解密、日志调试、性能测试、缓存静态化、国际化等技术点；<br>
-            囊括：文件目录操作、数据库使用、图形图像处理、邮件短信发送、DOM表单构建、模板引擎解析等解决方案；<br>
-            结构简洁（单一入口、自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。<br><br><br>
+            涵盖：请求响应、验证过滤、上传下载、加密解密、日志调试、性能测试、缓存静态化、消息推送等技术点；<br>
+            囊括：文件目录操作、数据库使用、图形图像处理、邮件短信发送、DOM表单构建、模板引擎解析、国际化等解决方案；<br>
+            结构简洁（单一入口、composer自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。<br><br><br>
             <h5 class="fs15 fcb1 fsb">为什么选择EQPHP？</h5><br>
             <span class="fsb fcr">简单</span><br>
             命名简洁、语法规范（符合psr），阅览愉快<br>
@@ -243,11 +243,10 @@
                     <td>如何设置</td>
                     <td colspan="3">
                         配置入口文件index.php、data/script/cli.php、test/unit/baseTest.php<br>
-                        的类自动加载函数spl_autoload_register参数值：<br>
+                        的类自动加载函数system::bootstrap参数值：<br>
                         1、camelCase风格：camelLoad<br>
                         2、snake_case风格(默认)：snake_load<br>
-                        3、类路径（class-map）：map_load<br>
-                        4、命名空间：可使用composer.
+                        3、命名空间：可使用composer.
                     </td>
                 </tr>
 
@@ -318,7 +317,7 @@
             4-3、配置数据库链接信息，打开config/local/db.php文件，配置如下：<br>
             <code>
                 return [<br>
-                <b class="i24"></b>'server'=>[<br>
+                <b class="i24"></b>[<br>
                 <b class="i48"></b>'host'=>'localhost',<br>
                 <b class="i48"></b>'port'=>3306,<br>
                 <b class="i48"></b>'user'=>'root',<br>
@@ -454,14 +453,14 @@
 
         <div class="item">
             <code>
-                www<br>
+                root<br>
                 ├─library<i>(工具类、核心类)</i><br>
                 │  └─provider<i>(扩展类库)</i><br>
                 ├─vendor<i>(第三方类库)</i><br>
                 │  ├─alipay<i>(支付宝)</i><br>
                 │  └─smarty<i>(smarty模板引擎)</i><br>
                 ├─server<i>(业务逻辑)</i><br>
-                ├─module<i>(模块)</i><br>
+                ├─module<i>(模块、分组)</i><br>
                 │  ├─common<i>(默认模块、公共模块)</i><br>
                 │  │  ├─action<i>(控制器)</i><br>
                 │  │  ├─model<i>(数据模型)</i><br>
@@ -476,7 +475,7 @@
                 ├─config<i>(系统配置)</i><br>
                 │  ├─local<i>(本地开发环境)</i><br>
                 │  ├─test<i>(测试环境)</i><br>
-                │  ├─mirror<i>(仿真环境)</i><br>
+                │  ├─mirror<i>(镜像环境)</i><br>
                 │  └─product<i>(生产环境)</i><br>
                 └─view<i>(视图)</i><br>
                 │  ├─abort<i>(404、500异常页面)</i><br>
@@ -605,8 +604,8 @@
 
             <strong>模块名使用二级域名：</strong><br>
             <span>
-                step1、打开system.php，将需要的二级域名添加到[module]下的subdomain里；<br>
-                step2、注意修改url($lie,$type)中的起始位置。<br>
+                step1、打开config/local/system.php，将需要的二级域名添加到[module]下的subdomain里；<br>
+                step2、注意修改input::url($lie,$type)中的起始位置。<br>
             </span>
         </div>
 
@@ -678,8 +677,8 @@
                 <b class="i48"></b><i>//清理垃圾</i><br>
                 <b class="i48"></b>function __destruct(){<br>
                 <b class="i72"></b>echo $this->name,'&lt;br&gt;'; <i>//输出demo</i><br>
-                <b class="i72"></b><i>//不能输出de…（提示： Class 'basic' not found）</i><br>
-                <b class="i72"></b>echo basic::cut($this->name,2);<br>
+                <b class="i72"></b><i>//不能输出de…（提示： Class 'util' not found）</i><br>
+                <b class="i72"></b>echo help::cut($this->name,2);<br>
                 <b class="i72"></b>unset($this->name);<br>
                 <b class="i48"></b>}<br><br>
                 <b class="i24"></b>}
@@ -905,7 +904,7 @@ case:model<br>
     <b class="i24"></b>}<br><br>
 
     <b class="i24"></b>static function update_password($password, $user_id){<br>
-    <b class="i48"></b>$data['salt'] = secure::salt();<br>
+    <b class="i48"></b>$data['salt'] = util::salt();<br>
     <b class="i48"></b>$data['password'] = md5($password . $user_id . $data['salt']);<br>
     <b class="i48"></b>$data['user_id'] = $condition['user_id'] = $user_id;<br>
     <b class="i48"></b>return db::put(self::TABLE_TRADE, $data, $condition);<br>
@@ -1141,7 +1140,7 @@ out($news_list[1],1);<br>
 [<br>
 　　[0] => [<br>
 　　　　　　[id] => 74<br>
-　　　　　　[title] => PHP开源MVC框架：EQPHP V1.0版本上线发布<br>
+　　　　　　[title] => PHP开源MVC框架：EQPHP V3.6.0版本上线发布<br>
 　　　　　　[visited_num] => 1237<br>
 　　　　　　[pub_time] => 2013-10-24<br>
 　　　　]<br><br>
@@ -1160,10 +1159,10 @@ out($news_list[1],1);<br>
 1、添加数据记录：<span class="fsb">db::post('表名','数据{字段=>值}')</span><br>
 <code>
 <i>//添加一条新闻：</i><br>
-$data['title']='PHP开源MVC框架：EQPHP V1.0版本上线发布';<br>
+$data['title']='PHP开源MVC框架：EQPHP V3.6.0版本上线发布';<br>
 $data['summary']='PHP开源MVC框架EQPHP,一个神级框架！';<br>
 $data['author']='admin';<br>
-$data['content']='PHP开源MVC框架：EQPHP V1.0版本上线发布,欢迎下载使用，求建议、求改进！';<br>
+$data['content']='PHP开源MVC框架：EQPHP V3.6.0版本上线发布,欢迎下载使用，求建议、求改进！';<br>
 db::post('news',$data);<br><br>
 
 <i>//添加2名同学的考试成绩：</i><br>
@@ -1218,7 +1217,7 @@ try{<br>
 }catch(Exception $e){<br>
 <b class="i24"></b><i>//回滚事务</i><br>
 <b class="i24"></b>db::transaction('rollback');<br>
-<b class="i24"></b>throw new mException($e->getMessage(),10001);<br>
+<b class="i24"></b>throw new Exception($e->getMessage(),10001);<br>
 }<br>
 </code><br><br>
 
@@ -1393,7 +1392,7 @@ query('news')->select('id,title,visited_num,pub_time')->where($condition)<br>
 [<br>
 　　[0] =&gt; [<br>
 　　　　　　[id] =&gt; 74<br>
-　　　　　　[title] =&gt; PHP开源MVC框架：EQPHP V1.0版本上线发布<br>
+　　　　　　[title] =&gt; PHP开源MVC框架：EQPHP V3.6.0版本上线发布<br>
 　　　　　　[visited_num] =&gt; 1237<br>
 　　　　　　[pub_time] =&gt; 2013-10-24<br>
 　　　　]<br><br>
@@ -1522,7 +1521,7 @@ http::json($response); <i>//发送逻辑处理结果:</i><br><br>
 
 $data=[<br>
 ['id'=>8,'title'=>'Mr Jim come to beijing','pub_time'=>'2013-10-08 12:12:05'],<br>
-['id'=>9,'title'=>'EQPHP V1.0版本上线发布','pub_time'=>'2013-10-18 15:11::10'],<br>
+['id'=>9,'title'=>'EQPHP V3.6.0版本上线发布','pub_time'=>'2013-10-18 15:11::10'],<br>
 ['id'=>11,'title'=>'Jobs 逝世一周年纪念日，iphone4 大回馈','pub_time'=>'2013-10-18 15:11::10']<br>
 ];<br>
 http::json($data); <i>//返回3条新闻给异步请求</i><br><br>
@@ -1697,7 +1696,7 @@ out($user_info,1);<br>
             try{<br>
             <b class="i24"></b><i>//上传成功返回文件存放路径(基于根目录的路径)</i><br>
             <b class="i24"></b>$file_name=with('upload',$_FILES['avatar'],$save_name,$allow_size,$from)->get('file_name');<br>
-            } catch (sException $e) {<br>
+            } catch (Exception $e) {<br>
             <b class="i24"></b>$message=config('upload.error.'.$e->error);<br>
             <b class="i24"></b>http::abort($message,help::url('user.profile'),5);<br>
             }
@@ -2023,7 +2022,7 @@ $memcache=memory::init('memcache');<i>//redis实例化同此</i><br><br>
 <i>//设置：$memcache->set('键名','值','压缩模式','周期')</i><br>
 <i>//将EQPHP无压缩(MEMCACHE_COMPRESSED,zlib压缩)下缓存300秒(0,永久(不超过30天))</i><br>
 $memcache->set('memcache','EQPHP',0,300);<br>
-$memcache->set('version','1.0',0,0);<br><br>
+$memcache->set('version','3.6.0',0,0);<br><br>
 
 <i>//修改：$memcache->replace('欲替换键名','新值','压缩模式','周期')</i><br>
 $memcache->replace('memcache','EQPHP is a PHP framework!',0,300);<br><br>
@@ -2033,7 +2032,7 @@ $memcache->delete('memcache',10); <i>//10s内(0,立即)删除memcache</i><br><br
 
 
 <i>//获取：$memcache->get('键名')</i><br>
-echo $memcache->get('version'); <i>//输出：1.0</i>
+echo $memcache->get('version'); <i>//输出：3.6.0</i>
 </code><br>
 2、memcache集群,用法除了获取memcache实例之外和简单应用相同<br>
 <code>
@@ -2082,8 +2081,8 @@ $cache=new cache('8.php','user_info',60);<br><br>
 <i>//缓存数据：$cache->save($data)</i><br>
 $data=[<br>
 　'id'=>8,<br>
-　'title'=>'EQPHP V1.0版本上线发布',<br>
-　'info'=>'EQPHP V1.0版本上线发布，敬请下载使用。',<br>
+　'title'=>'EQPHP V3.6.0版本上线发布',<br>
+　'info'=>'EQPHP V3.6.0版本上线发布，敬请下载使用。',<br>
 　'pub_time'=>'2013-10-18 15:11::10'<br>
 ];<br>
 $cache->save($data);　<i>//cache/db/php/user_info/目录下生成缓存文件（确保目录可写）</i><br><br>
@@ -2112,10 +2111,10 @@ file::write(FILE_HTML.'news/5.html',$html);<br><br>
 <i>//生成json数据文件</i><br>
 $data=[<br>
 　'id'=>8,<br>
-　'title'=>'EQPHP V1.0版本上线发布',<br>
-　'info'=>'EQPHP V1.0版本上线发布，敬请下载使用。'<br>
+　'title'=>'EQPHP V3.6.0版本上线发布',<br>
+　'info'=>'EQPHP V3.6.0版本上线发布，敬请下载使用。'<br>
 ];<br>
-file::write(FILE_JSON.'news/8.js',$data);
+file::write(FILE_TEMP.'news/8.js',$data);
 </code><br>
 <span class="fcy1">Tip：</span>上述生成html方法不能用于有session(或cookie)验证的页面。
 </div>
@@ -2175,7 +2174,7 @@ with('mail')->take($data, 'register_activation')->send('example@126.com');
 
 1、生成验证码<span class="fsb">picture::code('验证字符','宿,'髿,'字体大小')</span><br>
 <code>
-$check_code=basic::code(4);<br>
+$check_code=util::code(4);<br>
 picture::code($check_code); <i>//效果如下图：</i><br>
 </code><br><img src="image/example_check_code.gif" alt="captcha"><br><br>
 
@@ -2208,16 +2207,16 @@ picture::avatar($picture,$size_data,FILE_TEMP);<i>//效果如下图：</i><br>
 
 <strong>加密-解密(encrypt-decrypt)</strong><br>
 开发中，有些敏感数据需要保护起来，比如银行卡号、个人隐私等。<br>
-1、加密：<span class="fsb">secure::encrypt('待加密数据','密钥')</span><br>
+1、加密：<span class="fsb">util::encrypt('待加密数据','密钥')</span><br>
 <code>
-echo secure::encrypt('我的银行卡号是：61247858756434478','753951'); <br>
+echo util::encrypt('我的银行卡号是：61247858756434478','753951'); <br>
 <i>//输出：YNXpV0Y0gTpvjeDna5O+uig2JkGhLmvOQXkIZbYcL1rX/1ele7WKITYzjfXsaaFNQrjwAqQfvGuY9mOnrqoB7w==</i>
 </code><br>
 
-2、解密：<span class="fsb">secure::decrypt('待解密数据','密钥')</span><br>
+2、解密：<span class="fsb">util::decrypt('待解密数据','密钥')</span><br>
 <code>
 $text='YNXpV0Y0gTpvjeDna5O+uig2JkGhLmvOQXkIZbYcL1rX/1ele7WKITYzjfXsaa<br>FNQrjwAqQfvGuY9mOnrqoB7w==';<br>
-echo secure::decrypt($text,'753951'); <i>//输出：我的银行卡号是：61247858756434478</i>
+echo util::decrypt($text,'753951'); <i>//输出：我的银行卡号是：61247858756434478</i>
 </code><br>
 
 <span class="fcy1">Tip：</span>加密/解密甚耗资源，加密后数据体积2-5倍增加（越小倍数越大），请酌情使用。<br><br>
@@ -2348,11 +2347,11 @@ prepay.log文件内容如下：<br>
 <code>
 out(debug::info(0),1); <i>//输出（环境基本参数）：<br>
 [<br>
-　[system] => Windows NT ACER-PC 6.1 build 7601 ((null) Service Pack 1) i586<br>
+　[system] => Windows NT acer-PC 6.1 build 7601 ((null) Service Pack 1) i586<br>
 　[service] => apache2handler<br>
-　[php_version] => 5.3.0<br>
+　[php_version] => 5.6.17<br>
 　[frame_name] => eqphp<br>
-　[frame_version] => 1.0<br>
+　[frame_version] => 3.6.0<br>
 　[magic_quotes] => 0<br>
 　[time_zone] => PRC<br>
 ]
@@ -2373,7 +2372,7 @@ out(debug::info(1),1); <i>//输出（自定义常量）：<br>
 out(debug::info('file'),1); <i>//输出（引用加载文件）：<br>
 [<br>
 　[0] => /var/www/eqphp/index.php<br>
-　[1] => /var/www/eqphp/server/function_lib.php<br>
+　[1] => /var/www/eqphp/config/local/shortcut.php<br>
 　[2] => /var/www/eqphp/server/system.php<br>
 　[3] => /var/www/eqphp/action/a_son.php<br>
 　[4] => /var/www/eqphp/action/a_pop.php<br>
@@ -3078,12 +3077,12 @@ file::write($file,$data,'a+');
 
             <i>//接收时过滤(htmlspecialchars、strip_tags过滤)</i><br>
             $title=post('title','title'); <br>
-            $detail=post('detail','text');<i>//可在config/local/secure.php文件配置允许标签</i><br><br>
+            $detail=post('detail','text');<br><br>
 
             <i>//检测存在危险数量</i><br>
-            $risk_amount=secure::xss($detail,'check');<i>//3</i><br>
+            $risk_amount=help::xss($detail,'check');<i>//3</i><br>
             <i>//严格过滤</i><br>
-            $detail=secure::xss($detail);<br><br>
+            $detail=help::xss($detail);<br><br>
 
             <i>//输出时过滤(htmlspecialchars、strip_tags过滤)</i><br>
             {$title|put},{$title|put:"&lt;img&gt;&lt;a&gt;"}
@@ -3093,13 +3092,13 @@ file::write($file,$data,'a+');
         <p>至于什么是CSRF攻击、有什么危害？暂且不谈，这里仅说说使用EQPHP框架如何防止CSRF攻击。</p>
         <code>
             <i>//step-1、控制器调用CSRF令牌生成器</i><br>
-            $csrf=secure::csrf('set');<br><br>
+            $csrf=help::csrf('set');<br><br>
 
             <i>//step-2、并将生成令牌分配给表单隐藏域(如果是ajax请求可以直接从cookie获取)</i><br>
             &lt;input name="token" type="hidden" value="{$csrf}"&gt;<br><br>
 
             <i>//step-3、接收并校验表单提交的令牌token(和session中存储的对比)</i><br>
-            if (secure::csrf('check',post('token'))) {<br>
+            if (help::csrf('check',post('token'))) {<br>
                 <b class="i24"></b><i>//安全的请求，csrf检测</i><br>
             }<br>
         </code><br><br>
@@ -3253,15 +3252,16 @@ file::write($file,$data,'a+');
             <b class="i24"></b>return ['未连接', '连接成功，可通讯', '正在关闭', '连接已关闭或无法打开'][webSocket.readyState];<br>
             }
 
-
         </code><br><br>
 
         <p>step-2、服务端推送数据</p>
         <code>
-            http::socket(['59f51fd0297e236d'=>'new message.']);
+            http::socket(['59f51fd0297e236d'=>'new message.'], 'user');
         </code><br><br>
 
         <strong>二、即时通讯</strong><br><br>
+        <p>既然可以推送消息给指定用户，那么即时通讯就简单了，只需将收到的消息推送给指定的用户即可。</p>
+        <p>当然，也可以在通道内直接接收数据，存储处理，并转发给指定用户也是不错的解决方式。</p>
     </div>
 
     <div class="item">
@@ -3282,7 +3282,7 @@ file::write($file,$data,'a+');
                     */</i><br>
                 function testTool($phone,$result){<br>
                 <b class="i24"></b><i>//测试工具类方法</i><br>
-                <b class="i24"></b>$this->assertEquals($result, secure::match($phone,'phone'));<br>
+                <b class="i24"></b>$this->assertEquals($result, util::match($phone,'phone'));<br>
                 }<br><br>
 
                 public function additionProvider(){<br>
@@ -3385,7 +3385,7 @@ file::write($file,$data,'a+');
                 <i>//异常：提现金额大于账户余额</i><br>
                 public function testAccountBalanceShortage(){<br>
                 <b class="i24"></b>$this->withdraw_money = $this->user_balance + 100;<br>
-                <b class="i24"></b>$this->setExpectedException('sException', 'balance shortage',512);<br>
+                <b class="i24"></b>$this->setExpectedException('Exception', 'balance shortage',512);<br>
                 <b class="i24"></b>with('s_withdraw', self::WITHDRAW_USER_ID)->create($this->withdraw_money);<br>
                 }<br><br>
 
@@ -3424,7 +3424,7 @@ file::write($file,$data,'a+');
 
             <strong>一、文件、类库加载</strong><br>
             <p>1、普通加载：EQPHP采用自动加载规则（依据类名前缀/后缀、所处模块）完成类库加载，无需手动加载。如：<br>
-                <code>basic::cut($string,12); <i>//会自动加载library/basic.php文件；</i><br>
+                <code>help::cut($string,12); <i>//会自动加载library/help.php文件；</i><br>
                     with('m_user',$this->user_id); <i>//会自动加载user/model/m_user.php文件；</i><br>
                     config('site.frame.name'); <i>//会自动加载config/local/system.php文件；</i></code><br><br>
             </p>
@@ -3528,7 +3528,8 @@ file::write($file,$data,'a+');
             <tr><td>i18n国际化语言包</td><td>DATA_LANG</td><td>/var/www/data/lang/</td></tr>
             <tr><td>临时仓</td><td>DATA_STORE</td><td>/var/www/data/store/</td></tr>
             <tr><td>备份目录</td><td>DATA_BACKUP</td><td>/var/www/data/backup/</td></tr>
-            <tr><td>前端脚本</td><td>DATA_SOURCE</td><td>/var/www/data/source/</td></tr>
+            <tr><td>私有资源</td><td>DATA_SOURCE</td><td>/var/www/data/source/</td></tr>
+            <tr><td>执行脚本</td><td>DATA_SCRIPT</td><td>/var/www/data/script/</td></tr>
             <tr><td>调试日志</td><td>LOG_TRACE</td><td>/var/www/log/trace/</td></tr>
             <tr><td>运行日志</td><td>LOG_RUN</td><td>/var/www/log/run/</td></tr>
             <tr><td>专题日志</td><td>LOG_TOPIC</td><td>/var/www/log/topic/</td></tr>
@@ -3553,88 +3554,106 @@ file::write($file,$data,'a+');
         </table>
 
 
-    </div>    
+    </div>
 
 
     <div class="item">
 
         <p class="m10 bgg p5 fs15 fcr">字符串相关函数</p>
 
-        <h3>字符串截取</h3>
-        <p class="function">string <b>basic::cut</b>(string $string[, int $length <em>15</em>[, string $tail <em>...</em>]])</p>
-        <code>
-            basic::cut('eqphp中文web应用框架',12); <i>//eqphp中文web应用</i><br>
-        </code><br><br><br>
-
-        <h3>富文本内容输出时过滤、反转义</h3>
-        <p class="function">string <b>basic::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
-        <code>
-            basic::put($news[key].details,'&lt;a&gt;&lt;img&gt;');
-        </code><br><br><br>
-
         <h3>生成指定长度随机字符串(数字、字母组合)</h3>
-        <p class="function">string <b>basic::code</b>([int $len <em>4</em> [, int $mode <em>1</em>]])</p>
+        <p class="function">string <b>util::code</b>([int $len <em>4</em> [, int $mode <em>1</em>]])</p>
         <code>
             <i>//$mode可取值：0 - 大小写混合, 1 - 小写, 2 - 大写。没有0、1、o、l四个字符</i><br>
-            basic::code(5,2); <i>//HY67V</i><br>
-        </code><br><br><br>
-
-        <h3>转换为指定精度倍数的整数</h3>
-        <p class="function">int <b>basic::int</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
-        <code>
-            <i>//$precision可取值：0-N, $is_round是否用round函数四舍五入</i><br>
-            basic::int('12.89',2); <i>//1289</i><br>
-            basic::int(3.567,2,true); <i>//357</i><br>
-        </code><br><br><br>
-
-        <h3>转换为指定精度倍数的浮点数</h3>
-        <p class="function">int <b>basic::float</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
-        <code>
-            <i>//$precision小数位数，可取值：0-N, $is_round是否用round函数四舍五入</i><br>
-            basic::float('12.891',2); <i>//12.89</i><br>
-            basic::float('0.807',2); <i>//0.8</i><br>
-            basic::int(3.567,2,true); <i>//3.57</i><br>
-        </code><br><br><br>
-
-        <h3>批量生成唯一数字序列集合</h3>
-        <p class="function">int <b>basic::number</b>(mix $prefix, int $length [, $amount <em>100</em>])</p>
-        <code>
-            <i>//$amount生成数，可取值：1-N</i><br>
-            basic::number('BJ', 7, 5000);<br>
-            basic::number('010', 5, 100);<br>
+            util::code(5,2); <i>//HY67V</i><br>
         </code><br><br><br>
 
         <h3>生成36位uuid</h3>
-        <p class="function">string <b>basic::uuid</b>()</p>
+        <p class="function">string <b>util::uuid</b>()</p>
         <code>
-            basic::uuid(); <i>//2b5adf75-9668-7133-2f83-f8e054d93213</i><br>
+            util::uuid(); <i>//2b5adf75-9668-7133-2f83-f8e054d93213</i><br>
         </code><br><br><br>
 
         <h3>防比对破解的MD5函数</h3>
-        <p class="function">string <b>secure::md5</b>(string $string)</p>
+        <p class="function">string <b>util::md5</b>(string $string)</p>
         <code>
-            　　　　　md5('123456'); <i>//e10adc3949ba59abbe56e057f20f883e</i><br>
-            secure::md5('123456'); <i>//ddad04b61d2bd99e5733f939698a1917</i><br>
+            　　　 md5('123456'); <i>//e10adc3949ba59abbe56e057f20f883e</i><br>
+            util::md5('123456'); <i>//ddad04b61d2bd99e5733f939698a1917</i><br>
         </code><br><br><br>
 
         <h3>生成防伪令牌</h3>
-        <p class="function">string <b>secure::token</b>([string $string[, string $ip]])</p>
+        <p class="function">string <b>util::token</b>([string $string[, string $ip]])</p>
         <code>
             <i>//结合用户user_agent、ip等判断是否变更机器(识别假冒cookie)</i><br>
-            secure::token('donkey'); <i>//bb676499faa6c22a8693d48251495efb</i><br>
+            util::token('donkey'); <i>//bb676499faa6c22a8693d48251495efb</i><br>
         </code><br><br><br>
 
         <h3>特殊字符过滤</h3>
-        <p class="function">string <b>secure::symbol</b>(string $string[, bool $is_strict <em>false</em>])</p>
+        <p class="function">string <b>util::symbol</b>(string $string[, bool $is_strict <em>false</em>])</p>
         <code>
             <i>//$is_strict是否严格模式，是则过滤：~^<>`\'"@!#$%&?+-*/={}[]()|,.:;否仅过滤：~^<>`\'"</i><br>
-            secure::symbol("I'm ok"); <i>//Im ok</i><br>
+            util::symbol("I'm ok"); <i>//Im ok</i><br>
         </code><br><br><br>
 
         <h3>生成6位密码保护串(盐)</h3>
-        <p class="function">string <b>secure::salt</b>()</p>
+        <p class="function">string <b>util::salt</b>()</p>
         <code>
-            secure::salt(); <i>//6*41-6</i><br>
+            util::salt(); <i>//6*41-6</i><br>
+        </code><br><br><br>
+
+        <h3>使用正则表达式检测字符串是否合法</h3>
+        <p class="function">bool <b>util::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
+        <code>
+            <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、alpha、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
+            util::match('13650231***','phone'); <i>//true</i><br>
+        </code><br><br><br>
+
+
+        <h3>对象工厂：获取一个对象实例</h3>
+        <p class="function">object <b>util::with</b>([mixed $class_name [, mixed $param ... ]])</p>
+        <code>
+            util::with(); <i>//stdClass Object()</i><br><br>
+
+            $user=util::with('cache','8.php','user_profile',60); <i>//从cache类实例化user缓存对象</i><br>
+            $user->save(['name'=>'Art','sex'=>'male','age'=>32]); <i>//存储数据</i><br>
+            $user->get('user_profile.sex'); <i>//male</i><br>
+        </code><br><br><br>
+
+        <h3>字符串截取</h3>
+        <p class="function">string <b>help::cut</b>(string $string[, int $length <em>15</em>[, string $tail <em>...</em>]])</p>
+        <code>
+            help::cut('eqphp中文web应用框架',12); <i>//eqphp中文web应用</i><br>
+        </code><br><br><br>
+
+        <h3>富文本内容输出时过滤、反转义</h3>
+        <p class="function">string <b>help::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
+        <code>
+            help::put($news[key].details,'&lt;a&gt;&lt;img&gt;');
+        </code><br><br><br>
+
+        <h3>转换为指定精度倍数的整数</h3>
+        <p class="function">int <b>help::int</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
+        <code>
+            <i>//$precision可取值：0-N, $is_round是否用round函数四舍五入</i><br>
+            help::int('12.89',2); <i>//1289</i><br>
+            help::int(3.567,2,true); <i>//357</i><br>
+        </code><br><br><br>
+
+        <h3>转换为指定精度倍数的浮点数</h3>
+        <p class="function">int <b>help::float</b>(mixed $number [, int $precision <em>0</em> [, bool $is_round <em>false</em>]])</p>
+        <code>
+            <i>//$precision小数位数，可取值：0-N, $is_round是否用round函数四舍五入</i><br>
+            help::float('12.891',2); <i>//12.89</i><br>
+            help::float('0.807',2); <i>//0.8</i><br>
+            help::int(3.567,2,true); <i>//3.57</i><br>
+        </code><br><br><br>
+
+        <h3>批量生成唯一数字序列集合</h3>
+        <p class="function">int <b>help::number</b>(mix $prefix, int $length [, $amount <em>100</em>])</p>
+        <code>
+            <i>//$amount生成数，可取值：1-N</i><br>
+            help::number('BJ', 7, 5000);<br>
+            help::number('010', 5, 100);<br>
         </code><br><br><br>
 
         <h3>返回单个汉字的拼音</h3>
@@ -3697,19 +3716,6 @@ file::write($file,$data,'a+');
             help::is_bank_card('622718972731231', config('back.icbc')); <i>//false</i><br>
         </code><br><br><br>
 
-        <h3>使用正则表达式检测字符串是否合法</h3>
-        <p class="function">bool <b>secure::match</b>(mixed $string[, string $regexp <em>email</em>])</p>
-        <code>
-            <i>$regexp可取参数有：phone、email、telephone、hot_line、qq、account、md5、password、money、number、numeric、url、cid、zip、address、int、float、alpha、chinese、chinese_name、name、file_name、id、uuid、image、business_license、标准正则表达式</i><br>
-            secure::match('13650231***','phone'); <i>//true</i><br>
-        </code><br><br><br>
-
-        <h3>使用正则表达式检测字符串</h3>
-        <p class="function">bool <b>secure::filter</b>(mixed $string[, string $regexp <em>email</em>[, $default]])</p>
-        <code>
-            secure::filter('13650231***','phone'); <i>//13650231***</i><br>
-        </code><br><br><br>
-
         <h3>检测华人姓名</h3>
         <p class="function">bool <b>identity::family_name</b>(string $name)</p>
         <code>
@@ -3717,9 +3723,9 @@ file::write($file,$data,'a+');
         </code><br><br><br>
 
         <h3>检测身份证号是否正确</h3>
-        <p class="function">bool <b>identity::is_cid</b>(string $card_no)</p>
+        <p class="function">bool <b>identity::is_card</b>(string $card_no)</p>
         <code>
-            identity::is_cid('612501198710114012'); <i>//false</i><br>
+            identity::is_card('612501198710114012'); <i>//false</i><br>
         </code><br><br><br>
 
         <h3>解析身份证号</h3>
@@ -3750,7 +3756,7 @@ file::write($file,$data,'a+');
         <p class="m10 bgg p5 fs15 fcr">数组相关函数</p>
         
         <h3>数组map取值(点式寻址查找)</h3>
-        <p class="function">mixed <b>basic::array_get</b>(array $data[, string $map <em>null</em>])</p>
+        <p class="function">mixed <b>util::array_get</b>(array $data[, string $map <em>null</em>])</p>
         <code>
             $data=[<br>
             <b class="i24"></b>'from'=>'mongoDB',<br>
@@ -3762,24 +3768,24 @@ file::write($file,$data,'a+');
             <b class="i24"></b>],<br>
             ];<br><br>
 
-            basic::array_get($data,'from'); <i>//mongoDB</i><br>
-            basic::array_get($data,'user.profile.name'); <i>//Art</i><br>
-            basic::array_get($data,'user.wallet'); <i>//['money'=>1214.22,'point'=>139]</i>
+            util::array_get($data,'from'); <i>//mongoDB</i><br>
+            util::array_get($data,'user.profile.name'); <i>//Art</i><br>
+            util::array_get($data,'user.wallet'); <i>//['money'=>1214.22,'point'=>139]</i>
         </code><br><br><br>
 
         <h3>map方式追加数组单元</h3>
-        <p class="function">array <b>basic::array_set</b>(array &$data, string $map, $$value)</p>
+        <p class="function">array <b>help::array_set</b>(array &$data, string $map, $$value)</p>
         <code>
             $data=['user'=>['profile'=>['name'=>'Art','sex'=>'male']]];<br>
-            basic::array_set($data,'user.profile.phone','15001369***');<br>
+            help::array_set($data,'user.profile.phone','15001369***');<br>
             <i>//['user'=>['profile'=>['name'=>'Art','sex'=>'male','phone'=>'15001369***']]]</i>
         </code><br><br><br>
 
         <h3>map方式移除数组指定单元</h3>
-        <p class="function">array <b>basic::array_unset</b>(array &$data, string $map)</p>
+        <p class="function">array <b>help::array_unset</b>(array &$data, string $map)</p>
         <code>
             $data=['user'=>['profile'=>['name'=>'Art','sex'=>'male']]];<br>
-            basic::array_unset($data,'user.profile.sex');<br>
+            help::array_unset($data,'user.profile.sex');<br>
             <i>//['user'=>['profile'=>['name'=>'Art']]]</i>
         </code><br><br><br>
 
@@ -3793,7 +3799,7 @@ file::write($file,$data,'a+');
         </code><br><br><br>
 
         <h3>记录集筛选</h3>
-        <p class="function">array <b>basic::array_column</b>(array $record, string $column[, string $key <em>id</em>])</p>
+        <p class="function">array <b>help::array_column</b>(array $record, string $column[, string $key <em>id</em>])</p>
         <code>
             $record = [<br>
             <b class="i24"></b>['id' => 1, 'recommend_id' => 3, 'email' => '225874@qq.com'],<br>
@@ -3801,17 +3807,17 @@ file::write($file,$data,'a+');
             <b class="i24"></b>['id' => 19, 'recommend_id' => 31, 'email' => 'jimKy@eqphp.com'],<br>
             ];<br><br>
 
-            $email=basic::array_column($record,'email','id');<br>
+            $email=help::array_column($record,'email','id');<br>
             <i>//[1=>'225874@qq.com',8=>'guoLove@126.com', 19=>'jimKy@eqphp.com']</i><br><br>
 
-            $collection=basic::array_column($record,'email,recommend_id','id');<br>
+            $collection=help::array_column($record,'email,recommend_id','id');<br>
             <i>//[1=>['recommend_id'=>3,'email'=>'225874@qq.com'],<br>
                 8=>['recommend_id' => 14,'email'=> 'guoLove@126.com'],<br>
                 19=>['recommend_id' => 31, 'email' => 'jimKy@eqphp.com']]</i><br>
         </code><br><br><br>
 
         <h3>记录集取列</h3>
-        <p class="function">array <b>basic::array_field</b>(array $record[, string $column <em>id</em>[, bool $is_string <em>false</em>]])</p>
+        <p class="function">array <b>help::array_field</b>(array $record[, string $column <em>id</em>[, bool $is_string <em>false</em>]])</p>
         <code>
             $record = [<br>
             <b class="i24"></b>['id' => 1, 'recommend_id' => 3, 'email' => '225874@qq.com'],<br>
@@ -3819,20 +3825,20 @@ file::write($file,$data,'a+');
             <b class="i24"></b>['id' => 19, 'recommend_id' => 31, 'email' => 'jimKy@eqphp.com'],<br>
             ];<br><br>
 
-            $recommend_id=basic::array_field($record,'recommend_id');<br>
+            $recommend_id=help::array_field($record,'recommend_id');<br>
             <i>//[3,31]，会去重</i><br><br>
 
-            $recommend_id=basic::array_field($record,'email',true);<br>
+            $recommend_id=help::array_field($record,'email',true);<br>
             <i>//225874@qq.com,guoLove@126.com,imKy@eqphp.com</i><br><br>
 
             <i>//第三个参数无效，也不能去重</i><br>
-            $collection=basic::array_field($record,'recommend_id,email');<br>
+            $collection=help::array_field($record,'recommend_id,email');<br>
             <i>//['recommend_id'=>[3,3,31],
                 'email'=>['225874@qq.com','guoLove@126.com','imKy@eqphp.com']]</i><br>
         </code><br><br><br>
 
         <h3>记录集取排序列(结合array_multisort使用)</h3>
-        <p class="function">array <b>basic::array_field_sort</b>(array $record[, string $column <em>id</em>])</p>
+        <p class="function">array <b>help::array_field_sort</b>(array $record[, string $column <em>id</em>])</p>
         <code>
             $record = [<br>
             <b class="i24"></b>['id' => 1, 'nick_name' => 'art', 'age' => 21],<br>
@@ -3841,7 +3847,7 @@ file::write($file,$data,'a+');
             <b class="i24"></b>['id' => 19, 'nick_name' => 'jack', 'age' => 19],<br>
             ];<br><br>
 
-            $sort=basic::array_field_sort($record,'age,nick_name');<br>
+            $sort=help::array_field_sort($record,'age,nick_name');<br>
             array_multisort($sort['age'],SORT_ASC,$sort['nick_name'],SORT_DESC,$record);<br><br>
             <i>//排序后$record变为：</i><br>
             <i>[['id' => 8, 'nick_name' => 'lily', 'age' => 19],<br>
@@ -3849,19 +3855,9 @@ file::write($file,$data,'a+');
                 ['id' => 1, 'nick_name' => 'art', 'age' => 21],<br>
                 ['id' => 19, 'nick_name' => 'tom', 'age' => 48]]</i><br>
         </code><br><br><br>
-        
-        <h3>对象工厂：获取一个对象实例</h3>
-        <p class="function">object <b>basic::with</b>([mixed $class_name [, mixed $param ... ]])</p>
-        <code>
-            basic::with(); <i>//stdClass Object()</i><br><br>
-
-            $user=basic::with('cache','8.php','user_profile',60); <i>//从cache类实例化user缓存对象</i><br>
-            $user->save(['name'=>'Art','sex'=>'male','age'=>32]); <i>//存储数据</i><br>
-            $user->get('user_profile.sex'); <i>//male</i><br>
-        </code><br><br><br>
 
         <h3>无限递归分类</h3>
-        <p class="function">array <b>basic::tree</b>(array $record[, int $parent_id <em>0</em>[, int $level <em>0</em>]])</p>
+        <p class="function">array <b>help::tree</b>(array $record[, int $parent_id <em>0</em>[, int $level <em>0</em>]])</p>
         <code>
             $record = [<br>
             <b class="i24"></b>['id' => 1, 'parent_id' => 0, 'name' => '新4军'],<br>
@@ -3873,7 +3869,7 @@ file::write($file,$data,'a+');
             <b class="i24"></b>['id' => 7, 'parent_id' => 5, 'name' => '新4军2师12旅9营'],<br>
             ];<br><br>
 
-            $new=basic::tree($record);<br>
+            $new=help::tree($record);<br>
             <i>//重新排序后：<br>
                 [['id' => 1, 'parent_id' => 0, 'name' => '新4军'],<br>
                 ['id' => 3, 'parent_id' => 1, 'name' => '新4军1师'],<br>
@@ -3883,7 +3879,7 @@ file::write($file,$data,'a+');
                 ['id' => 2, 'parent_id' => 0, 'name' => '8路军'],<br>
                 ['id' => 6, 'parent_id' => 2, 'name' => '8路军18师'],];</i><br><br>
 
-            $new=basic::tree($record,4,1);<br>
+            $new=help::tree($record,4,1);<br>
             <i>//重新排序后：<br>
                 [['id' => 5, 'parent_id' => 4, 'name' => '新4军2师12旅'],<br>
                 ['id' => 7, 'parent_id' => 5, 'name' => '新4军2师12旅9营'],];</i><br>
@@ -4038,13 +4034,13 @@ file::write($file,$data,'a+');
             {"foot.email"|constant:"site"} <i>&lt;!-- eqphp_framework@126.com --&gt;</i><br>
         </code><br><br><br>
 
-        <h3>字符串截取，用法参见：<strong class="fcg">basic::cut</strong></h3>
+        <h3>字符串截取，用法参见：<strong class="fcg">help::cut</strong></h3>
         <p class="function">string <b>module_modifier::cut</b>(string $name [, int $length <em>15</em> [, int $tail <em>...</em>]])</p>
         <code>
             {$news[key].title|cut:18} <i>&lt;!-- 重大事件：EQPHP 2.0 版本... --&gt;</i><br>
         </code><br><br><br>
 
-        <h3>输出过滤，用法参见：<strong class="fcg">basic::put</strong></h3>
+        <h3>输出过滤，用法参见：<strong class="fcg">help::put</strong></h3>
         <p class="function">string <b>module_modifier::put</b>(string $string [, string $allow_tags <em>null</em>])</p>
         <code>
             {$news[key].details|put:"&lt;a&gt;&lt;img&gt;"}<br>

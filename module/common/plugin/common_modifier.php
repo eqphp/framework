@@ -17,7 +17,7 @@ class common_modifier{
     
     //截取指定长度的中英文混合字符串
     static function put($string, $allow_tags = null){
-        return basic::put($string, $allow_tags);
+        return help::put($string, $allow_tags);
     }
 
     //掩藏用户敏感信息

@@ -67,7 +67,7 @@ function session($key = null, $value = false){
 
 //对象工厂
 function with(){
-    return call_user_func_array('basic::with', func_get_args());
+    return call_user_func_array('util::with', func_get_args());
 }
 
 //获取url参数

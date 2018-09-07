@@ -20,13 +20,13 @@ class a_index{
             unlink(PATH_LIBRARY . 'eqphp.php');
         }
         $shortcut = file_get_contents(PATH_CONFIG. ENVIRONMENT . '/shortcut.php');
-        $shortcut = str_replace(array('//use eqphp',"'basic::with'"),array('use eqphp',"'eqphp\\basic::with'"),$shortcut);
+        $shortcut = str_replace(array('//use eqphp',"'util::with'"),array('use eqphp',"'eqphp\\util::with'"),$shortcut);
         file_put_contents(PATH_CONFIG. ENVIRONMENT . '/shortcut.php', $shortcut);
 
 
         $buffer = '<?php'.PHP_EOL;
         $buffer .= 'namespace eqphp{'.PHP_EOL;
-        $buffer .= 'use Exception, ReflectionClass, PDO, PDOException, DirectoryIterator, Memcache, Redis;'.PHP_EOL.PHP_EOL;
+        $buffer .= 'use ReflectionClass, PDO, PDOException, DirectoryIterator, Memcache, Redis;'.PHP_EOL.PHP_EOL;
 
         /* @var $library_list */
         file::scan(PATH_LIBRARY, 'php', $library_list);
