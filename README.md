@@ -76,7 +76,7 @@ query('user_info')-> select('avatar,nick_name,avatar,sign')
 
 //分页查询用户的充值记录
 query(table::PREPAY_PROCESS)->select('id,trade_no,method,status,amount,time')
-->where($condition)->order('id desc')->out('page', $record_count, $page, $page_size);
+->where($condition)->order('id desc')->out('page', $page, $page_size);
 ```
 
 ##### 缓存：友好支持session、file、memcache、redis等常用缓存类型 #####
