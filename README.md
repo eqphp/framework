@@ -4,7 +4,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 
 涵盖：[请求响应](http://manual.eqphp.com/index.html#16)、[验证过滤](http://manual.eqphp.com/index.html#17)、[上传下载](http://manual.eqphp.com/index.html#25)、[加密解密](http://manual.eqphp.com/index.html#21)、[日志调试](http://manual.eqphp.com/index.html#22)、[性能测试](http://manual.eqphp.com/index.html#22)、[缓存静态化](http://manual.eqphp.com/index.html#28)、[消息推送](http://manual.eqphp.com/index.html#28)等技术点；
 
-囊括：[文件目录操作](http://manual.eqphp.com/index.html#18)、[数据库使用](http://manual.eqphp.com/index.html#15)、[图形图像处理](http://manual.eqphp.com/index.html#21)、[邮件短信发送](http://manual.eqphp.com/file/manual/index.html#21)、[DOM表单构建](http://manual.eqphp.com/index.html#19)、[模板引擎解析](http://manual.eqphp.com/index.html#24)、[国际化](http://manual.eqphp.com/index.html#21)等解决方案；
+囊括：[文件目录操作](http://manual.eqphp.com/index.html#18)、[数据库使用](http://manual.eqphp.com/index.html#15)、[图形图像处理](http://manual.eqphp.com/index.html#21)、[邮件短信发送](http://manual.eqphp.com/index.html#21)、[DOM表单构建](http://manual.eqphp.com/index.html#19)、[模板引擎解析](http://manual.eqphp.com/index.html#24)、[国际化](http://manual.eqphp.com/index.html#21)等解决方案；
 
 结构简洁（单一入口、composer自动加载、双模多分组）、类库丰富、部署灵活，可任意调整等特性，适合所有Web项目开发。
 
