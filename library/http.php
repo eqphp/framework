@@ -70,7 +70,8 @@ class http{
     //构造post提交并获取接口返回数据
     //header: array('Cookie: '.http_build_query($_COOKIE,'','; '))
     static function curl($url, $data = null, $option = array(), $header = null){
-        $option += array('request_type' => 'json', 'response_type' => 'json', 'is_array' => true, 'xml_tag' => 'item');
+        $option += array('timeout' => 10, 'request_type' => 'json',
+            'response_type' => 'json', 'is_array' => true, 'xml_tag' => 'item');
         if (is_array($url)) {
             $url = $url['scheme'] . '://' . $url['host'] . ':' . $url['port'] . $url['path'];
         }
@@ -86,7 +87,7 @@ class http{
             if ($option['request_type'] === 'json') {
                 $data = json_encode($data, JSON_UNESCAPED_UNICODE);
             } elseif ($option['request_type'] === 'xml') {
-                $data = help::data_xml($data);
+                $data = help::data_xml($data, $option['xml_tag']);
             } else {
                 $data = urldecode(http_build_query($data));
             }
@@ -100,7 +101,7 @@ class http{
         }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $option['timeout']);
         if ($header) {
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);

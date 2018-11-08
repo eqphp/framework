@@ -27,7 +27,7 @@ $(function(){
         '视图（view） - 模板引擎（template）',
         'java-api代理（proxy）、server-api开发（restful）',
         '数据传输与安全',
-        'web模式、cli模式、计划任务（crontab）',
+        'web模式、cli模式、计划任务（crontab）、监听队列（queue）',
         'websocket、消息推送、即时聊天',
         '测试驱动开发（TDD）、单元测试（unit test）',
         '架构方案、项目部署',
@@ -37,10 +37,15 @@ $(function(){
         '系统错误、异常一览表'
     ];
 
-    
+    var article_id=parseInt(location.hash.substr(1,2));
+    if (isNaN(article_id)) {
+        article_id=1;
+    }
+    $('.main h1 strong').html(title[article_id-1]);
+    $('.main .item:eq('+(article_id-1)+')').show();    
 
-    $('.main h1 strong').html(title[0]);
-    $('.main .item:eq(0)').show();
+    //$('.main h1 strong').html(title[0]);
+    //$('.main .item:eq(0)').show();
 
     $('.nav_title').mouseover(function(){
         $('.nav_title dl dd').show();

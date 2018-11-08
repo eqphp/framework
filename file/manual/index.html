@@ -3195,8 +3195,100 @@ file::write($file,$data,'a+');
                 }<br><br>
 
                 }<br>
-            </code>
+            </code><br><br>
 
+        </p>
+
+        <strong>四、任务监听、队列(queue)</strong><br>
+        <p>实际项目开发中，我们常常遇到一些很消耗计算机资源且运行时间较长的业务功能，如图片分析、excel表格数据处理、调用别的网络服务等等。<br>
+           有些我们不需要等待执行结果，有些需要排队执行，而对于单进程语言脚本来说，实现起来就更麻烦了。EQPHP提供以下解决方案：</p>
+        <p>step-1、创建任务队列数据表：job_queue<br>
+            <code>
+                CREATE TABLE job_queue (<br>
+                <b class="i24"></b>id int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',<br>
+                <b class="i24"></b>operation char(24) NOT NULL DEFAULT '' COMMENT '执行动作',<br>
+                <b class="i24"></b>param varchar(2047) NOT NULL DEFAULT '' COMMENT '调用参数',<br>
+                <b class="i24"></b>is_finish tinyint(3) UNSIGNED DEFAULT '0' COMMENT '是否完成',<br>
+                <b class="i24"></b>create_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '产生时间',<br>
+                <b class="i24"></b>PRIMARY KEY (id)<br>
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='待执行任务队列';<br>
+            </code><br>
+        </p>
+        <p>step-2、编写队列监听脚本：queue.php<br>
+        <code>
+            &lt;?php<br>
+            namespace eqphp;<br>
+            include 'cli.php';<br>
+            use server\table;<br><br>
+
+            while (true) {<br>
+            <b class="i24"></b>queue::execute();<br>
+            <b class="i24"></b>sleep(30);<br>
+            }<br><br><br>
+
+            class queue{<br><br>
+
+            <b class="i24"></b>static function execute(){<br>
+            <b class="i48"></b>$field = 'id,operation,param';<br>
+            <b class="i48"></b>$expire = date('Y-m-d H:i:s', strtotime('-2 hours'));<br>
+            <b class="i48"></b>$condition['is_finish'] = 0;<br>
+            <b class="i48"></b>$condition['create_time'] = ['gt', $expire];<br>
+            <b class="i48"></b>$task_list = query(table::JOB_QUEUE)->select($field)->where($condition)->out('batch');<br>
+            <b class="i48"></b>if ($task_list && is_array($task_list)) {<br>
+            <b class="i72"></b>foreach ($task_list as $task) {<br>
+            <b class="i96"></b>$param = unserialize($task['param']);<br>
+            <b class="i96"></b>$action = 'job::' . $task['operation'];<br>
+            <b class="i96"></b>call_user_func_array($action, $param);<br>
+            <b class="i96"></b>db::patch(table::JOB_QUEUE, ['is_finish' => 1], $task['id']);<br>
+            <b class="i96"></b>sleep(3);<br>
+            <b class="i72"></b>}<br>
+            <b class="i48"></b>}<br>
+            <b class="i24"></b>}<br><br>
+
+            }<br>
+
+        </code><br>
+        </p>
+
+        <p>step-3、编写任务执行工厂：job.php<br>
+            <code>
+                &lt;?php<br>
+                namespace eqphp;<br>
+                include 'cli.php';<br>
+                use server\table;<br><br>
+
+                class job{<br><br>
+
+                <b class="i24"></b>static function push($operation, $param){<br>
+                <b class="i48"></b>if (!is_array($param)) {<br>
+                <b class="i72"></b>$param = [$param];<br>
+                <b class="i48"></b>}<br>
+                <b class="i48"></b>return db::post(table::JOB_QUEUE, [<br>
+                <b class="i72"></b>'operation' => $operation,<br>
+                <b class="i72"></b>'param' => serialize($param),<br>
+                <b class="i72"></b>'create_time' => date('Y-m-d H:i:s'),<br>
+                <b class="i48"></b>]);<br><br>
+                <b class="i24"></b>}<br><br>
+
+
+                <b class="i24"></b>static function message($phone, $data, $template){<br>
+                <b class="i48"></b>return with('message')->take($data, $template)->send($phone);<br>
+                <b class="i24"></b>}<br><br>
+
+                }<br>
+
+            </code><br>
+        </p>
+
+        <p>step-4、执行任务监听，linux环境，终端执行：<br>
+            <code>nohup php /var/www/data/script/queue.php &</code>
+        </p><br>
+
+        <p>step-5、任务发布置：<br>
+            <code>
+            $template = '您好，客户{client_name}付费￥{service_fee}向您咨询，请及时回复。';<br>
+            job::push('message', [$waiter_phone, compact('client_name', 'service_fee'), $template]);
+            </code><br><br>
         </p>
     </div>
 
