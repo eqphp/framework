@@ -137,7 +137,7 @@ $data = input::filter($filter, 'get', $map);
 ##### 模板：扩展方式无缝接入smarty模板引擎 #####
 ```html
 <!--======= 母版 =======-->
-{head script="jquery|common|center" style="basic|plugin/popup|center"}
+{head script="jquery|common|center" style="basic|center"}
 {center_header_banner user_id=$user_id}
 
 <div class="stage">
@@ -209,10 +209,6 @@ class news extends restful{
         //TODO
     }
 
-    function head(){
-        //TODO
-    }
-
     function __destruct(){
     }
 
@@ -222,7 +218,7 @@ class news extends restful{
 ##### 其他：更多精彩内容待你发现 #####
 ```php
 //读取配置
-config('mysql.master.host');
+config('mysql.0.host');
 
 //短信、邮件
 with('message',$provider, $channel)->take(['code'=>6781],'withdraw','message_code')->send('1500123****');
