@@ -49,7 +49,7 @@ EQPHP，一款简单易用（Easy）且安全高效（Quick）的PHP开源框架
 花絮
 ===========================
 ##### TPS-MVC：调用流程与执行原理 #####
-![](http://eqphp.oschina.mopaasapp.com/file/manual/image/eqphp_frame_relation.gif)
+![](http://manual.eqphp.com/image/eqphp_frame_relation.gif)
 
 ##### 性能：各php版本输出 Hello world 测试报告 #####
     * Acer（2核 AMD-1.5GHz、4G内存）+ Ubuntu(14.04)系统
